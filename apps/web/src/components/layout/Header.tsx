@@ -22,13 +22,13 @@ export async function Header() {
           <Stat label="Lv" value={stats.level} highlight />
           <Stat label="XP" value={stats.total_xp} sub={`+${stats.today_xp} 今日`} />
           <Stat label="🔥" value={stats.action_streak} sub="天 streak" />
-          <Stat label="Boss" value={bossText} />
+          <Stat label="星座" value={bossText} />
         </div>
 
         <nav className="flex items-center gap-3 text-xs">
           <Link href="/quests" className="text-bone-200 hover:text-bone-50">任务</Link>
           <Link href="/skills" className="text-bone-200 hover:text-bone-50">技能</Link>
-          <Link href="/bosses" className="text-bone-200 hover:text-bone-50">Boss</Link>
+          <Link href="/bosses" className="text-bone-200 hover:text-bone-50">星座</Link>
           <Link href="/settings" className="text-bone-200 hover:text-bone-50">设置</Link>
         </nav>
       </div>

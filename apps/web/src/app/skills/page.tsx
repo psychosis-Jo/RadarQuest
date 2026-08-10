@@ -4,6 +4,9 @@ import { getSupabase } from '@/lib/data/supabase';
 import { TOPIC_COLORS } from '@radar-quest/shared';
 import Link from 'next/link';
 
+// Supabase 数据按请求拉，不要静态化
+export const dynamic = 'force-dynamic';
+
 const TOPIC_LABELS_ZH = {
   AI: 'AI 应用',
   'one-person': '一人公司',

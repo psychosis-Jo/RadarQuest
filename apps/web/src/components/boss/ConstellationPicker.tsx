@@ -1,5 +1,5 @@
 'use client';
-// 显示当前 Boss 绑定的星座：图样 + 名字 + tier + 神话一句 + "换一个"
+// 显示当前星座的图样 + 名字 + tier + 神话一句 + "换一个"
 // 换一个新的星座：onSwap() 由父组件负责调用 picker
 
 import { getConstellationById, TIER_LABELS } from '@radar-quest/shared';

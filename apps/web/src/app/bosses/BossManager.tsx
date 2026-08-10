@@ -43,13 +43,13 @@ export function BossManager({
       {/* 活跃 */}
       <section className="mb-8">
         <div className="mb-3 flex items-baseline justify-between">
-          <h2 className="font-display text-lg text-flame">活跃 ({active.length})</h2>
+          <h2 className="font-display text-lg text-flame">在途 ({active.length})</h2>
           {!creating && !editing && (
             <button
               onClick={() => setCreating(true)}
               className="rounded border border-gold bg-gold/10 px-3 py-1.5 text-xs text-gold hover:bg-gold/20"
             >
-              + 新建 Boss
+              + 新建星座
             </button>
           )}
         </div>
@@ -98,7 +98,7 @@ export function BossManager({
           })}
           {active.length === 0 && !creating && (
             <div className="rounded border border-dashed border-ink-700 bg-ink-800/30 p-8 text-center">
-              <p className="text-sm text-bone-400">还没有活跃的 Boss</p>
+              <p className="text-sm text-bone-400">还没有在途的星座</p>
               <button
                 onClick={() => setCreating(true)}
                 className="mt-3 text-xs text-gold hover:underline"
@@ -110,10 +110,10 @@ export function BossManager({
         </div>
       </section>
 
-      {/* 已完成 */}
+      {/* 已发现 */}
       {completed.length > 0 && (
         <section className="mb-8">
-          <h2 className="font-display mb-3 text-lg text-celestial">已完成 ({completed.length})</h2>
+          <h2 className="font-display mb-3 text-lg text-celestial">已发现 ({completed.length})</h2>
           <div className="space-y-2">
             {completed.map(b => (
               <div key={b.id} className="rounded border border-celestial/30 bg-celestial/5 p-4">
@@ -130,10 +130,10 @@ export function BossManager({
         </section>
       )}
 
-      {/* 已放弃 */}
+      {/* 放弃 */}
       {abandoned.length > 0 && (
         <section>
-          <h2 className="font-display mb-3 text-lg text-bone-400">已放弃 ({abandoned.length})</h2>
+          <h2 className="font-display mb-3 text-lg text-bone-400">放弃 ({abandoned.length})</h2>
           <div className="space-y-2">
             {abandoned.map(b => (
               <div key={b.id} className="rounded border border-ink-700 bg-ink-800/30 p-3">

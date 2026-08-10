@@ -3,6 +3,9 @@ import { TabNav } from '@/components/layout/TabNav';
 import { ItemList } from '@/components/item/ItemList';
 import { getItemsByTab } from '@/lib/data/items';
 
+// Supabase 数据按请求拉，不要静态化
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage() {
   const items = await getItemsByTab('trending', 30);
   return (

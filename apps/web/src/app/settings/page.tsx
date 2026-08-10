@@ -2,6 +2,9 @@ import { AppShell } from '@/components/layout/AppShell';
 import { SettingsForm } from './SettingsForm';
 import { getSupabase } from '@/lib/data/supabase';
 
+// Supabase 数据按请求拉，不要静态化
+export const dynamic = 'force-dynamic';
+
 async function getSettings() {
   const supabase = getSupabase();
   const { data } = await supabase.from('settings').select('*').eq('id', 1).single();

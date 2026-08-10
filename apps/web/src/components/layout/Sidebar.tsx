@@ -47,13 +47,13 @@ export async function Sidebar() {
         </div>
       </div>
 
-      {/* 活跃 Boss */}
+      {/* 在途星座 */}
       <div className="hand-drawn-border rounded bg-ink-800/60 p-5">
         <p className="num mb-3 text-[10px] uppercase tracking-widest text-bone-400">
-          Active Boss · 活跃 Boss
+          Active · 在途
         </p>
         {bosses.length === 0 ? (
-          <p className="text-xs text-bone-400">暂无活跃 Boss</p>
+          <p className="text-xs text-bone-400">暂无在途星座</p>
         ) : (
           <div className="space-y-3">
             {bosses.map(b => {
@@ -79,7 +79,7 @@ export async function Sidebar() {
           </div>
         )}
         <Link href="/bosses" className="num mt-3 block text-[10px] uppercase tracking-wider text-bone-400 hover:text-bone-50">
-          管理 Boss →
+          管理星座 →
         </Link>
       </div>
     </aside>

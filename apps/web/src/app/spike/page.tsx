@@ -4,6 +4,9 @@ import { ItemList } from '@/components/item/ItemList';
 import { getItemsByTab } from '@/lib/data/items';
 import { TAB_LABELS } from '@radar-quest/shared';
 
+// Supabase 数据按请求拉，不要静态化
+export const dynamic = 'force-dynamic';
+
 export default async function SpikePage() {
   const items = await getItemsByTab('spike', 30);
   const meta = TAB_LABELS.spike;

@@ -2,6 +2,9 @@ import { AppShell } from '@/components/layout/AppShell';
 import { QuestManager } from './QuestManager';
 import { getSupabase } from '@/lib/data/supabase';
 
+// Supabase 数据按请求拉，不要静态化
+export const dynamic = 'force-dynamic';
+
 async function getTodaysQuests() {
   const supabase = getSupabase();
   const today = new Date().toISOString().slice(0, 10);

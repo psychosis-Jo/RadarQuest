@@ -123,10 +123,10 @@ export function BossForm({
   return (
     <div className="hand-drawn-border rounded bg-ink-800 p-6 shadow-glow">
       <h3 className="font-display text-xl text-bone-50">
-        {existing ? '编辑 Boss' : '创建新 Boss'}
+        {existing ? '编辑星座' : '创建新星座'}
       </h3>
       <p className="mt-1 text-xs text-bone-400">
-        每个 Publish 自动 +1 击破。比如"公众号连载 50 篇"或"100 个 AI 作品"
+        每个 Publish 自动点亮一星。比如"公众号连载 50 篇"或"100 个 AI 作品"
       </p>
 
       <div className="mt-5 space-y-5">
@@ -200,7 +200,7 @@ export function BossForm({
               onClick={del}
               className="text-xs text-warning hover:text-warning/70"
             >
-              删除这个 Boss
+              删除这个星座
             </button>
           )}
         </div>
@@ -218,7 +218,7 @@ export function BossForm({
             disabled={saving}
             className="rounded border border-gold bg-gold/10 px-4 py-2 text-sm text-gold hover:bg-gold/20 disabled:opacity-50"
           >
-            {saving ? '保存中…' : existing ? '保存修改' : '创建 Boss'}
+            {saving ? '保存中…' : existing ? '保存修改' : '创建星座'}
           </button>
         </div>
       </div>
