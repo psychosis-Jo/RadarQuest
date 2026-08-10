@@ -1,0 +1,2619 @@
+{
+  "schema_version": 1,
+  "source": "IAU 88 constellations — iconic 2D representations from standard star atlases (Stellarium / Hevelius Uranographia / Wikipedia)",
+  "note_zh": "前 30 个为手写精确数据；后 58 个为 stub 骨架（标记 stub=true），v2 用 HYG 星表程序化提取补全。",
+  "constellations": [
+    {
+      "id": "orion",
+      "name_en": "Orion",
+      "name_zh": "猎户座",
+      "abbreviation": "Ori",
+      "hemisphere": "equatorial",
+      "best_month_en": "January",
+      "best_month_zh": "1 月",
+      "mythology_en": "The Hunter, slain by Artemis, placed among the stars.",
+      "mythology_zh": "俄里翁，希腊神话中的猎人，被阿尔忒弥斯置于星空中。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Betelgeuse",
+          "name_zh": "参宿四",
+          "x": 0.2,
+          "y": 0.1,
+          "magnitude": 0.5
+        },
+        {
+          "name_en": "Bellatrix",
+          "name_zh": "参宿五",
+          "x": 0.8,
+          "y": 0.1,
+          "magnitude": 1.64
+        },
+        {
+          "name_en": "Mintaka",
+          "name_zh": "参宿三",
+          "x": 0.3,
+          "y": 0.45,
+          "magnitude": 2.23
+        },
+        {
+          "name_en": "Alnilam",
+          "name_zh": "参宿一",
+          "x": 0.5,
+          "y": 0.45,
+          "magnitude": 1.69
+        },
+        {
+          "name_en": "Alnitak",
+          "name_zh": "参宿二",
+          "x": 0.7,
+          "y": 0.45,
+          "magnitude": 1.74
+        },
+        {
+          "name_en": "Saiph",
+          "name_zh": "参宿六",
+          "x": 0.2,
+          "y": 0.9,
+          "magnitude": 2.06
+        },
+        {
+          "name_en": "Rigel",
+          "name_zh": "参宿七",
+          "x": 0.8,
+          "y": 0.9,
+          "magnitude": 0.13
+        }
+      ],
+      "lines": [
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          1,
+          6
+        ]
+      ]
+    },
+    {
+      "id": "ursa_major",
+      "name_en": "Ursa Major",
+      "name_zh": "大熊座",
+      "abbreviation": "UMa",
+      "hemisphere": "north",
+      "best_month_en": "April",
+      "best_month_zh": "4 月",
+      "mythology_en": "The Great Bear, transformed by Hera or Callisto.",
+      "mythology_zh": "大熊，卡利斯托或赫拉所化。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Dubhe",
+          "name_zh": "天枢",
+          "x": 0.1,
+          "y": 0.1,
+          "magnitude": 1.79
+        },
+        {
+          "name_en": "Merak",
+          "name_zh": "天璇",
+          "x": 0.1,
+          "y": 0.45,
+          "magnitude": 2.37
+        },
+        {
+          "name_en": "Phecda",
+          "name_zh": "天玑",
+          "x": 0.3,
+          "y": 0.55,
+          "magnitude": 2.44
+        },
+        {
+          "name_en": "Megrez",
+          "name_zh": "天权",
+          "x": 0.3,
+          "y": 0.2,
+          "magnitude": 3.31
+        },
+        {
+          "name_en": "Alioth",
+          "name_zh": "玉衡",
+          "x": 0.55,
+          "y": 0.15,
+          "magnitude": 1.77
+        },
+        {
+          "name_en": "Mizar",
+          "name_zh": "开阳",
+          "x": 0.75,
+          "y": 0.1,
+          "magnitude": 2.23
+        },
+        {
+          "name_en": "Alkaid",
+          "name_zh": "摇光",
+          "x": 1.0,
+          "y": 0.05,
+          "magnitude": 1.86
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ]
+      ]
+    },
+    {
+      "id": "ursa_minor",
+      "name_en": "Ursa Minor",
+      "name_zh": "小熊座",
+      "abbreviation": "UMi",
+      "hemisphere": "north",
+      "best_month_en": "June",
+      "best_month_zh": "6 月",
+      "mythology_en": "The Little Bear, son of Callisto, with Polaris at the tail.",
+      "mythology_zh": "小熊，卡利斯托之子，尾端为北极星。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Polaris",
+          "name_zh": "勾陈一",
+          "x": 0.5,
+          "y": 0.05,
+          "magnitude": 1.97
+        },
+        {
+          "name_en": "Yildun",
+          "name_zh": "勾陈二",
+          "x": 0.45,
+          "y": 0.2,
+          "magnitude": 4.36
+        },
+        {
+          "name_en": "Epsilon UMi",
+          "name_zh": "勾陈三",
+          "x": 0.4,
+          "y": 0.35,
+          "magnitude": 4.23
+        },
+        {
+          "name_en": "Zeta UMi",
+          "name_zh": "勾陈四",
+          "x": 0.3,
+          "y": 0.5,
+          "magnitude": 4.32
+        },
+        {
+          "name_en": "Eta UMi",
+          "name_zh": "北极二",
+          "x": 0.2,
+          "y": 0.7,
+          "magnitude": 4.95
+        },
+        {
+          "name_en": "Pherkad",
+          "name_zh": "北极二",
+          "x": 0.1,
+          "y": 0.85,
+          "magnitude": 3.05
+        },
+        {
+          "name_en": "Kochab",
+          "name_zh": "北极一",
+          "x": 0.3,
+          "y": 0.85,
+          "magnitude": 2.08
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          4,
+          6
+        ]
+      ]
+    },
+    {
+      "id": "cassiopeia",
+      "name_en": "Cassiopeia",
+      "name_zh": "仙后座",
+      "abbreviation": "Cas",
+      "hemisphere": "north",
+      "best_month_en": "November",
+      "best_month_zh": "11 月",
+      "mythology_en": "The boastful queen, bound to her throne in the sky.",
+      "mythology_zh": "自负的王后卡西俄珀亚，缚于天椅之上。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Caph",
+          "name_zh": "王良一",
+          "x": 0.05,
+          "y": 0.1,
+          "magnitude": 2.27
+        },
+        {
+          "name_en": "Schedar",
+          "name_zh": "王良四",
+          "x": 0.3,
+          "y": 0.55,
+          "magnitude": 2.24
+        },
+        {
+          "name_en": "Gamma Cas",
+          "name_zh": "策",
+          "x": 0.5,
+          "y": 0.1,
+          "magnitude": 2.47
+        },
+        {
+          "name_en": "Ruchbah",
+          "name_zh": "阁道三",
+          "x": 0.75,
+          "y": 0.5,
+          "magnitude": 2.68
+        },
+        {
+          "name_en": "Segin",
+          "name_zh": "阁道二",
+          "x": 0.95,
+          "y": 0.1,
+          "magnitude": 3.38
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "id": "cygnus",
+      "name_en": "Cygnus",
+      "name_zh": "天鹅座",
+      "abbreviation": "Cyg",
+      "hemisphere": "north",
+      "best_month_en": "September",
+      "best_month_zh": "9 月",
+      "mythology_en": "The Swan, sometimes Zeus in disguise, flying along the Milky Way.",
+      "mythology_zh": "天鹅，宙斯的化身之一，沿银河飞行。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Deneb",
+          "name_zh": "天津四",
+          "x": 0.5,
+          "y": 0.05,
+          "magnitude": 1.25
+        },
+        {
+          "name_en": "Sadr",
+          "name_zh": "天津一",
+          "x": 0.5,
+          "y": 0.45,
+          "magnitude": 2.23
+        },
+        {
+          "name_en": "Albireo",
+          "name_zh": "辇道增七",
+          "x": 0.5,
+          "y": 0.95,
+          "magnitude": 3.18
+        },
+        {
+          "name_en": "Gienah",
+          "name_zh": "天津九",
+          "x": 0.05,
+          "y": 0.55,
+          "magnitude": 2.48
+        },
+        {
+          "name_en": "Delta Cyg",
+          "name_zh": "天津二",
+          "x": 0.95,
+          "y": 0.4,
+          "magnitude": 2.87
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          4
+        ]
+      ]
+    },
+    {
+      "id": "lyra",
+      "name_en": "Lyra",
+      "name_zh": "天琴座",
+      "abbreviation": "Lyr",
+      "hemisphere": "north",
+      "best_month_en": "August",
+      "best_month_zh": "8 月",
+      "mythology_en": "The Lyre of Orpheus, who charmed all things with his music.",
+      "mythology_zh": "俄耳甫斯的琴，以音乐动万物。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Vega",
+          "name_zh": "织女一",
+          "x": 0.5,
+          "y": 0.05,
+          "magnitude": 0.03
+        },
+        {
+          "name_en": "Epsilon Lyr",
+          "name_zh": "织女二",
+          "x": 0.3,
+          "y": 0.3,
+          "magnitude": 4.36
+        },
+        {
+          "name_en": "Zeta Lyr",
+          "name_zh": "织女三",
+          "x": 0.7,
+          "y": 0.3,
+          "magnitude": 4.36
+        },
+        {
+          "name_en": "Sheliak",
+          "name_zh": "渐台二",
+          "x": 0.3,
+          "y": 0.75,
+          "magnitude": 3.52
+        },
+        {
+          "name_en": "Sulafat",
+          "name_zh": "渐台三",
+          "x": 0.7,
+          "y": 0.75,
+          "magnitude": 3.25
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "id": "crux",
+      "name_en": "Crux",
+      "name_zh": "南十字座",
+      "abbreviation": "Cru",
+      "hemisphere": "south",
+      "best_month_en": "May",
+      "best_month_zh": "5 月",
+      "mythology_en": "The Southern Cross, used for navigation in southern seas.",
+      "mythology_zh": "南十字，南半球航海者的指引。",
+      "tier": 1,
+      "stars": [
+        {
+          "name_en": "Acrux",
+          "name_zh": "十字架二",
+          "x": 0.5,
+          "y": 0.05,
+          "magnitude": 0.77
+        },
+        {
+          "name_en": "Mimosa",
+          "name_zh": "十字架三",
+          "x": 0.5,
+          "y": 0.5,
+          "magnitude": 1.25
+        },
+        {
+          "name_en": "Gacrux",
+          "name_zh": "十字架一",
+          "x": 0.5,
+          "y": 0.95,
+          "magnitude": 1.63
+        },
+        {
+          "name_en": "Delta Cru",
+          "name_zh": "十字架四",
+          "x": 0.05,
+          "y": 0.5,
+          "magnitude": 2.79
+        }
+      ],
+      "lines": [
+        [
+          0,
+          2
+        ],
+        [
+          3,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "scorpius",
+      "name_en": "Scorpius",
+      "name_zh": "天蝎座",
+      "abbreviation": "Sco",
+      "hemisphere": "south",
+      "best_month_en": "July",
+      "best_month_zh": "7 月",
+      "mythology_en": "The Scorpion that slew Orion, placed opposite him in the sky.",
+      "mythology_zh": "天蝎，杀死俄里翁的毒虫，与猎户隔天而对。",
+      "tier": 3,
+      "stars": [
+        {
+          "name_en": "Graffias",
+          "name_zh": "房宿三",
+          "x": 0.05,
+          "y": 0.3,
+          "magnitude": 2.5
+        },
+        {
+          "name_en": "Dschubba",
+          "name_zh": "房宿三",
+          "x": 0.15,
+          "y": 0.4,
+          "magnitude": 2.32
+        },
+        {
+          "name_en": "Antares",
+          "name_zh": "心宿二",
+          "x": 0.35,
+          "y": 0.45,
+          "magnitude": 1.09
+        },
+        {
+          "name_en": "Tau Sco",
+          "name_zh": "心宿三",
+          "x": 0.45,
+          "y": 0.4,
+          "magnitude": 2.82
+        },
+        {
+          "name_en": "Epsilon Sco",
+          "name_zh": "尾宿五",
+          "x": 0.55,
+          "y": 0.3,
+          "magnitude": 2.29
+        },
+        {
+          "name_en": "Mu Sco",
+          "name_zh": "尾宿六",
+          "x": 0.65,
+          "y": 0.2,
+          "magnitude": 3.04
+        },
+        {
+          "name_en": "Zeta Sco",
+          "name_zh": "尾宿七",
+          "x": 0.75,
+          "y": 0.1,
+          "magnitude": 3.62
+        },
+        {
+          "name_en": "Shaula",
+          "name_zh": "尾宿八",
+          "x": 0.85,
+          "y": 0.05,
+          "magnitude": 1.63
+        },
+        {
+          "name_en": "Lesath",
+          "name_zh": "尾宿九",
+          "x": 0.95,
+          "y": 0.1,
+          "magnitude": 2.7
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          8
+        ]
+      ]
+    },
+    {
+      "id": "sagittarius",
+      "name_en": "Sagittarius",
+      "name_zh": "人马座",
+      "abbreviation": "Sgr",
+      "hemisphere": "south",
+      "best_month_en": "August",
+      "best_month_zh": "8 月",
+      "mythology_en": "The Centaur Archer, aiming his bow toward the galactic center.",
+      "mythology_zh": "半人马弓箭手，箭指银河中心。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Kaus Aus",
+          "name_zh": "箕宿三",
+          "x": 0.85,
+          "y": 0.85,
+          "magnitude": 1.85
+        },
+        {
+          "name_en": "Kaus Med",
+          "name_zh": "箕宿二",
+          "x": 0.65,
+          "y": 0.65,
+          "magnitude": 2.7
+        },
+        {
+          "name_en": "Kaus Bor",
+          "name_zh": "箕宿一",
+          "x": 0.55,
+          "y": 0.4,
+          "magnitude": 2.81
+        },
+        {
+          "name_en": "Nunki",
+          "name_zh": "斗宿四",
+          "x": 0.4,
+          "y": 0.15,
+          "magnitude": 2.05
+        },
+        {
+          "name_en": "Ascella",
+          "name_zh": "斗宿六",
+          "x": 0.2,
+          "y": 0.3,
+          "magnitude": 2.59
+        },
+        {
+          "name_en": "Albaldah",
+          "name_zh": "斗宿五",
+          "x": 0.1,
+          "y": 0.6,
+          "magnitude": 2.85
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          0
+        ]
+      ]
+    },
+    {
+      "id": "leo",
+      "name_en": "Leo",
+      "name_zh": "狮子座",
+      "abbreviation": "Leo",
+      "hemisphere": "equatorial",
+      "best_month_en": "April",
+      "best_month_zh": "4 月",
+      "mythology_en": "The Lion, slain by Heracles as the first of his labors.",
+      "mythology_zh": "雄狮，赫拉克勒斯十二功绩之首。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Regulus",
+          "name_zh": "轩辕十四",
+          "x": 0.4,
+          "y": 0.9,
+          "magnitude": 1.4
+        },
+        {
+          "name_en": "Algieba",
+          "name_zh": "轩辕十二",
+          "x": 0.5,
+          "y": 0.7,
+          "magnitude": 2.61
+        },
+        {
+          "name_en": "Zosma",
+          "name_zh": "太微右垣五",
+          "x": 0.65,
+          "y": 0.45,
+          "magnitude": 2.56
+        },
+        {
+          "name_en": "Denebola",
+          "name_zh": "五帝座一",
+          "x": 0.95,
+          "y": 0.45,
+          "magnitude": 2.14
+        },
+        {
+          "name_en": "Eta Leo",
+          "name_zh": "轩辕十",
+          "x": 0.2,
+          "y": 0.65,
+          "magnitude": 3.49
+        },
+        {
+          "name_en": "Chertan",
+          "name_zh": "西上相",
+          "x": 0.6,
+          "y": 0.65,
+          "magnitude": 3.33
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          5
+        ]
+      ]
+    },
+    {
+      "id": "taurus",
+      "name_en": "Taurus",
+      "name_zh": "金牛座",
+      "abbreviation": "Tau",
+      "hemisphere": "equatorial",
+      "best_month_en": "January",
+      "best_month_zh": "1 月",
+      "mythology_en": "The Bull, Zeus in disguise, carrying Europa across the sea.",
+      "mythology_zh": "公牛，宙斯化身，驮欧罗巴过海。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Aldebaran",
+          "name_zh": "毕宿五",
+          "x": 0.2,
+          "y": 0.55,
+          "magnitude": 0.85
+        },
+        {
+          "name_en": "Elnath",
+          "name_zh": "五车五",
+          "x": 0.1,
+          "y": 0.1,
+          "magnitude": 1.65
+        },
+        {
+          "name_en": "Zeta Tau",
+          "name_zh": "天关",
+          "x": 0.3,
+          "y": 0.2,
+          "magnitude": 3.0
+        },
+        {
+          "name_en": "Alcyone",
+          "name_zh": "昴宿六",
+          "x": 0.85,
+          "y": 0.3,
+          "magnitude": 2.85
+        },
+        {
+          "name_en": "Atlas",
+          "name_zh": "昴宿七",
+          "x": 0.95,
+          "y": 0.2,
+          "magnitude": 3.62
+        },
+        {
+          "name_en": "Maia",
+          "name_zh": "昴宿四",
+          "x": 0.7,
+          "y": 0.45,
+          "magnitude": 3.86
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          5
+        ]
+      ]
+    },
+    {
+      "id": "gemini",
+      "name_en": "Gemini",
+      "name_zh": "双子座",
+      "abbreviation": "Gem",
+      "hemisphere": "equatorial",
+      "best_month_en": "February",
+      "best_month_zh": "2 月",
+      "mythology_en": "The Twins, Castor and Pollux, brothers of Helen.",
+      "mythology_zh": "双子， Castor 与 Pollux，海伦之兄。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Castor",
+          "name_zh": "北河二",
+          "x": 0.3,
+          "y": 0.05,
+          "magnitude": 1.58
+        },
+        {
+          "name_en": "Pollux",
+          "name_zh": "北河三",
+          "x": 0.7,
+          "y": 0.05,
+          "magnitude": 1.14
+        },
+        {
+          "name_en": "Alhena",
+          "name_zh": "井宿三",
+          "x": 0.3,
+          "y": 0.45,
+          "magnitude": 1.93
+        },
+        {
+          "name_en": "Wasat",
+          "name_zh": "天樽二",
+          "x": 0.5,
+          "y": 0.3,
+          "magnitude": 3.5
+        },
+        {
+          "name_en": "Mebsuta",
+          "name_zh": "井宿五",
+          "x": 0.7,
+          "y": 0.45,
+          "magnitude": 3.06
+        },
+        {
+          "name_en": "Tejat",
+          "name_zh": "井宿一",
+          "x": 0.3,
+          "y": 0.9,
+          "magnitude": 2.87
+        }
+      ],
+      "lines": [
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          2,
+          5
+        ]
+      ]
+    },
+    {
+      "id": "virgo",
+      "name_en": "Virgo",
+      "name_zh": "室女座",
+      "abbreviation": "Vir",
+      "hemisphere": "equatorial",
+      "best_month_en": "May",
+      "best_month_zh": "5 月",
+      "mythology_en": "The Maiden, often Demeter or Persephone, holding a sheaf of wheat.",
+      "mythology_zh": "处女，常为得墨忒耳或珀耳塞福涅，手持麦穗。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Spica",
+          "name_zh": "角宿一",
+          "x": 0.2,
+          "y": 0.95,
+          "magnitude": 0.97
+        },
+        {
+          "name_en": "Zavijava",
+          "name_zh": "右执法",
+          "x": 0.4,
+          "y": 0.3,
+          "magnitude": 3.61
+        },
+        {
+          "name_en": "Porrima",
+          "name_zh": "东上相",
+          "x": 0.55,
+          "y": 0.4,
+          "magnitude": 2.74
+        },
+        {
+          "name_en": "Vindemiatrix",
+          "name_zh": "东次将",
+          "x": 0.7,
+          "y": 0.3,
+          "magnitude": 2.85
+        },
+        {
+          "name_en": "Heze",
+          "name_zh": "左执法",
+          "x": 0.4,
+          "y": 0.55,
+          "magnitude": 3.38
+        },
+        {
+          "name_en": "Syrma",
+          "name_zh": "亢宿二",
+          "x": 0.3,
+          "y": 0.8,
+          "magnitude": 4.07
+        }
+      ],
+      "lines": [
+        [
+          0,
+          5
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          2
+        ]
+      ]
+    },
+    {
+      "id": "aquarius",
+      "name_en": "Aquarius",
+      "name_zh": "宝瓶座",
+      "abbreviation": "Aqr",
+      "hemisphere": "equatorial",
+      "best_month_en": "October",
+      "best_month_zh": "10 月",
+      "mythology_en": "The Water-Bearer, pouring the celestial river Eridanus.",
+      "mythology_zh": "持水者，倾倒天上的波江。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Sadalmelik",
+          "name_zh": "危宿一",
+          "x": 0.85,
+          "y": 0.1,
+          "magnitude": 2.95
+        },
+        {
+          "name_en": "Sadalsuud",
+          "name_zh": "虚宿一",
+          "x": 0.7,
+          "y": 0.2,
+          "magnitude": 2.87
+        },
+        {
+          "name_en": "Skat",
+          "name_zh": "羽林军廿六",
+          "x": 0.55,
+          "y": 0.3,
+          "magnitude": 3.27
+        },
+        {
+          "name_en": "Eta Aqr",
+          "name_zh": "坟墓四",
+          "x": 0.4,
+          "y": 0.45,
+          "magnitude": 4.04
+        },
+        {
+          "name_en": "Lambda Aqr",
+          "name_zh": "垒壁阵七",
+          "x": 0.3,
+          "y": 0.6,
+          "magnitude": 3.74
+        },
+        {
+          "name_en": "Tau Aqr",
+          "name_zh": "天垒城十",
+          "x": 0.2,
+          "y": 0.75,
+          "magnitude": 4.01
+        },
+        {
+          "name_en": "Ancha",
+          "name_zh": "天垒城一",
+          "x": 0.1,
+          "y": 0.85,
+          "magnitude": 4.16
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ]
+      ]
+    },
+    {
+      "id": "pisces",
+      "name_en": "Pisces",
+      "name_zh": "双鱼座",
+      "abbreviation": "Psc",
+      "hemisphere": "equatorial",
+      "best_month_en": "November",
+      "best_month_zh": "11 月",
+      "mythology_en": "The Fishes, Aphrodite and Eros transformed to escape Typhon.",
+      "mythology_zh": "双鱼，阿佛洛狄忒与厄洛斯化形以避堤丰。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Alrisha",
+          "name_zh": "外屏七",
+          "x": 0.5,
+          "y": 0.5,
+          "magnitude": 3.79
+        },
+        {
+          "name_en": "Omega Psc",
+          "name_zh": "外屏三",
+          "x": 0.85,
+          "y": 0.85,
+          "magnitude": 4.01
+        },
+        {
+          "name_en": "Iota Psc",
+          "name_zh": "右更二",
+          "x": 0.1,
+          "y": 0.1,
+          "magnitude": 4.13
+        },
+        {
+          "name_en": "Lambda Psc",
+          "name_zh": "云雨四",
+          "x": 0.2,
+          "y": 0.3,
+          "magnitude": 4.5
+        },
+        {
+          "name_en": "Tau Psc",
+          "name_zh": "外屏四",
+          "x": 0.35,
+          "y": 0.45,
+          "magnitude": 4.51
+        },
+        {
+          "name_en": "Eta Psc",
+          "name_zh": "右更四",
+          "x": 0.65,
+          "y": 0.45,
+          "magnitude": 3.62
+        },
+        {
+          "name_en": "Gamma Psc",
+          "name_zh": "霹雳一",
+          "x": 0.8,
+          "y": 0.55,
+          "magnitude": 3.69
+        }
+      ],
+      "lines": [
+        [
+          0,
+          5
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          3,
+          2
+        ]
+      ]
+    },
+    {
+      "id": "aries",
+      "name_en": "Aries",
+      "name_zh": "白羊座",
+      "abbreviation": "Ari",
+      "hemisphere": "equatorial",
+      "best_month_en": "December",
+      "best_month_zh": "12 月",
+      "mythology_en": "The Ram with the Golden Fleece, sought by Jason and the Argonauts.",
+      "mythology_zh": "金毛羊，伊阿宋与阿尔戈英雄所求。",
+      "tier": 1,
+      "stars": [
+        {
+          "name_en": "Hamal",
+          "name_zh": "娄宿三",
+          "x": 0.5,
+          "y": 0.3,
+          "magnitude": 2.0
+        },
+        {
+          "name_en": "Sheratan",
+          "name_zh": "娄宿一",
+          "x": 0.3,
+          "y": 0.55,
+          "magnitude": 2.64
+        },
+        {
+          "name_en": "Mesarthim",
+          "name_zh": "娄宿二",
+          "x": 0.15,
+          "y": 0.65,
+          "magnitude": 3.86
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ]
+      ]
+    },
+    {
+      "id": "capricornus",
+      "name_en": "Capricornus",
+      "name_zh": "摩羯座",
+      "abbreviation": "Cap",
+      "hemisphere": "equatorial",
+      "best_month_en": "September",
+      "best_month_zh": "9 月",
+      "mythology_en": "The Sea-Goat, sometimes identified with Pan.",
+      "mythology_zh": "海羊，常与潘神相关。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Algedi",
+          "name_zh": "牛宿一",
+          "x": 0.1,
+          "y": 0.3,
+          "magnitude": 3.57
+        },
+        {
+          "name_en": "Dabih",
+          "name_zh": "牛宿二",
+          "x": 0.3,
+          "y": 0.4,
+          "magnitude": 3.05
+        },
+        {
+          "name_en": "Theta Cap",
+          "name_zh": "牛宿四",
+          "x": 0.5,
+          "y": 0.55,
+          "magnitude": 4.07
+        },
+        {
+          "name_en": "Iota Cap",
+          "name_zh": "牛宿五",
+          "x": 0.7,
+          "y": 0.7,
+          "magnitude": 4.3
+        },
+        {
+          "name_en": "Deneb Algedi",
+          "name_zh": "垒壁阵四",
+          "x": 0.9,
+          "y": 0.85,
+          "magnitude": 2.85
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "id": "aquila",
+      "name_en": "Aquila",
+      "name_zh": "天鹰座",
+      "abbreviation": "Aql",
+      "hemisphere": "equatorial",
+      "best_month_en": "August",
+      "best_month_zh": "8 月",
+      "mythology_en": "The Eagle, Zeus's bird, carrying his thunderbolts.",
+      "mythology_zh": "天鹰，宙斯之鸟，负雷。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Altair",
+          "name_zh": "河鼓二",
+          "x": 0.5,
+          "y": 0.5,
+          "magnitude": 0.77
+        },
+        {
+          "name_en": "Tarazed",
+          "name_zh": "河鼓一",
+          "x": 0.5,
+          "y": 0.1,
+          "magnitude": 2.72
+        },
+        {
+          "name_en": "Alshain",
+          "name_zh": "河鼓三",
+          "x": 0.5,
+          "y": 0.9,
+          "magnitude": 3.71
+        },
+        {
+          "name_en": "Zeta Aql",
+          "name_zh": "天弁七",
+          "x": 0.1,
+          "y": 0.4,
+          "magnitude": 2.99
+        },
+        {
+          "name_en": "Theta Aql",
+          "name_zh": "天弁六",
+          "x": 0.9,
+          "y": 0.65,
+          "magnitude": 3.23
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          4
+        ]
+      ]
+    },
+    {
+      "id": "perseus",
+      "name_en": "Perseus",
+      "name_zh": "英仙座",
+      "abbreviation": "Per",
+      "hemisphere": "north",
+      "best_month_en": "December",
+      "best_month_zh": "12 月",
+      "mythology_en": "The hero who slew Medusa and rescued Andromeda.",
+      "mythology_zh": "斩杀美杜莎、拯救安德洛墨达的英雄。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Mirfak",
+          "name_zh": "天船三",
+          "x": 0.85,
+          "y": 0.1,
+          "magnitude": 1.79
+        },
+        {
+          "name_en": "Algol",
+          "name_zh": "大陵五",
+          "x": 0.4,
+          "y": 0.45,
+          "magnitude": 2.12
+        },
+        {
+          "name_en": "Atik",
+          "name_zh": "卷舌二",
+          "x": 0.55,
+          "y": 0.55,
+          "magnitude": 2.85
+        },
+        {
+          "name_en": "Epsilon Per",
+          "name_zh": "卷舌一",
+          "x": 0.2,
+          "y": 0.7,
+          "magnitude": 2.9
+        },
+        {
+          "name_en": "Zeta Per",
+          "name_zh": "积尸",
+          "x": 0.1,
+          "y": 0.5,
+          "magnitude": 2.85
+        },
+        {
+          "name_en": "Menkib",
+          "name_zh": "卷舌四",
+          "x": 0.05,
+          "y": 0.2,
+          "magnitude": 3.98
+        },
+        {
+          "name_en": "Delta Per",
+          "name_zh": "天船一",
+          "x": 0.7,
+          "y": 0.3,
+          "magnitude": 3.01
+        }
+      ],
+      "lines": [
+        [
+          0,
+          6
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ]
+      ]
+    },
+    {
+      "id": "andromeda",
+      "name_en": "Andromeda",
+      "name_zh": "仙女座",
+      "abbreviation": "And",
+      "hemisphere": "north",
+      "best_month_en": "November",
+      "best_month_zh": "11 月",
+      "mythology_en": "The Princess chained to a rock, saved by Perseus.",
+      "mythology_zh": "被锁在礁岩上的公主，被珀尔修斯所救。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Alpheratz",
+          "name_zh": "壁宿二",
+          "x": 0.05,
+          "y": 0.5,
+          "magnitude": 2.06
+        },
+        {
+          "name_en": "Mirach",
+          "name_zh": "奎宿九",
+          "x": 0.4,
+          "y": 0.55,
+          "magnitude": 2.05
+        },
+        {
+          "name_en": "Almach",
+          "name_zh": "天大将军一",
+          "x": 0.85,
+          "y": 0.55,
+          "magnitude": 2.1
+        },
+        {
+          "name_en": "Delta And",
+          "name_zh": "奎宿五",
+          "x": 0.25,
+          "y": 0.3,
+          "magnitude": 3.27
+        },
+        {
+          "name_en": "Mu And",
+          "name_zh": "奎宿六",
+          "x": 0.55,
+          "y": 0.3,
+          "magnitude": 3.86
+        },
+        {
+          "name_en": "Nu And",
+          "name_zh": "天厩一",
+          "x": 0.65,
+          "y": 0.2,
+          "magnitude": 4.53
+        },
+        {
+          "name_en": "51 And",
+          "name_zh": "天厩二",
+          "x": 0.8,
+          "y": 0.2,
+          "magnitude": 3.59
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ]
+      ]
+    },
+    {
+      "id": "pegasus",
+      "name_en": "Pegasus",
+      "name_zh": "飞马座",
+      "abbreviation": "Peg",
+      "hemisphere": "equatorial",
+      "best_month_en": "October",
+      "best_month_zh": "10 月",
+      "mythology_en": "The winged horse, born from Medusa's blood.",
+      "mythology_zh": "飞马，自美杜莎之血而生。",
+      "tier": 1,
+      "stars": [
+        {
+          "name_en": "Markab",
+          "name_zh": "室宿一",
+          "x": 0.95,
+          "y": 0.05,
+          "magnitude": 2.49
+        },
+        {
+          "name_en": "Scheat",
+          "name_zh": "室宿二",
+          "x": 0.95,
+          "y": 0.95,
+          "magnitude": 2.42
+        },
+        {
+          "name_en": "Algenib",
+          "name_zh": "壁宿一",
+          "x": 0.05,
+          "y": 0.95,
+          "magnitude": 2.83
+        },
+        {
+          "name_en": "Enif",
+          "name_zh": "危宿三",
+          "x": 0.65,
+          "y": 0.5,
+          "magnitude": 2.39
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "id": "draco",
+      "name_en": "Draco",
+      "name_zh": "天龙座",
+      "abbreviation": "Dra",
+      "hemisphere": "north",
+      "best_month_en": "May",
+      "best_month_zh": "5 月",
+      "mythology_en": "The Dragon, guardian of the Hesperides or Ladon.",
+      "mythology_zh": "天龙，赫斯珀里得斯或拉冬的守护者。",
+      "tier": 3,
+      "stars": [
+        {
+          "name_en": "Thuban",
+          "name_zh": "右枢",
+          "x": 0.1,
+          "y": 0.2,
+          "magnitude": 3.65
+        },
+        {
+          "name_en": "Rastaban",
+          "name_zh": "天棓四",
+          "x": 0.2,
+          "y": 0.3,
+          "magnitude": 2.79
+        },
+        {
+          "name_en": "Eltanin",
+          "name_zh": "天棓四",
+          "x": 0.35,
+          "y": 0.2,
+          "magnitude": 2.23
+        },
+        {
+          "name_en": "Altais",
+          "name_zh": "天棓三",
+          "x": 0.5,
+          "y": 0.15,
+          "magnitude": 3.65
+        },
+        {
+          "name_en": "Aldhibah",
+          "name_zh": "天棓五",
+          "x": 0.65,
+          "y": 0.2,
+          "magnitude": 3.75
+        },
+        {
+          "name_en": "Edasich",
+          "name_zh": "天棓一",
+          "x": 0.7,
+          "y": 0.4,
+          "magnitude": 3.29
+        },
+        {
+          "name_en": "Chi Dra",
+          "name_zh": "扶筐四",
+          "x": 0.55,
+          "y": 0.55,
+          "magnitude": 3.55
+        },
+        {
+          "name_en": "Grumium",
+          "name_zh": "天棓二",
+          "x": 0.4,
+          "y": 0.65,
+          "magnitude": 3.73
+        },
+        {
+          "name_en": "Gianfar",
+          "name_zh": "天棓六",
+          "x": 0.2,
+          "y": 0.7,
+          "magnitude": 3.8
+        },
+        {
+          "name_en": "Tyl",
+          "name_zh": "天棓九",
+          "x": 0.1,
+          "y": 0.55,
+          "magnitude": 3.65
+        },
+        {
+          "name_en": "Kuma",
+          "name_zh": "天棹二",
+          "x": 0.05,
+          "y": 0.85,
+          "magnitude": 3.85
+        },
+        {
+          "name_en": "Grus",
+          "name_zh": "天棹一",
+          "x": 0.05,
+          "y": 0.95,
+          "magnitude": 4.05
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          8,
+          9
+        ],
+        [
+          9,
+          0
+        ],
+        [
+          9,
+          10
+        ],
+        [
+          10,
+          11
+        ]
+      ]
+    },
+    {
+      "id": "canis_major",
+      "name_en": "Canis Major",
+      "name_zh": "大犬座",
+      "abbreviation": "CMa",
+      "hemisphere": "south",
+      "best_month_en": "February",
+      "best_month_zh": "2 月",
+      "mythology_en": "Orion's greater hunting dog, with Sirius the brightest star.",
+      "mythology_zh": "俄里翁的大犬， Sirius 是全天最亮星。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Sirius",
+          "name_zh": "天狼",
+          "x": 0.5,
+          "y": 0.45,
+          "magnitude": -1.46
+        },
+        {
+          "name_en": "Mirzam",
+          "name_zh": "军市一",
+          "x": 0.3,
+          "y": 0.65,
+          "magnitude": 1.98
+        },
+        {
+          "name_en": "Wezen",
+          "name_zh": "弧矢七",
+          "x": 0.85,
+          "y": 0.2,
+          "magnitude": 1.83
+        },
+        {
+          "name_en": "Adhara",
+          "name_zh": "弧矢二",
+          "x": 0.95,
+          "y": 0.4,
+          "magnitude": 1.5
+        },
+        {
+          "name_en": "Aludra",
+          "name_zh": "弧矢一",
+          "x": 1.0,
+          "y": 0.1,
+          "magnitude": 2.45
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ]
+      ]
+    },
+    {
+      "id": "hercules",
+      "name_en": "Hercules",
+      "name_zh": "武仙座",
+      "abbreviation": "Her",
+      "hemisphere": "north",
+      "best_month_en": "July",
+      "best_month_zh": "7 月",
+      "mythology_en": "The hero, kneeling in the sky with his club raised.",
+      "mythology_zh": "英雄，跪于天，举棒向上。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Rasalgethi",
+          "name_zh": "天市右垣四",
+          "x": 0.85,
+          "y": 0.4,
+          "magnitude": 3.06
+        },
+        {
+          "name_en": "Kornephoros",
+          "name_zh": "天市右垣一",
+          "x": 0.55,
+          "y": 0.55,
+          "magnitude": 2.78
+        },
+        {
+          "name_en": "Zeta Her",
+          "name_zh": "天市左垣二",
+          "x": 0.3,
+          "y": 0.55,
+          "magnitude": 2.81
+        },
+        {
+          "name_en": "Epsilon Her",
+          "name_zh": "天纪二",
+          "x": 0.2,
+          "y": 0.3,
+          "magnitude": 3.92
+        },
+        {
+          "name_en": "Delta Her",
+          "name_zh": "天市右垣三",
+          "x": 0.45,
+          "y": 0.25,
+          "magnitude": 3.12
+        },
+        {
+          "name_en": "Pi Her",
+          "name_zh": "女床一",
+          "x": 0.5,
+          "y": 0.85,
+          "magnitude": 3.16
+        },
+        {
+          "name_en": "Eta Her",
+          "name_zh": "天纪一",
+          "x": 0.2,
+          "y": 0.85,
+          "magnitude": 3.5
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          6
+        ]
+      ]
+    },
+    {
+      "id": "bootes",
+      "name_en": "Boötes",
+      "name_zh": "牧夫座",
+      "abbreviation": "Boo",
+      "hemisphere": "north",
+      "best_month_en": "June",
+      "best_month_zh": "6 月",
+      "mythology_en": "The Herdsman, sometimes Icarius, with Arcturus the brightest star.",
+      "mythology_zh": "牧夫，常为伊卡里翁， Arcturus 为最亮星。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Arcturus",
+          "name_zh": "大角",
+          "x": 0.2,
+          "y": 0.1,
+          "magnitude": -0.05
+        },
+        {
+          "name_en": "Izar",
+          "name_zh": "梗河一",
+          "x": 0.5,
+          "y": 0.45,
+          "magnitude": 2.37
+        },
+        {
+          "name_en": "Muphrid",
+          "name_zh": "右摄提一",
+          "x": 0.15,
+          "y": 0.4,
+          "magnitude": 2.68
+        },
+        {
+          "name_en": "Nekkar",
+          "name_zh": "七公六",
+          "x": 0.85,
+          "y": 0.3,
+          "magnitude": 3.49
+        },
+        {
+          "name_en": "Delta Boo",
+          "name_zh": "天枪二",
+          "x": 0.8,
+          "y": 0.1,
+          "magnitude": 3.49
+        },
+        {
+          "name_en": "Eta Boo",
+          "name_zh": "天枪三",
+          "x": 0.95,
+          "y": 0.5,
+          "magnitude": 2.68
+        }
+      ],
+      "lines": [
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          3,
+          5
+        ]
+      ]
+    },
+    {
+      "id": "corona_borealis",
+      "name_en": "Corona Borealis",
+      "name_zh": "北冕座",
+      "abbreviation": "CrB",
+      "hemisphere": "north",
+      "best_month_en": "July",
+      "best_month_zh": "7 月",
+      "mythology_en": "The Northern Crown, given by Dionysus to Ariadne.",
+      "mythology_zh": "北冕，狄俄尼索斯赠阿里阿德涅。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Alphecca",
+          "name_zh": "贯索四",
+          "x": 0.45,
+          "y": 0.85,
+          "magnitude": 2.23
+        },
+        {
+          "name_en": "Nusakan",
+          "name_zh": "贯索三",
+          "x": 0.3,
+          "y": 0.65,
+          "magnitude": 3.66
+        },
+        {
+          "name_en": "Gamma CrB",
+          "name_zh": "贯索五",
+          "x": 0.6,
+          "y": 0.65,
+          "magnitude": 3.84
+        },
+        {
+          "name_en": "Theta CrB",
+          "name_zh": "贯索六",
+          "x": 0.75,
+          "y": 0.55,
+          "magnitude": 4.14
+        },
+        {
+          "name_en": "Iota CrB",
+          "name_zh": "贯索七",
+          "x": 0.85,
+          "y": 0.4,
+          "magnitude": 4.98
+        },
+        {
+          "name_en": "Epsilon CrB",
+          "name_zh": "贯索二",
+          "x": 0.15,
+          "y": 0.55,
+          "magnitude": 4.14
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          1,
+          5
+        ]
+      ]
+    },
+    {
+      "id": "ophiuchus",
+      "name_en": "Ophiuchus",
+      "name_zh": "蛇夫座",
+      "abbreviation": "Oph",
+      "hemisphere": "equatorial",
+      "best_month_en": "July",
+      "best_month_zh": "7 月",
+      "mythology_en": "The Serpent-Bearer, healer who could raise the dead.",
+      "mythology_zh": "蛇夫，能起死回生的医者。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Rasalhague",
+          "name_zh": "侯",
+          "x": 0.5,
+          "y": 0.05,
+          "magnitude": 2.07
+        },
+        {
+          "name_en": "Cebalrai",
+          "name_zh": "天市右垣五",
+          "x": 0.3,
+          "y": 0.3,
+          "magnitude": 2.77
+        },
+        {
+          "name_en": "Zeta Oph",
+          "name_zh": "天市右垣七",
+          "x": 0.1,
+          "y": 0.5,
+          "magnitude": 2.54
+        },
+        {
+          "name_en": "Yed Prior",
+          "name_zh": "列肆一",
+          "x": 0.55,
+          "y": 0.55,
+          "magnitude": 2.74
+        },
+        {
+          "name_en": "Yed Posterior",
+          "name_zh": "列肆二",
+          "x": 0.65,
+          "y": 0.55,
+          "magnitude": 3.24
+        },
+        {
+          "name_en": "Sabik",
+          "name_zh": "天市右垣六",
+          "x": 0.5,
+          "y": 0.85,
+          "magnitude": 2.43
+        },
+        {
+          "name_en": "Marfik",
+          "name_zh": "天市右垣八",
+          "x": 0.3,
+          "y": 0.85,
+          "magnitude": 3.82
+        },
+        {
+          "name_en": "Theta Oph",
+          "name_zh": "天市右垣四",
+          "x": 0.1,
+          "y": 0.85,
+          "magnitude": 3.27
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          3,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          5,
+          7
+        ]
+      ]
+    },
+    {
+      "id": "libra",
+      "name_en": "Libra",
+      "name_zh": "天秤座",
+      "abbreviation": "Lib",
+      "hemisphere": "equatorial",
+      "best_month_en": "June",
+      "best_month_zh": "6 月",
+      "mythology_en": "The Scales, symbol of justice, held by Astraea.",
+      "mythology_zh": "天秤，正义之象征，由阿斯忒赖亚所执。",
+      "tier": 1,
+      "stars": [
+        {
+          "name_en": "Zubenelgenubi",
+          "name_zh": "氐宿一",
+          "x": 0.2,
+          "y": 0.4,
+          "magnitude": 2.75
+        },
+        {
+          "name_en": "Zubeneschamali",
+          "name_zh": "氐宿四",
+          "x": 0.2,
+          "y": 0.6,
+          "magnitude": 2.61
+        },
+        {
+          "name_en": "Sigma Lib",
+          "name_zh": "氐宿三",
+          "x": 0.8,
+          "y": 0.4,
+          "magnitude": 3.25
+        },
+        {
+          "name_en": "Gamma Lib",
+          "name_zh": "氐宿二",
+          "x": 0.8,
+          "y": 0.6,
+          "magnitude": 3.91
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          3
+        ]
+      ]
+    },
+    {
+      "id": "sagitta",
+      "name_en": "Sagitta",
+      "name_zh": "天箭座",
+      "abbreviation": "Sge",
+      "hemisphere": "equatorial",
+      "best_month_en": "September",
+      "best_month_zh": "9 月",
+      "mythology_en": "The Arrow, often Heracles' or Eros' arrow.",
+      "mythology_zh": "天箭，常为赫拉克勒斯或厄洛斯之箭。",
+      "tier": 1,
+      "stars": [
+        {
+          "name_en": "Gamma Sge",
+          "name_zh": "天箭三",
+          "x": 0.5,
+          "y": 0.1,
+          "magnitude": 3.47
+        },
+        {
+          "name_en": "Delta Sge",
+          "name_zh": "天箭四",
+          "x": 0.5,
+          "y": 0.4,
+          "magnitude": 3.68
+        },
+        {
+          "name_en": "Alpha Sge",
+          "name_zh": "天箭一",
+          "x": 0.5,
+          "y": 0.7,
+          "magnitude": 4.37
+        },
+        {
+          "name_en": "Beta Sge",
+          "name_zh": "天箭二",
+          "x": 0.5,
+          "y": 0.95,
+          "magnitude": 4.37
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "id": "delphinus",
+      "name_en": "Delphinus",
+      "name_zh": "海豚座",
+      "abbreviation": "Del",
+      "hemisphere": "equatorial",
+      "best_month_en": "September",
+      "best_month_zh": "9 月",
+      "mythology_en": "The Dolphin, messenger of Poseidon.",
+      "mythology_zh": "海豚，波塞冬的信使。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Sualocin",
+          "name_zh": "瓠瓜一",
+          "x": 0.35,
+          "y": 0.3,
+          "magnitude": 3.77
+        },
+        {
+          "name_en": "Rotanev",
+          "name_zh": "瓠瓜四",
+          "x": 0.65,
+          "y": 0.3,
+          "magnitude": 3.63
+        },
+        {
+          "name_en": "Gamma Del",
+          "name_zh": "瓠瓜二",
+          "x": 0.3,
+          "y": 0.6,
+          "magnitude": 3.87
+        },
+        {
+          "name_en": "Delta Del",
+          "name_zh": "瓠瓜三",
+          "x": 0.7,
+          "y": 0.6,
+          "magnitude": 4.43
+        },
+        {
+          "name_en": "Epsilon Del",
+          "name_zh": "瓠瓜五",
+          "x": 0.5,
+          "y": 0.85,
+          "magnitude": 4.03
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "id": "vulpecula",
+      "name_en": "Vulpecula",
+      "name_zh": "狐狸座",
+      "abbreviation": "Vul",
+      "hemisphere": "north",
+      "best_month_en": "September",
+      "best_month_zh": "9 月",
+      "mythology_en": "The Little Fox, originally a fox carrying a goose to the sky.",
+      "mythology_zh": "小狐，原为衔鹅上天之狐。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Alpha Vul",
+          "name_zh": "齐增五",
+          "x": 0.3,
+          "y": 0.3,
+          "magnitude": 4.44
+        },
+        {
+          "name_en": "Beta Vul",
+          "name_zh": "齐增六",
+          "x": 0.7,
+          "y": 0.4,
+          "magnitude": 5.45
+        },
+        {
+          "name_en": "23 Vul",
+          "name_zh": "齐增二",
+          "x": 0.4,
+          "y": 0.65,
+          "magnitude": 4.5
+        },
+        {
+          "name_en": "29 Vul",
+          "name_zh": "齐增三",
+          "x": 0.6,
+          "y": 0.75,
+          "magnitude": 4.78
+        },
+        {
+          "name_en": "33 Vul",
+          "name_zh": "齐增一",
+          "x": 0.85,
+          "y": 0.85,
+          "magnitude": 5.3
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "id": "canis_minor",
+      "name_en": "Canis Minor",
+      "name_zh": "小犬座",
+      "abbreviation": "CMi",
+      "hemisphere": "equatorial",
+      "best_month_en": "March",
+      "best_month_zh": "3 月",
+      "mythology_en": "Orion's lesser hunting dog, with Procyon the brightest.",
+      "mythology_zh": "俄里翁的小犬， Procyon 为最亮星。",
+      "tier": 1,
+      "stars": [
+        {
+          "name_en": "Procyon",
+          "name_zh": "南河三",
+          "x": 0.3,
+          "y": 0.5,
+          "magnitude": 0.34
+        },
+        {
+          "name_en": "Gomeisa",
+          "name_zh": "南河二",
+          "x": 0.8,
+          "y": 0.5,
+          "magnitude": 2.89
+        }
+      ],
+      "lines": [
+        [
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "cancer",
+      "name_en": "Cancer",
+      "name_zh": "巨蟹座",
+      "abbreviation": "Cnc",
+      "hemisphere": "equatorial",
+      "best_month_en": "March",
+      "best_month_zh": "3 月",
+      "mythology_en": "The Crab, sent by Hera to distract Heracles.",
+      "mythology_zh": "巨蟹，赫拉所派以扰赫拉克勒斯。",
+      "tier": 2,
+      "stars": [
+        {
+          "name_en": "Acubens",
+          "name_zh": "柳宿增三",
+          "x": 0.85,
+          "y": 0.3,
+          "magnitude": 4.2
+        },
+        {
+          "name_en": "Beta Cnc",
+          "name_zh": "柳宿八",
+          "x": 0.15,
+          "y": 0.3,
+          "magnitude": 3.52
+        },
+        {
+          "name_en": "Tarf",
+          "name_zh": "柳宿六",
+          "x": 0.1,
+          "y": 0.6,
+          "magnitude": 3.94
+        },
+        {
+          "name_en": "Asellus Borealis",
+          "name_zh": "鬼宿四",
+          "x": 0.5,
+          "y": 0.4,
+          "magnitude": 4.66
+        },
+        {
+          "name_en": "Asellus Australis",
+          "name_zh": "鬼宿三",
+          "x": 0.5,
+          "y": 0.65,
+          "magnitude": 3.94
+        }
+      ],
+      "lines": [
+        [
+          0,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          4
+        ]
+      ]
+    }
+  ],
+  "stub_constellations": [
+    "antlia",
+    "apus",
+    "ara",
+    "auriga",
+    "caelum",
+    "camelopardalis",
+    "canes_venatici",
+    "carina",
+    "centaurus",
+    "cepheus",
+    "cetus",
+    "chamaeleon",
+    "circinus",
+    "columba",
+    "coma_berenices",
+    "corona_australis",
+    "corvus",
+    "crater",
+    "dorado",
+    "equuleus",
+    "eridanus",
+    "fornax",
+    "grus",
+    "horologium",
+    "hydra",
+    "hydrus",
+    "indus",
+    "lacerta",
+    "leo_minor",
+    "lepus",
+    "lupus",
+    "lynx",
+    "mensa",
+    "microscopium",
+    "monoceros",
+    "musca",
+    "norma",
+    "octans",
+    "pavo",
+    "phoenix",
+    "pictor",
+    "piscis_austrinus",
+    "puppis",
+    "pyxis",
+    "reticulum",
+    "sculptor",
+    "scutum",
+    "serpens",
+    "sextans",
+    "telescopium",
+    "triangulum",
+    "triangulum_australe",
+    "tucana",
+    "vela",
+    "volans"
+  ]
+}
