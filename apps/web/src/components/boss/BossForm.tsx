@@ -6,7 +6,7 @@ import { DeadlinePicker } from './DeadlinePicker';
 import { ConstellationPicker } from './ConstellationPicker';
 
 const TOPICS = [
-  { value: '',        label: '不绑定',  color: '#A8B0C8' },
+  { value: '',        label: '不限主题', color: '#A8B0C8' },
   { value: 'AI',      label: 'AI 应用',  color: '#5FE0C7' },
   { value: 'one-person', label: '一人公司', color: '#E8B86F' },
   { value: 'self-mgmt',  label: '自我管理', color: '#B8A4D4' }
@@ -126,7 +126,7 @@ export function BossForm({
         {existing ? '编辑星座' : '创建新星座'}
       </h3>
       <p className="mt-1 text-xs text-bone-400">
-        每个 Publish 自动点亮一星。比如"公众号连载 50 篇"或"100 个 AI 作品"
+        每个 <b className="text-celestial">Publish</b> 自动点亮一星。绑了主题后只点亮该主题的 item；不绑则不限。例：「公众号连载 50 篇」不限；「100 个 AI 作品」只算 AI item 的 Publish。
       </p>
 
       <div className="mt-5 space-y-5">

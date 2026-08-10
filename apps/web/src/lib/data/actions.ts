@@ -102,26 +102,40 @@ export async function recordAction(opts: {
   const newAchievements = await checkAndUnlockAchievements();
 
   if (opts.action === 'publish') {
-    await incrementBosses();
+    // 取 item 的 topics 用于 boss topic 过滤
+    const { data: item } = await supabase
+      .from('items')
+      .select('topics')
+      .eq('id', opts.itemId)
+      .single();
+    const itemTopics = (item?.topics as string[]) ?? [];
+    await incrementBosses(itemTopics);
   }
 
   return { xp, newAchievements, alreadyDone: false };
 }
 
-async function incrementBosses() {
+/**
+ * 推进所有匹配主题的 active boss
+ * - boss.topic 为空（不绑定）=> 任何 publish 都推进
+ * - boss.topic 有值         => item.topics 包含该 topic 才推进
+ */
+async function incrementBosses(itemTopics: string[]) {
   const supabase = getSupabase();
   const { data: settings } = await supabase.from('settings').select('bosses').eq('id', 1).single();
   const bosses = (settings?.bosses as any[]) ?? [];
   let changed = false;
   for (const b of bosses) {
-    if (b.status === 'active' && (b.current ?? 0) < b.target) {
-      b.current = (b.current ?? 0) + 1;
-      if (b.current >= b.target) {
-        b.status = 'completed';
-        b.completed_at = new Date().toISOString();
-      }
-      changed = true;
+    if (b.status !== 'active') continue;
+    if ((b.current ?? 0) >= b.target) continue;
+    // topic 过滤：空 = 不限；非空 = 必须 item 上有这个 tag
+    if (b.topic && b.topic !== '' && !itemTopics.includes(b.topic)) continue;
+    b.current = (b.current ?? 0) + 1;
+    if (b.current >= b.target) {
+      b.status = 'completed';
+      b.completed_at = new Date().toISOString();
     }
+    changed = true;
   }
   if (changed) {
     await supabase.from('settings').update({ bosses, updated_at: new Date().toISOString() }).eq('id', 1);

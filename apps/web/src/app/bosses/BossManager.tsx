@@ -99,7 +99,7 @@ export function BossManager({
                     </div>
                     <div className="mt-3 flex items-center justify-between text-[10px]">
                       <div className="flex items-center gap-3 text-bone-400">
-                        {b.topic && <span style={{ color: topicColor }}>● {b.topic}</span>}
+                        <span style={{ color: topicColor }}>● {b.topic || '不限主题'}</span>
                         {b.deadline && <span className="num">截止 {b.deadline}</span>}
                       </div>
                       <div className="flex items-center gap-3">
