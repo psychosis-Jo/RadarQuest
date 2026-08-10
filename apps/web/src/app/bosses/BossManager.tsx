@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { BossForm } from '@/components/boss/BossForm';
 
 interface Boss {
@@ -24,6 +25,16 @@ const TOPIC_COLORS: Record<string, string> = {
   '': '#A8B0C8'
 };
 
+async function deleteBossById(id: string, name: string): Promise<boolean> {
+  if (!confirm(`确定删除星座「${name}」？\n（当前进度 ${name} 将一起消失）`)) return false;
+  const res = await fetch(`/api/bosses/${id}`, { method: 'DELETE' });
+  if (!res.ok) {
+    alert('删除失败');
+    return false;
+  }
+  return true;
+}
+
 export function BossManager({
   active,
   completed,
@@ -35,8 +46,15 @@ export function BossManager({
   abandoned: Boss[];
   usedConstellationIds?: string[];
 }) {
+  const router = useRouter();
   const [creating, setCreating] = useState(false);
   const [editing, setEditing] = useState<Boss | null>(null);
+
+  async function quickDelete(b: Boss) {
+    if (await deleteBossById(b.id, b.name)) {
+      router.refresh();
+    }
+  }
 
   return (
     <>
@@ -84,12 +102,20 @@ export function BossManager({
                         {b.topic && <span style={{ color: topicColor }}>● {b.topic}</span>}
                         {b.deadline && <span className="num">截止 {b.deadline}</span>}
                       </div>
-                      <button
-                        onClick={() => setEditing(b)}
-                        className="text-bone-400 hover:text-bone-50"
-                      >
-                        编辑
-                      </button>
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={() => setEditing(b)}
+                          className="rounded border border-ink-600 px-2.5 py-1 text-bone-300 transition-colors hover:border-gold/50 hover:text-gold"
+                        >
+                          编辑
+                        </button>
+                        <button
+                          onClick={() => quickDelete(b)}
+                          className="rounded border border-warning/40 px-2.5 py-1 text-warning transition-colors hover:border-warning hover:bg-warning/10"
+                        >
+                          删除
+                        </button>
+                      </div>
                     </div>
                   </>
                 )}
@@ -136,8 +162,14 @@ export function BossManager({
           <h2 className="font-display mb-3 text-lg text-bone-400">放弃 ({abandoned.length})</h2>
           <div className="space-y-2">
             {abandoned.map(b => (
-              <div key={b.id} className="rounded border border-ink-700 bg-ink-800/30 p-3">
+              <div key={b.id} className="flex items-center justify-between rounded border border-ink-700 bg-ink-800/30 p-3">
                 <p className="text-sm text-bone-400 line-through">{b.name}</p>
+                <button
+                  onClick={() => quickDelete(b)}
+                  className="text-[10px] text-warning hover:underline"
+                >
+                  删除
+                </button>
               </div>
             ))}
           </div>

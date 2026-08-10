@@ -1,6 +1,7 @@
 import type { Item } from '@/lib/data/types';
+import type { ActionType } from '@radar-quest/shared';
 import { ItemCard } from './ItemCard';
-import { getItemActions } from '@/lib/data/items';
+import { getItemActionMap } from '@/lib/data/actions';
 
 export async function ItemList({ items, emptyMessage }: { items: Item[]; emptyMessage: string }) {
   if (items.length === 0) {
@@ -11,15 +12,13 @@ export async function ItemList({ items, emptyMessage }: { items: Item[]; emptyMe
     );
   }
 
-  // 并行拿所有 item 的 action
-  const actionResults = await Promise.all(
-    items.map(it => getItemActions(it.id).catch(() => []))
-  );
+  // 一次查询拿全部 item 的 action（避免 N+1）
+  const actionMap = await getItemActionMap(items.map(it => it.id));
 
   return (
     <div className="space-y-3">
-      {items.map((it, i) => (
-        <ItemCard key={it.id} item={it} actions={actionResults[i]} />
+      {items.map(it => (
+        <ItemCard key={it.id} item={it} done={actionMap[it.id] ?? []} />
       ))}
     </div>
   );

@@ -66,16 +66,3 @@ export async function getItemById(id: string): Promise<Item | null> {
     .single();
   return (data as Item) ?? null;
 }
-
-export async function getItemActions(itemId: string): Promise<{ type: string; count: number }[]> {
-  const supabase = getSupabase();
-  const { data } = await supabase
-    .from('actions')
-    .select('action_type')
-    .eq('item_id', itemId);
-  const counts: Record<string, number> = {};
-  for (const row of (data ?? []) as any[]) {
-    counts[row.action_type] = (counts[row.action_type] ?? 0) + 1;
-  }
-  return Object.entries(counts).map(([type, count]) => ({ type, count }));
-}

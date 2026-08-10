@@ -1,7 +1,7 @@
 import type { Item } from '@/lib/data/types';
-import { TOPIC_COLORS, TOPIC_LABELS } from '@radar-quest/shared';
+import type { ActionType } from '@radar-quest/shared';
+import { TOPIC_COLORS } from '@radar-quest/shared';
 import { ActionBar } from './ActionBar';
-import { StarIcon } from '../hand-drawn/Divider';
 
 const SOURCE_LABEL: Record<string, { label: string; color: string }> = {
   github:     { label: 'GitHub',     color: 'text-bone-200' },
@@ -12,19 +12,19 @@ const SOURCE_LABEL: Record<string, { label: string; color: string }> = {
   newsletter: { label: 'Newsletter', color: 'text-amber' }
 };
 
-const TOPIC_LABELS_ZH = {
+const TOPIC_LABELS_ZH: Record<string, string> = {
   AI: 'AI 应用',
   'one-person': '一人公司',
   'self-mgmt': '自我管理'
 };
 
-export function ItemCard({ item, actions }: { item: Item; actions: { type: string; count: number }[] }) {
+export function ItemCard({ item, done }: { item: Item; done: ActionType[] }) {
   const src = SOURCE_LABEL[item.source] ?? { label: item.source, color: 'text-bone-200' };
   const stars = (item.metrics as any)?.stars;
   const score = (item.metrics as any)?.score;
   const comments = (item.metrics as any)?.comments;
   const metric = stars ? `★ ${stars.toLocaleString()}` : score ? `▲ ${score}` : '';
-  const doneTypes = actions.map(a => a.type);
+  const doneTypes = done;
 
   return (
     <article className="hand-drawn-border group rounded bg-ink-800/60 p-5 transition-all hover:bg-ink-800 hover:shadow-glow">
@@ -59,11 +59,11 @@ export function ItemCard({ item, actions }: { item: Item; actions: { type: strin
               key={t}
               className="num rounded border px-2 py-0.5 text-[10px] uppercase tracking-wider"
               style={{
-                borderColor: TOPIC_COLORS[t as keyof typeof TOPIC_COLORS] + '60',
-                color: TOPIC_COLORS[t as keyof typeof TOPIC_COLORS]
+                borderColor: (TOPIC_COLORS as Record<string, string>)[t] + '60',
+                color: (TOPIC_COLORS as Record<string, string>)[t]
               }}
             >
-              {TOPIC_LABELS_ZH[t as keyof typeof TOPIC_LABELS_ZH] ?? t}
+              {TOPIC_LABELS_ZH[t] ?? t}
             </span>
           ))}
           {item.matched_keywords.slice(0, 3).map(kw => (

@@ -11,7 +11,7 @@ const ACTIONS: { type: ActionType; emoji: string; label: string; xp: number }[] 
 ];
 
 export function ActionBar({ itemId, done }: { itemId: string; done: string[] }) {
-  const [state, setState] = useState<{ type: ActionType | null; xp: number } | null>(null);
+  const [state, setState] = useState<{ type: ActionType | null; xp: number; hint?: string } | null>(null);
   const [isPending, startTransition] = useTransition();
   const [publishing, setPublishing] = useState(false);
   const [noteOpen, setNoteOpen] = useState<ActionType | null>(null);
@@ -32,7 +32,12 @@ export function ActionBar({ itemId, done }: { itemId: string; done: string[] }) 
           return;
         }
         const data = await res.json();
-        setState({ type: action, xp: data.xp });
+        // alreadyDone = true 表示之前已经记过 — 不显示 +XP 浮窗，改为轻提示
+        if (data.alreadyDone) {
+          setState({ type: action, xp: 0, hint: '已记录' });
+        } else {
+          setState({ type: action, xp: data.xp });
+        }
         setTimeout(() => setState(null), 1500);
         if (typeof window !== 'undefined') window.location.reload();
       } catch (err) {
@@ -144,7 +149,7 @@ export function ActionBar({ itemId, done }: { itemId: string; done: string[] }) 
 
       {state && (
         <div className="num fixed right-4 top-4 z-50 rounded border border-gold bg-ink-800 px-3 py-2 text-xs text-gold shadow-xl">
-          +{state.xp} XP
+          {state.hint ?? `+${state.xp} XP`}
         </div>
       )}
     </div>
