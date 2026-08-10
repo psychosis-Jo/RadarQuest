@@ -26,7 +26,7 @@ export function BossForm({ existing, onClose }: { existing?: Boss; onClose: () =
   const [name, setName] = useState(existing?.name ?? '');
   const [description, setDescription] = useState(existing?.description ?? '');
   const [target, setTarget] = useState(existing?.target ?? 30);
-  const [deadline, setDeadline] = useState(existing?.deadline?.slice(0, 10) ?? '');
+  const [deadline, setDeadline] = useState<string | undefined>(existing?.deadline?.slice(0, 10) || undefined);
   const [topic, setTopic] = useState(existing?.topic ?? '');
   const [saving, setSaving] = useState(false);
 
