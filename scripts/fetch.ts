@@ -1,6 +1,10 @@
 import 'dotenv/config';
 // 抓取入口：被 GitHub Actions cron 调用
 // 一源失败不影响其他（用 allSettled + try/catch）
+//
+// v2：从 Supabase settings 读信源配置 + 关键词
+//     不再读 data/sources.default.json / keywords.default.json
+//     （除非 settings.sources 为 null 才回退到默认文件）
 import { createClient } from '@supabase/supabase-js';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -8,15 +12,47 @@ import { dirname, join } from 'node:path';
 import { createHash } from 'node:crypto';
 import { matchTopics, type KeywordSet } from '@radar-quest/shared';
 
-import { fetchGitHubTrending } from '../apps/web/src/lib/sources/github';
-import { fetchProductHunt } from '../apps/web/src/lib/sources/producthunt';
-import { fetchHackerNews } from '../apps/web/src/lib/sources/hackernews';
-import { fetchReddit } from '../apps/web/src/lib/sources/reddit';
-import { fetchNewsletter } from '../apps/web/src/lib/sources/newsletter';
-import { fetchWechat } from '../apps/web/src/lib/sources/wechat';
-import type { FetchedItem } from '../apps/web/src/lib/sources';
+import {
+  fetchGitHubTrending,
+  fetchProductHunt,
+  fetchHackerNews,
+  fetchReddit,
+  fetchNewsletter,
+  fetchWechat,
+  type FetchedItem
+} from '../apps/web/src/lib/sources';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// 来源 ID → (fetcher fn, config 键, 需要环境变量)
+type SourceDef = {
+  id: 'github' | 'producthunt' | 'hackernews' | 'reddit' | 'newsletter' | 'wechat';
+  run: (config: any) => Promise<FetchedItem[]>;
+  needsToken?: 'github' | 'producthunt';
+};
+
+const SOURCES: SourceDef[] = [
+  { id: 'github',     run: (c) => fetchGitHubTrending(process.env.GITHUB_TOKEN, c),     needsToken: 'github' },
+  { id: 'producthunt',run: (c) => fetchProductHunt(process.env.PRODUCTHUNT_API_TOKEN ?? '', c), needsToken: 'producthunt' },
+  { id: 'hackernews', run: (c) => fetchHackerNews(c) },
+  { id: 'reddit',     run: (c) => fetchReddit(c) },
+  { id: 'newsletter', run: (c) => fetchNewsletter(c) },
+  { id: 'wechat',     run: (c) => fetchWechat(c) }
+];
+
+async function loadSettings(supabase: ReturnType<typeof createClient>) {
+  const { data } = await supabase.from('settings').select('keywords, sources').eq('id', 1).single();
+  // sources 为 null 时回退到 data/sources.default.json
+  let sources = data?.sources as Record<string, any> | null;
+  if (!sources) {
+    const path = join(__dirname, '..', 'data', 'sources.default.json');
+    sources = JSON.parse(await readFile(path, 'utf-8'));
+  }
+  return {
+    keywords: (data?.keywords ?? {}) as KeywordSet,
+    sources
+  };
+}
 
 async function safeFetch(name: string, fn: () => Promise<FetchedItem[]>): Promise<FetchedItem[]> {
   try {
@@ -36,22 +72,32 @@ async function main() {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 
-  // 加载默认关键词
-  const keywordsPath = join(__dirname, '..', 'data', 'keywords.default.json');
-  const keywords: KeywordSet = JSON.parse(await readFile(keywordsPath, 'utf-8'));
+  const { keywords, sources } = await loadSettings(supabase);
 
-  // 抓取 6 个源，每个独立 try/catch
-  console.log('Fetching from 6 sources...');
-  const [github, ph, hn, reddit, newsletter, wechat] = await Promise.all([
-    safeFetch('GitHub', () => fetchGitHubTrending(process.env.GITHUB_TOKEN)),
-    safeFetch('ProductHunt', () => fetchProductHunt(process.env.PRODUCTHUNT_API_TOKEN ?? '')),
-    safeFetch('HackerNews', () => fetchHackerNews(50, 20)),
-    safeFetch('Reddit', () => fetchReddit(20, 5)),
-    safeFetch('Newsletter', () => fetchNewsletter([])),
-    safeFetch('Wechat', () => fetchWechat(process.env.RSSHUB_BASE_URL ?? 'https://rsshub.app', []))
-  ]);
+  // 决定要跑哪些源（enabled 开关）
+  const toRun = SOURCES.filter(s => {
+    const cfg = sources[s.id];
+    if (!cfg) {
+      console.log(`- ${s.id}: no config, skip`);
+      return false;
+    }
+    if (cfg.enabled === false) {
+      console.log(`- ${s.id}: disabled, skip`);
+      return false;
+    }
+    return true;
+  });
 
-  const all: FetchedItem[] = [...github, ...ph, ...hn, ...reddit, ...newsletter, ...wechat];
+  if (toRun.length === 0) {
+    console.warn('No enabled sources. Skipping DB write.');
+    return;
+  }
+
+  console.log(`Fetching from ${toRun.length} sources...`);
+  const allArrays = await Promise.all(
+    toRun.map(s => safeFetch(s.id, () => s.run(sources[s.id].config ?? {})))
+  );
+  const all: FetchedItem[] = allArrays.flat();
   console.log(`\nTotal: ${all.length} items`);
 
   if (all.length === 0) {

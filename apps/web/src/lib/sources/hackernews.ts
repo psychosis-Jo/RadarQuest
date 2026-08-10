@@ -5,10 +5,15 @@ import type { FetchedItem } from './index';
 
 const HN_BASE = 'https://hacker-news.firebaseio.com/v0';
 
-export async function fetchHackerNews(minScore = 100, maxItems = 30): Promise<FetchedItem[]> {
+export interface HackerNewsConfig {
+  min_score: number;
+  max_items: number;
+}
+
+export async function fetchHackerNews(config: HackerNewsConfig): Promise<FetchedItem[]> {
   const topIdsRes = await fetch(`${HN_BASE}/topstories.json`);
   if (!topIdsRes.ok) return [];
-  const ids: number[] = (await topIdsRes.json()).slice(0, maxItems * 2);
+  const ids: number[] = (await topIdsRes.json()).slice(0, config.max_items * 2);
 
   const items: FetchedItem[] = [];
   for (const id of ids) {
@@ -16,7 +21,7 @@ export async function fetchHackerNews(minScore = 100, maxItems = 30): Promise<Fe
     if (!res.ok) continue;
     const story = await res.json();
     if (!story || story.type !== 'story') continue;
-    if ((story.score ?? 0) < minScore) continue;
+    if ((story.score ?? 0) < config.min_score) continue;
     items.push({
       url: story.url ?? `https://news.ycombinator.com/item?id=${story.id}`,
       title: story.title,
@@ -30,7 +35,7 @@ export async function fetchHackerNews(minScore = 100, maxItems = 30): Promise<Fe
         comments: story.descendants ?? 0
       }
     });
-    if (items.length >= maxItems) break;
+    if (items.length >= config.max_items) break;
   }
   return items;
 }

@@ -5,11 +5,17 @@ import type { FetchedItem } from './index';
 
 const parser = new Parser({ timeout: 10000 });
 
-export async function fetchWechat(rsshubBase: string, accounts: string[]): Promise<FetchedItem[]> {
+export interface WechatConfig {
+  rsshub_base_url: string;
+  accounts: string[];
+}
+
+export async function fetchWechat(config: WechatConfig): Promise<FetchedItem[]> {
   const results: FetchedItem[] = [];
-  for (const account of accounts) {
+  const base = (config.rsshub_base_url || 'https://rsshub.app').replace(/\/$/, '');
+  for (const account of config.accounts) {
     // 公众号 RSSHub 路由：/wechat/mp/homepage/{biz} 或 /wechat/mp/articles/{id}
-    const url = `${rsshubBase.replace(/\/$/, '')}/wechat/mp/homepage/${encodeURIComponent(account)}`;
+    const url = `${base}/wechat/mp/homepage/${encodeURIComponent(account)}`;
     try {
       const feed = await parser.parseURL(url);
       for (const item of (feed.items ?? []).slice(0, 15)) {

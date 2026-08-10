@@ -1,8 +1,10 @@
 import 'dotenv/config';
-// 给新用户预置 3 天的示例数据
-// 完整实现在 Phase 9
+// 给新用户预置示例数据
+// - settings（强度/声音/动画/任务数/关键词/星座/信源）
+// - items（最近 3 天的示例热点）
+// - actions（一两条示例 XP 记录）
 import { createClient } from '@supabase/supabase-js';
-import { pickConstellationForBoss, getConstellationById } from '../packages/shared/src/constellations';
+import { pickConstellationForBoss } from '../packages/shared/src/constellations';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -17,6 +19,7 @@ async function main() {
 
   // 加载默认配置
   const keywords = JSON.parse(await readFile(join(__dirname, '..', 'data', 'keywords.default.json'), 'utf-8'));
+  const sources = JSON.parse(await readFile(join(__dirname, '..', 'data', 'sources.default.json'), 'utf-8'));
 
   // 初始化 settings
   const { error } = await supabase.from('settings').upsert({
@@ -30,6 +33,7 @@ async function main() {
     publish_reminder_days: 14,
     enabled_sources: ['github', 'ph', 'hn', 'reddit', 'newsletter', 'wechat'],
     keywords,
+    sources,
     bosses: [
       (() => {
         const c = pickConstellationForBoss(1, []);
@@ -63,7 +67,7 @@ async function main() {
     console.error('Settings seed failed:', error.message);
     process.exit(1);
   }
-  console.log('Settings seeded');
+  console.log('Settings seeded (keywords + sources + bosses)');
   console.log('Note: items / actions seed in Phase 9 (sample data)');
 }
 

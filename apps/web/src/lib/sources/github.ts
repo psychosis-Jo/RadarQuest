@@ -3,19 +3,20 @@
 
 import type { FetchedItem } from './index';
 
-export async function fetchGitHubTrending(token?: string): Promise<FetchedItem[]> {
+export interface GitHubConfig {
+  query: string;
+  sort: 'stars' | 'forks' | 'updated';
+  per_page: number;
+}
+
+export async function fetchGitHubTrending(token: string | undefined, config: GitHubConfig): Promise<FetchedItem[]> {
   const headers: Record<string, string> = {
     'Accept': 'application/vnd.github+json',
     'X-GitHub-Api-Version': '2022-11-28'
   };
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  // 30 天内创建 + stars > 100 + 排序按 stars
-  const date = new Date();
-  date.setDate(date.getDate() - 30);
-  const dateStr = date.toISOString().slice(0, 10);
-
-  const url = `https://api.github.com/search/repositories?q=stars:>100+created:>${dateStr}&sort=stars&order=desc&per_page=30`;
+  const url = `https://api.github.com/search/repositories?q=${encodeURIComponent(config.query)}&sort=${config.sort}&order=desc&per_page=${config.per_page}`;
 
   const res = await fetch(url, { headers });
   if (!res.ok) {

@@ -17,6 +17,27 @@ const flattenKeywords = (k: any): string[] => {
   return Array.from(new Set(arr));
 };
 
+// 6 个信源在 UI 里的展示顺序 + 列表字段
+// 列表字段以外的技术参数（min_score / query / sort 等）暂不暴露
+type SourceListField = { key: string; label: string; placeholder: string };
+
+const SOURCE_DEFS: {
+  id: 'github' | 'producthunt' | 'hackernews' | 'reddit' | 'newsletter' | 'wechat';
+  label: string;
+  desc: string;
+  list?: SourceListField;
+}[] = [
+  { id: 'github',     label: 'GitHub',       desc: 'GitHub Search API · 高 star 新仓库' },
+  { id: 'producthunt',label: 'Product Hunt', desc: 'PH 今日 Top · 需 API token' },
+  { id: 'hackernews', label: 'Hacker News',  desc: 'HN Top Stories · 100+ 分' },
+  { id: 'reddit',     label: 'Reddit',       desc: '编程 / ML / 独立开发 / 效率 / 自我提升',
+    list: { key: 'subreddits', label: 'Subreddits', placeholder: 'r/localLLM, 回车加' } },
+  { id: 'newsletter', label: 'Newsletter',   desc: 'RSS 订阅 · 加 feed URL',
+    list: { key: 'feeds', label: 'RSS Feeds', placeholder: 'https://example.com/feed.xml' } },
+  { id: 'wechat',     label: '公众号',       desc: '通过 RSSHub 抓取 · 需自部署实例',
+    list: { key: 'accounts', label: '公众号 ID', placeholder: '公众号 biz / username' } }
+];
+
 export function SettingsForm({ initial }: { initial: any }) {
   const router = useRouter();
   const [intensity, setIntensity] = useState(initial?.intensity_level ?? 2);
@@ -28,8 +49,22 @@ export function SettingsForm({ initial }: { initial: any }) {
     'one-person': flattenKeywords(initial?.keywords?.['one-person']),
     'self-mgmt': flattenKeywords(initial?.keywords?.['self-mgmt'])
   }));
+  // sources：{ [id]: { enabled, config: { ...listField: [...] } } }
+  const initialSources: Record<string, any> = initial?.sources ?? {};
+  const [sources, setSources] = useState<Record<string, any>>(() => {
+    const out: Record<string, any> = {};
+    for (const def of SOURCE_DEFS) {
+      const fromDb = initialSources[def.id];
+      out[def.id] = {
+        enabled: fromDb?.enabled ?? true,
+        config: { ...(fromDb?.config ?? {}) }
+      };
+    }
+    return out;
+  });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [resetting, setResetting] = useState(false);
 
   async function save() {
     setSaving(true);
@@ -53,7 +88,8 @@ export function SettingsForm({ initial }: { initial: any }) {
           sound_mode: soundMode,
           animation_mode: animationMode,
           daily_quest_count: dailyCount,
-          keywords: nested
+          keywords: nested,
+          sources
         })
       });
       if (res.ok) {
@@ -66,6 +102,32 @@ export function SettingsForm({ initial }: { initial: any }) {
       alert('网络错误：' + (err as Error).message);
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function resetSources() {
+    if (!confirm('恢复默认信源配置？\n你自定义的 enable 开关和列表（subreddits / feeds / accounts）会被清空，其他设置不动。')) return;
+    setResetting(true);
+    try {
+      const res = await fetch('/api/settings/reset-sources', { method: 'POST' });
+      if (res.ok) {
+        const data = await res.json();
+        const next: Record<string, any> = {};
+        for (const def of SOURCE_DEFS) {
+          const fromServer = data.sources?.[def.id];
+          next[def.id] = {
+            enabled: fromServer?.enabled ?? true,
+            config: { ...(fromServer?.config ?? {}) }
+          };
+        }
+        setSources(next);
+        setSaved(true);
+        setTimeout(() => router.refresh(), 500);
+      } else {
+        alert('重置失败：' + (await res.text()));
+      }
+    } finally {
+      setResetting(false);
     }
   }
 
@@ -120,6 +182,35 @@ export function SettingsForm({ initial }: { initial: any }) {
         </div>
       </section>
 
+      {/* 信源 */}
+      <section className="hand-drawn-border rounded bg-ink-800/60 p-6">
+        <div className="flex items-baseline justify-between">
+          <div>
+            <h2 className="font-display text-xl text-bone-50">信源</h2>
+            <p className="mt-1 text-sm text-bone-400">
+              启用哪些平台抓取数据 · 列表类源可加账号/feed
+            </p>
+          </div>
+          <button
+            onClick={resetSources}
+            disabled={resetting}
+            className="rounded border border-ink-700 px-3 py-1.5 text-xs text-bone-300 hover:border-warning hover:text-warning disabled:opacity-50"
+          >
+            {resetting ? '重置中…' : '恢复默认'}
+          </button>
+        </div>
+        <div className="mt-4 space-y-3">
+          {SOURCE_DEFS.map(def => (
+            <SourceRow
+              key={def.id}
+              def={def}
+              state={sources[def.id]}
+              onChange={(s) => setSources({ ...sources, [def.id]: s })}
+            />
+          ))}
+        </div>
+      </section>
+
       <div className="flex items-center justify-end gap-3">
         {saved && <span className="text-xs text-celestial">✓ 已保存</span>}
         <button
@@ -159,7 +250,7 @@ function KeywordEditor({ label, color, value, onChange }: { label: string; color
   function add() {
     const trimmed = input.trim();
     if (!trimmed) return;
-    if (value.includes(trimmed)) return; // 防止重复
+    if (value.includes(trimmed)) return;
     onChange([...value, trimmed]);
     setInput('');
   }
@@ -187,6 +278,92 @@ function KeywordEditor({ label, color, value, onChange }: { label: string; color
         />
         <button onClick={add} className="rounded border border-ink-700 px-3 py-1 text-xs text-bone-200 hover:border-gold/50">+</button>
       </div>
+    </div>
+  );
+}
+
+function SourceRow({ def, state, onChange }: { def: any; state: any; onChange: (s: any) => void }) {
+  const enabled = state?.enabled ?? true;
+  const list: string[] = state?.config?.[def.list?.key ?? ''] ?? [];
+  return (
+    <div className={`rounded border p-4 transition-opacity ${enabled ? 'border-ink-700 bg-ink-900/40' : 'border-ink-800 bg-ink-900/20 opacity-60'}`}>
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <p className="font-display text-base text-bone-50">{def.label}</p>
+            {!enabled && <span className="num text-[10px] uppercase tracking-widest text-bone-400">已禁用</span>}
+          </div>
+          <p className="mt-0.5 text-xs text-bone-400">{def.desc}</p>
+        </div>
+        <button
+          onClick={() => onChange({ ...state, enabled: !enabled })}
+          className={`relative h-6 w-11 shrink-0 rounded-full border transition-colors
+            ${enabled ? 'border-celestial/60 bg-celestial/30' : 'border-ink-700 bg-ink-800'}`}
+          title={enabled ? '已启用 · 点此禁用' : '已禁用 · 点此启用'}
+        >
+          <span
+            className={`absolute top-0.5 h-4 w-4 rounded-full transition-all
+              ${enabled ? 'left-5 bg-celestial' : 'left-0.5 bg-bone-400'}`}
+          />
+        </button>
+      </div>
+      {def.list && enabled && (
+        <div className="mt-3 border-t border-ink-700 pt-3">
+          <label className="num text-[10px] uppercase tracking-widest text-bone-400">
+            {def.list.label}
+          </label>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {list.map((item: string) => (
+              <span key={item} className="flex items-center gap-1 rounded bg-ink-700 px-2 py-1 text-xs text-bone-200">
+                {item}
+                <button
+                  onClick={() => onChange({
+                    ...state,
+                    config: { ...state.config, [def.list.key]: list.filter(x => x !== item) }
+                  })}
+                  className="text-bone-400 hover:text-warning"
+                >×</button>
+              </span>
+            ))}
+          </div>
+          <SourceListInput
+            placeholder={def.list.placeholder}
+            onAdd={(v) => {
+              const trimmed = v.trim();
+              if (!trimmed) return;
+              if (list.includes(trimmed)) return;
+              onChange({
+                ...state,
+                config: { ...state.config, [def.list.key]: [...list, trimmed] }
+              });
+            }}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SourceListInput({ placeholder, onAdd }: { placeholder: string; onAdd: (v: string) => void }) {
+  const [input, setInput] = useState('');
+  function add() {
+    if (!input.trim()) return;
+    onAdd(input);
+    setInput('');
+  }
+  return (
+    <div className="mt-2 flex gap-2">
+      <input
+        value={input}
+        onChange={e => setInput(e.target.value)}
+        onKeyDown={e => e.key === 'Enter' && add()}
+        placeholder={placeholder}
+        className="flex-1 rounded border border-ink-700 bg-ink-900 px-2 py-1 text-xs text-bone-50 focus:border-gold/50 focus:outline-none"
+      />
+      <button
+        onClick={add}
+        className="rounded border border-ink-700 px-3 py-1 text-xs text-bone-200 hover:border-gold/50"
+      >+</button>
     </div>
   );
 }

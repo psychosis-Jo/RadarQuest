@@ -6,9 +6,13 @@ import type { FetchedItem } from './index';
 
 const parser = new Parser({ timeout: 10000 });
 
-export async function fetchNewsletter(feeds: string[]): Promise<FetchedItem[]> {
+export interface NewsletterConfig {
+  feeds: string[];
+}
+
+export async function fetchNewsletter(config: NewsletterConfig): Promise<FetchedItem[]> {
   const results: FetchedItem[] = [];
-  for (const url of feeds) {
+  for (const url of config.feeds) {
     try {
       const feed = await parser.parseURL(url);
       for (const item of (feed.items ?? []).slice(0, 20)) {
