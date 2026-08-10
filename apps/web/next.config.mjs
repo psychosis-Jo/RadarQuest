@@ -1,7 +1,3 @@
-import createNextIntlPlugin from 'next-intl/plugin';
-
-const withNextIntl = createNextIntlPlugin('./src/lib/i18n/request.ts');
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -10,8 +6,8 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp']
   },
   experimental: {
-    optimizePackageImports: ['motion', 'lucide-react']
+    optimizePackageImports: ['framer-motion', 'lucide-react']
   }
 };
 
-export default withNextIntl(nextConfig);
+export default nextConfig;

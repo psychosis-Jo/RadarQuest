@@ -1,0 +1,152 @@
+'use client';
+import { useState, useTransition } from 'react';
+import type { ActionType } from '@radar-quest/shared';
+
+const ACTIONS: { type: ActionType; emoji: string; label: string; xp: number }[] = [
+  { type: 'watch',   emoji: '👀', label: '看', xp: 5 },
+  { type: 'save',    emoji: '🔖', label: '收', xp: 10 },
+  { type: 'note',    emoji: '📝', label: '写', xp: 20 },
+  { type: 'build',   emoji: '🛠', label: '做', xp: 50 },
+  { type: 'publish', emoji: '📢', label: '发', xp: 100 }
+];
+
+export function ActionBar({ itemId, done }: { itemId: string; done: string[] }) {
+  const [state, setState] = useState<{ type: ActionType | null; xp: number } | null>(null);
+  const [isPending, startTransition] = useTransition();
+  const [publishing, setPublishing] = useState(false);
+  const [noteOpen, setNoteOpen] = useState<ActionType | null>(null);
+  const [noteText, setNoteText] = useState('');
+  const [pubRef, setPubRef] = useState({ ref: '', title: '' });
+
+  async function record(action: ActionType, note?: string, outputRef?: string, outputTitle?: string) {
+    startTransition(async () => {
+      try {
+        const res = await fetch('/api/actions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ itemId, action, note, outputRef, outputTitle })
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          alert('操作失败：' + (err.error ?? res.statusText));
+          return;
+        }
+        const data = await res.json();
+        setState({ type: action, xp: data.xp });
+        setTimeout(() => setState(null), 1500);
+        if (typeof window !== 'undefined') window.location.reload();
+      } catch (err) {
+        alert('网络错误');
+      }
+    });
+  }
+
+  function handleClick(action: ActionType) {
+    if (action === 'note') {
+      setNoteOpen('note');
+      return;
+    }
+    if (action === 'publish') {
+      setPublishing(true);
+      return;
+    }
+    record(action);
+  }
+
+  function submitNote() {
+    if (!noteText.trim()) {
+      alert('写点什么吧');
+      return;
+    }
+    record('note', noteText);
+    setNoteOpen(null);
+    setNoteText('');
+  }
+
+  function submitPublish() {
+    if (!pubRef.title.trim()) {
+      alert('至少写个标题');
+      return;
+    }
+    record('publish', undefined, pubRef.ref, pubRef.title);
+    setPublishing(false);
+    setPubRef({ ref: '', title: '' });
+  }
+
+  return (
+    <div className="mt-3 flex items-center gap-1">
+      {ACTIONS.map(a => {
+        const isDone = done.includes(a.type);
+        return (
+          <button
+            key={a.type}
+            onClick={() => handleClick(a.type)}
+            disabled={isPending || isDone}
+            className={`group flex items-center gap-1 rounded border px-2 py-1 text-xs transition-all
+              ${isDone
+                ? 'border-celestial/50 bg-celestial/10 text-celestial'
+                : 'border-ink-700 bg-ink-800 text-bone-200 hover:border-gold/50 hover:bg-ink-700'}
+              disabled:opacity-50`}
+            title={`${a.label}（+${a.xp} XP）`}
+          >
+            <span>{a.emoji}</span>
+            <span className="hidden sm:inline">{a.label}</span>
+            <span className="num text-[10px] opacity-60">+{a.xp}</span>
+          </button>
+        );
+      })}
+
+      {/* Note 弹层 */}
+      {noteOpen === 'note' && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/80 p-4">
+          <div className="w-full max-w-md rounded border border-gold/30 bg-ink-800 p-6 shadow-2xl">
+            <h3 className="font-display text-xl text-bone-50">📝 写一句笔记</h3>
+            <p className="mt-1 text-xs text-bone-400">这对我有什么用？（+20 XP）</p>
+            <textarea
+              value={noteText}
+              onChange={e => setNoteText(e.target.value)}
+              placeholder="例：这个 agent 抽象很干净，公众号可以写横评…"
+              className="mt-3 h-32 w-full rounded border border-ink-700 bg-ink-900 p-3 text-sm text-bone-50 placeholder:text-bone-400 focus:border-gold/50 focus:outline-none"
+            />
+            <div className="mt-4 flex justify-end gap-2">
+              <button onClick={() => setNoteOpen(null)} className="px-3 py-1.5 text-xs text-bone-400 hover:text-bone-50">取消</button>
+              <button onClick={submitNote} className="rounded border border-gold bg-gold/10 px-3 py-1.5 text-xs text-gold hover:bg-gold/20">写下</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Publish 弹层 */}
+      {publishing && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/80 p-4">
+          <div className="w-full max-w-md rounded border border-celestial/50 bg-ink-800 p-6 shadow-2xl">
+            <h3 className="font-display text-xl text-bone-50">📢 发布作品</h3>
+            <p className="mt-1 text-xs text-bone-400">关联到你的公众号文章 / 开源项目 / 推文（+100 XP）</p>
+            <input
+              value={pubRef.title}
+              onChange={e => setPubRef({ ...pubRef, title: e.target.value })}
+              placeholder="作品标题（必填）"
+              className="mt-3 w-full rounded border border-ink-700 bg-ink-900 p-2 text-sm text-bone-50 focus:border-celestial/50 focus:outline-none"
+            />
+            <input
+              value={pubRef.ref}
+              onChange={e => setPubRef({ ...pubRef, ref: e.target.value })}
+              placeholder="URL（可选）"
+              className="mt-2 w-full rounded border border-ink-700 bg-ink-900 p-2 text-sm text-bone-50 focus:border-celestial/50 focus:outline-none"
+            />
+            <div className="mt-4 flex justify-end gap-2">
+              <button onClick={() => setPublishing(false)} className="px-3 py-1.5 text-xs text-bone-400 hover:text-bone-50">取消</button>
+              <button onClick={submitPublish} className="rounded border border-celestial bg-celestial/10 px-3 py-1.5 text-xs text-celestial hover:bg-celestial/20">点亮星图 ✦</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {state && (
+        <div className="num fixed right-4 top-4 z-50 rounded border border-gold bg-ink-800 px-3 py-2 text-xs text-gold shadow-xl">
+          +{state.xp} XP
+        </div>
+      )}
+    </div>
+  );
+}

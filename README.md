@@ -68,3 +68,10 @@ Next.js 15 · TypeScript · Tailwind · shadcn/ui · motion · howler · Supabas
 ## 许可
 
 MIT
+
+## 环境变量注意
+
+`.env` 文件**必须放在 `apps/web/.env`**（Next.js 只会读这里的）。
+仓库根的 `.env` 是给 `scripts/` 下的脚本用的（它们用 `dotenv/config`）。
+
+两个文件要保持一致。建议加个 npm script 自动同步（未来改进）。

@@ -3,11 +3,10 @@ packages:
   - 'packages/*'
 
 allowBuilds:
-  esbuild: set this to true or false
-  sharp: set this to true or false
-  unrs-resolver: set this to true or false
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
 
-# pnpm 11+ 替代 package.json 的 pnpm 字段
 confirmModulesPurge: false
 onlyBuiltDependencies:
   - esbuild
