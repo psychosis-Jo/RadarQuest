@@ -1,3 +1,4 @@
+import 'dotenv/config';
 // 计算 5 个标签的分数
 import { createClient } from '@supabase/supabase-js';
 import { trendingScore, spikeScore, riseScore, densityScore, crossScore } from '@radar-quest/shared';

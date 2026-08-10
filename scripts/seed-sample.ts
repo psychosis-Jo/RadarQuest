@@ -1,3 +1,4 @@
+import 'dotenv/config';
 // 给新用户预置 3 天的示例数据
 // 完整实现在 Phase 9
 import { createClient } from '@supabase/supabase-js';
