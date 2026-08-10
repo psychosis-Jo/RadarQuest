@@ -24,6 +24,7 @@ export async function POST(req: Request) {
       description: q.description ?? null,
       related_topic: q.related_topic || null,
       related_item_id: q.related_item_id || null,
+      action_type: q.action_type || null,
       target_count: 1,
       status: 'active'
     }));

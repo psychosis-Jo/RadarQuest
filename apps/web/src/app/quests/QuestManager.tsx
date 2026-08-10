@@ -19,6 +19,7 @@ interface Quest {
   description: string;
   related_topic: string;
   related_item_id: string;
+  action_type: string | null;
   status: string;
 }
 
@@ -106,7 +107,8 @@ export function QuestManager({ initialQuests, candidates }: { initialQuests: Que
             title: it.title,
             description: `${ACTION_HINT[hints[i]].zh}这条`,
             related_topic: it.topics[0] ?? '',
-            related_item_id: it.id
+            related_item_id: it.id,
+            action_type: hints[i]
           }))
         })
       });
@@ -123,14 +125,23 @@ export function QuestManager({ initialQuests, candidates }: { initialQuests: Que
   }
 
   async function complete(quest: Quest) {
-    if (!confirm(`标记「${quest.title.slice(0, 30)}...」为完成？`)) return;
+    if (!confirm(`标记「${quest.title.slice(0, 30)}...」为完成？${quest.action_type ? `\n这会记录一次「${ACTION_HINT[quest.action_type]?.zh ?? quest.action_type}」并点亮 XP` : ''}`)) return;
     const res = await fetch(`/api/quests/${quest.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status: 'completed' })
     });
     if (res.ok) {
+      const data = await res.json();
       setQuests(quests.map(q => q.id === quest.id ? { ...q, status: 'completed' } : q));
+      // 提示用户：实际记的 action 情况
+      if (data.actionResult) {
+        if (data.actionResult.alreadyDone) {
+          alert('✓ 任务完成（这个动作之前已经记过，XP 不重复加）');
+        } else if (data.actionResult.xp > 0) {
+          alert(`✓ 任务完成 +${data.actionResult.xp} XP`);
+        }
+      }
       router.refresh();
     } else {
       alert('更新失败');
@@ -166,6 +177,7 @@ export function QuestManager({ initialQuests, candidates }: { initialQuests: Que
           {quests.map((q, i) => {
             const item = candidates.find(c => c.id === q.related_item_id);
             const topic = TOPIC_LABELS[q.related_topic];
+            const hint = q.action_type ? ACTION_HINT[q.action_type] : null;
             const isDone = q.status === 'completed';
             return (
               <div
@@ -185,6 +197,11 @@ export function QuestManager({ initialQuests, candidates }: { initialQuests: Que
                   {q.title}
                 </p>
                 <p className="mt-2 text-xs text-bone-400">{q.description}</p>
+                {hint && (
+                  <p className="num mt-2 text-[10px] text-gold">
+                    {hint.emoji} +{hint.xp} XP
+                  </p>
+                )}
                 {item && (
                   <div className="mt-3 space-y-1.5 text-[10px] text-bone-400">
                     <p>来源: {item.source}</p>
