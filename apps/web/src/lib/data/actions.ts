@@ -141,3 +141,30 @@ async function incrementBosses(itemTopics: string[]) {
     await supabase.from('settings').update({ bosses, updated_at: new Date().toISOString() }).eq('id', 1);
   }
 }
+
+/**
+ * 批量拿多个 item 的动作状态 + 累计 XP
+ * 用于星云视图一次性知道每颗星"亮到什么程度"
+ */
+export async function getItemStatsMap(itemIds: string[]): Promise<Record<string, { actions: ActionType[]; totalXp: number }>> {
+  if (itemIds.length === 0) return {};
+  const supabase = getSupabase();
+  const { data } = await supabase
+    .from('actions')
+    .select('item_id, action_type, xp_earned')
+    .in('item_id', itemIds);
+  const map: Record<string, { actions: ActionType[]; totalXp: number }> = {};
+  for (const id of itemIds) map[id] = { actions: [], totalXp: 0 };
+  if (data) {
+    for (const row of data as { item_id: string; action_type: ActionType; xp_earned: number }[]) {
+      const entry = map[row.item_id];
+      if (entry && !entry.actions.includes(row.action_type)) {
+        entry.actions.push(row.action_type);
+      }
+      if (entry) {
+        entry.totalXp += row.xp_earned ?? 0;
+      }
+    }
+  }
+  return map;
+}

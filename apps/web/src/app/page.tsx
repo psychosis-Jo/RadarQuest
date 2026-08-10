@@ -1,31 +1,37 @@
+import { Suspense } from 'react';
 import { AppShell } from '@/components/layout/AppShell';
-import { TabNav } from '@/components/layout/TabNav';
-import { ItemList } from '@/components/item/ItemList';
-import { getItemsByTab } from '@/lib/data/items';
+import { StarCloud } from '@/components/starcloud/StarCloud';
+import { getRecentItems } from '@/lib/data/items';
+import { getItemStatsMap } from '@/lib/data/actions';
 
 // Supabase 数据按请求拉，不要静态化
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
-  const items = await getItemsByTab('trending', 30);
+  const items = await getRecentItems(120, 14);
+  const statsMap = await getItemStatsMap(items.map(it => it.id));
+
+  const lastSeen = items[0]?.last_seen_at?.slice(0, 16).replace('T', ' ');
+  const totalXp = Object.values(statsMap).reduce((s, v) => s + v.totalXp, 0);
+
   return (
-    <AppShell activeTab="trending">
+    <AppShell activeTab="">
       <div>
-        <header className="mb-5 sm:mb-6">
+        <header className="mb-6 sm:mb-8">
           <p className="num text-[10px] uppercase tracking-widest text-bone-400">
-            Trending · 今日
+            Your Sky · 你的星云
           </p>
           <h1 className="mt-1 font-display text-2xl text-bone-50 sm:text-3xl">
-            正在升起的新星
+            今晚的星
           </h1>
           <p className="num mt-1 text-xs text-bone-400">
-            共 {items.length} 条 · 按 last_seen 倒序
+            {items.length} 颗 · 累计 {totalXp} XP · 最近更新 {lastSeen ?? '—'}
           </p>
         </header>
-        <TabNav active="trending" />
-        <div className="pt-5 sm:pt-6">
-          <ItemList items={items} emptyMessage="今晚海面平静，暂无新星" />
-        </div>
+
+        <Suspense fallback={<div className="num text-xs text-bone-400">加载中…</div>}>
+          <StarCloud items={items} statsMap={statsMap} />
+        </Suspense>
       </div>
     </AppShell>
   );
