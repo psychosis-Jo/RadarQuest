@@ -10,48 +10,39 @@ const INTENSITY_LEVELS = [
   { value: 4, name: 'Hardcore',  desc: '全力冲刺 · 无宽限' }
 ];
 
+// 工具：扁平化 + 去重
+const flattenKeywords = (k: any): string[] => {
+  if (!k) return [];
+  const arr = [...(k.keywords_zh ?? []), ...(k.keywords_en ?? [])];
+  return Array.from(new Set(arr));
+};
+
 export function SettingsForm({ initial }: { initial: any }) {
   const router = useRouter();
   const [intensity, setIntensity] = useState(initial?.intensity_level ?? 2);
   const [soundMode, setSoundMode] = useState(initial?.sound_mode ?? 'publish');
   const [animationMode, setAnimationMode] = useState(initial?.animation_mode ?? 'standard');
   const [dailyCount, setDailyCount] = useState(initial?.daily_quest_count ?? 3);
-  const [keywords, setKeywords] = useState<Record<string, string[]>>(() => {
-    const k = initial?.keywords ?? {};
-    // 数据库里的 keywords 是嵌套结构 { AI: { keywords_zh, keywords_en, ... }, ... }
-    // 编辑器要扁平数组
-    return {
-      AI: k.AI ? [...(k.AI.keywords_zh ?? []), ...(k.AI.keywords_en ?? [])] : [],
-      'one-person': k['one-person'] ? [...(k['one-person'].keywords_zh ?? []), ...(k['one-person'].keywords_en ?? [])] : [],
-      'self-mgmt': k['self-mgmt'] ? [...(k['self-mgmt'].keywords_zh ?? []), ...(k['self-mgmt'].keywords_en ?? [])] : []
-    };
-  });
+  const [keywords, setKeywords] = useState<Record<string, string[]>>(() => ({
+    AI: flattenKeywords(initial?.keywords?.AI),
+    'one-person': flattenKeywords(initial?.keywords?.['one-person']),
+    'self-mgmt': flattenKeywords(initial?.keywords?.['self-mgmt'])
+  }));
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
   async function save() {
     setSaving(true);
     setSaved(false);
-    // 把扁平关键词数组转回嵌套结构（保留 keywords_zh 优先，中文优先）
+    // 把扁平关键词数组转回嵌套结构（中文优先）
+    const toNested = (arr: string[]) => ({
+      keywords_zh: arr.filter(k => /[\u4e00-\u9fa5]/.test(k)),
+      keywords_en: arr.filter(k => !/[\u4e00-\u9fa5]/.test(k))
+    });
     const nested = {
-      AI: {
-        keywords_zh: keywords.AI.filter(k => /[\u4e00-\u9fa5]/.test(k)),
-        keywords_en: keywords.AI.filter(k => !/[\u4e00-\u9fa5]/.test(k)),
-        color: '#5FE0C7', weight: 1.0,
-        label_zh: 'AI 应用', label_en: 'AI Applied'
-      },
-      'one-person': {
-        keywords_zh: keywords['one-person'].filter(k => /[\u4e00-\u9fa5]/.test(k)),
-        keywords_en: keywords['one-person'].filter(k => !/[\u4e00-\u9fa5]/.test(k)),
-        color: '#E8B86F', weight: 1.0,
-        label_zh: '一人公司', label_en: 'One-Person Business'
-      },
-      'self-mgmt': {
-        keywords_zh: keywords['self-mgmt'].filter(k => /[\u4e00-\u9fa5]/.test(k)),
-        keywords_en: keywords['self-mgmt'].filter(k => !/[\u4e00-\u9fa5]/.test(k)),
-        color: '#B8A4D4', weight: 1.0,
-        label_zh: '自我管理', label_en: 'Self-Management'
-      }
+      AI:           { ...toNested(keywords.AI),           color: '#5FE0C7', weight: 1.0, label_zh: 'AI 应用',  label_en: 'AI Applied' },
+      'one-person': { ...toNested(keywords['one-person']), color: '#E8B86F', weight: 1.0, label_zh: '一人公司', label_en: 'One-Person Business' },
+      'self-mgmt':  { ...toNested(keywords['self-mgmt']),  color: '#B8A4D4', weight: 1.0, label_zh: '自我管理', label_en: 'Self-Management' }
     };
     try {
       const res = await fetch('/api/settings', {
@@ -166,8 +157,10 @@ function Field({ label, value, options, onChange }: any) {
 function KeywordEditor({ label, color, value, onChange }: { label: string; color: string; value: string[]; onChange: (v: string[]) => void }) {
   const [input, setInput] = useState('');
   function add() {
-    if (!input.trim()) return;
-    onChange([...value, input.trim()]);
+    const trimmed = input.trim();
+    if (!trimmed) return;
+    if (value.includes(trimmed)) return; // 防止重复
+    onChange([...value, trimmed]);
     setInput('');
   }
   function remove(k: string) {
