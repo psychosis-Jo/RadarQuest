@@ -12,7 +12,9 @@ export async function POST(req: Request) {
       description: body.description || undefined,
       target: parseInt(body.target),
       deadline: body.deadline || undefined,
-      topic: body.topic || undefined
+      topic: body.topic || undefined,
+      const_id: body.const_id || undefined,
+      const_tier: body.const_tier || undefined
     });
     return NextResponse.json({ boss });
   } catch (err) {

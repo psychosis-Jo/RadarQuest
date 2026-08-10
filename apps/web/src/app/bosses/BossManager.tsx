@@ -11,6 +11,8 @@ interface Boss {
   deadline?: string;
   topic?: 'AI' | 'one-person' | 'self-mgmt' | '';
   status: 'active' | 'completed' | 'abandoned';
+  const_id?: string;
+  const_tier?: 1 | 2 | 3;
   created_at: string;
   completed_at?: string;
 }
@@ -22,7 +24,17 @@ const TOPIC_COLORS: Record<string, string> = {
   '': '#A8B0C8'
 };
 
-export function BossManager({ active, completed, abandoned }: { active: Boss[]; completed: Boss[]; abandoned: Boss[] }) {
+export function BossManager({
+  active,
+  completed,
+  abandoned,
+  usedConstellationIds = []
+}: {
+  active: Boss[];
+  completed: Boss[];
+  abandoned: Boss[];
+  usedConstellationIds?: string[];
+}) {
   const [creating, setCreating] = useState(false);
   const [editing, setEditing] = useState<Boss | null>(null);
 
@@ -42,7 +54,7 @@ export function BossManager({ active, completed, abandoned }: { active: Boss[]; 
           )}
         </div>
 
-        {creating && <div className="mb-4"><BossForm onClose={() => setCreating(false)} /></div>}
+        {creating && <div className="mb-4"><BossForm usedConstellationIds={usedConstellationIds} onClose={() => setCreating(false)} /></div>}
 
         <div className="space-y-3">
           {active.map(b => {
@@ -51,7 +63,7 @@ export function BossManager({ active, completed, abandoned }: { active: Boss[]; 
             return (
               <div key={b.id} className="hand-drawn-border rounded bg-ink-800/60 p-5">
                 {editing?.id === b.id ? (
-                  <BossForm existing={b} onClose={() => setEditing(null)} />
+                  <BossForm existing={b} usedConstellationIds={usedConstellationIds} onClose={() => setEditing(null)} />
                 ) : (
                   <>
                     <div className="flex items-baseline justify-between gap-3">

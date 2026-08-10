@@ -2,6 +2,7 @@ import 'dotenv/config';
 // 给新用户预置 3 天的示例数据
 // 完整实现在 Phase 9
 import { createClient } from '@supabase/supabase-js';
+import { pickConstellationForBoss, getConstellationById } from '../packages/shared/src/constellations';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -30,16 +31,30 @@ async function main() {
     enabled_sources: ['github', 'ph', 'hn', 'reddit', 'newsletter', 'wechat'],
     keywords,
     bosses: [
-      {
-        id: 'boss_001',
-        name: '公众号首发：开篇 1 篇 1000+ 字',
-        description: '用 Radar Quest 的输出来完成你的第一篇公众号文章',
-        target: 1,
-        current: 0,
-        deadline: '2026-12-31',
-        topic: 'one-person',
-        created_at: new Date().toISOString()
-      }
+      (() => {
+        const c = pickConstellationForBoss(1, []);
+        return c ? {
+          id: 'boss_001',
+          name: '公众号首发：开篇 1 篇 1000+ 字',
+          description: '用 Radar Quest 的输出来完成你的第一篇公众号文章',
+          target: 1,
+          current: 0,
+          deadline: '2026-12-31',
+          topic: 'one-person',
+          const_id: c.id,
+          const_tier: c.tier,
+          created_at: new Date().toISOString()
+        } : {
+          id: 'boss_001',
+          name: '公众号首发：开篇 1 篇 1000+ 字',
+          description: '用 Radar Quest 的输出来完成你的第一篇公众号文章',
+          target: 1,
+          current: 0,
+          deadline: '2026-12-31',
+          topic: 'one-person',
+          created_at: new Date().toISOString()
+        };
+      })()
     ],
     locale: 'zh'
   }, { onConflict: 'id' });

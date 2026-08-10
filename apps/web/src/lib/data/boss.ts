@@ -1,5 +1,6 @@
 import 'server-only';
 import { getSupabase } from './supabase';
+import type { ConstellationTier } from '@radar-quest/shared';
 
 export interface Boss {
   id: string;
@@ -10,6 +11,9 @@ export interface Boss {
   deadline?: string;
   topic?: 'AI' | 'one-person' | 'self-mgmt' | '';
   status: 'active' | 'completed' | 'abandoned';
+  // IAU 88 星座映射：每个 Boss = 一颗真实星座
+  const_id?: string;
+  const_tier?: ConstellationTier;
   created_at: string;
   completed_at?: string;
 }
@@ -38,7 +42,17 @@ export async function getAllBosses(): Promise<Boss[]> {
   return getBossesFromSettings();
 }
 
-export async function createBoss(input: Omit<Boss, 'id' | 'current' | 'status' | 'created_at' | 'completed_at'>): Promise<Boss> {
+/** 当前所有 Boss 已用的星座 ID（用于新建 Boss 时避免重复） */
+export async function getUsedConstellationIds(): Promise<string[]> {
+  const all = await getAllBosses();
+  return all
+    .filter(b => b.status === 'active' && b.const_id)
+    .map(b => b.const_id as string);
+}
+
+export async function createBoss(
+  input: Omit<Boss, 'id' | 'current' | 'status' | 'created_at' | 'completed_at'>
+): Promise<Boss> {
   const all = await getBossesFromSettings();
   const boss: Boss = {
     ...input,
@@ -56,7 +70,6 @@ export async function updateBoss(id: string, patch: Partial<Boss>): Promise<Boss
   const idx = all.findIndex(b => b.id === id);
   if (idx === -1) throw new Error('Boss not found');
   const updated = { ...all[idx], ...patch };
-  // 自动判断 status
   if (updated.current >= updated.target && updated.status === 'active') {
     updated.status = 'completed';
     updated.completed_at = updated.completed_at ?? new Date().toISOString();

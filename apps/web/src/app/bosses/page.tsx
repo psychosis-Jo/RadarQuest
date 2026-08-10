@@ -1,11 +1,11 @@
 import { AppShell } from '@/components/layout/AppShell';
 import { BossForm } from '@/components/boss/BossForm';
 import { BossManager } from './BossManager';
-import { getAllBosses } from '@/lib/data/boss';
+import { getAllBosses, getUsedConstellationIds } from '@/lib/data/boss';
 import { getUserStats } from '@/lib/data/stats';
 
 export default async function BossesPage() {
-  const [bosses, stats] = await Promise.all([getAllBosses(), getUserStats()]);
+  const [bosses, stats, usedConstellationIds] = await Promise.all([getAllBosses(), getUserStats(), getUsedConstellationIds()]);
   const active = bosses.filter(b => b.status === 'active');
   const completed = bosses.filter(b => b.status === 'completed');
   const abandoned = bosses.filter(b => b.status === 'abandoned');
@@ -31,7 +31,7 @@ export default async function BossesPage() {
         </p>
       </div>
 
-      <BossManager active={active} completed={completed} abandoned={abandoned} />
+      <BossManager active={active} completed={completed} abandoned={abandoned} usedConstellationIds={usedConstellationIds} />
     </AppShell>
   );
 }

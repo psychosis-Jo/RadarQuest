@@ -1,7 +1,9 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { pickConstellationForBoss, getConstellationById } from '@radar-quest/shared';
 import { DeadlinePicker } from './DeadlinePicker';
+import { ConstellationPicker } from './ConstellationPicker';
 
 const TOPICS = [
   { value: '',        label: '不绑定',  color: '#A8B0C8' },
@@ -19,9 +21,19 @@ interface Boss {
   deadline?: string;
   topic?: 'AI' | 'one-person' | 'self-mgmt' | '';
   status: 'active' | 'completed' | 'abandoned';
+  const_id?: string;
+  const_tier?: 1 | 2 | 3;
 }
 
-export function BossForm({ existing, onClose }: { existing?: Boss; onClose: () => void }) {
+export function BossForm({
+  existing,
+  usedConstellationIds = [],
+  onClose
+}: {
+  existing?: Boss;
+  usedConstellationIds?: string[];
+  onClose: () => void;
+}) {
   const router = useRouter();
   const [name, setName] = useState(existing?.name ?? '');
   const [description, setDescription] = useState(existing?.description ?? '');
@@ -30,16 +42,55 @@ export function BossForm({ existing, onClose }: { existing?: Boss; onClose: () =
   const [topic, setTopic] = useState(existing?.topic ?? '');
   const [saving, setSaving] = useState(false);
 
+  // 星座分配：编辑模式保留 existing；创建模式按 target 自动挑
+  const [constId, setConstId] = useState<string | undefined>(existing?.const_id);
+  const [skipped, setSkipped] = useState<Set<string>>(new Set());
+
+  // 创建模式初次 mount：基于 target 挑一个
+  useEffect(() => {
+    if (existing) return;
+    const picked = pickConstellationForBoss(target, usedConstellationIds);
+    if (picked) setConstId(picked.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // 创建模式下，target 变化时重新挑（除非用户已经手动 swap 过）
+  useEffect(() => {
+    if (existing) return;
+    if (skipped.size > 0) return; // 用户换过，别覆盖
+    const picked = pickConstellationForBoss(target, usedConstellationIds);
+    if (picked) setConstId(picked.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [target]);
+
+  function swap() {
+    if (!constId) return;
+    const next = pickConstellationForBoss(target, [
+      ...usedConstellationIds,
+      constId,
+      ...Array.from(skipped)
+    ]);
+    if (next) {
+      setSkipped(prev => new Set([...prev, constId]));
+      setConstId(next.id);
+    } else {
+      alert('当前 tier 和相邻 tier 都没可换的了');
+    }
+  }
+
   async function save() {
     if (!name.trim()) { alert('给 Boss 起个名字'); return; }
     if (target < 1) { alert('目标数至少 1'); return; }
     setSaving(true);
+    const pickedConst = constId ? getConstTier(constId) : undefined;
     const payload = {
       name: name.trim(),
       description: description.trim() || undefined,
       target: parseInt(String(target)),
       deadline: deadline || undefined,
-      topic: topic || undefined
+      topic: topic || undefined,
+      const_id: constId,
+      const_tier: pickedConst
     };
     const url = existing ? `/api/bosses/${existing.id}` : '/api/bosses';
     const method = existing ? 'PATCH' : 'POST';
@@ -108,6 +159,17 @@ export function BossForm({ existing, onClose }: { existing?: Boss; onClose: () =
           />
         </Field>
 
+        {constId && (
+          <Field label="星座模板（自动配，可换）">
+            <ConstellationPicker
+              constId={constId}
+              target={target}
+              current={existing?.current ?? 0}
+              onSwap={swap}
+            />
+          </Field>
+        )}
+
         <DeadlinePicker value={deadline} onChange={setDeadline} />
 
         <Field label="绑定主题（选填）">
@@ -171,4 +233,9 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
       <div className="mt-1.5">{children}</div>
     </div>
   );
+}
+
+// 取 constId 对应的 tier
+function getConstTier(id: string): 1 | 2 | 3 | undefined {
+  return getConstellationById(id)?.tier;
 }
