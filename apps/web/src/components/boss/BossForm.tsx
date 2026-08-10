@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { DeadlinePicker } from './DeadlinePicker';
 
 const TOPICS = [
   { value: '',        label: '不绑定',  color: '#A8B0C8' },
@@ -77,13 +78,13 @@ export function BossForm({ existing, onClose }: { existing?: Boss; onClose: () =
         每个 Publish 自动 +1 击破。比如"公众号连载 50 篇"或"100 个 AI 作品"
       </p>
 
-      <div className="mt-5 space-y-4">
+      <div className="mt-5 space-y-5">
         <Field label="名字">
           <input
             value={name}
             onChange={e => setName(e.target.value)}
             placeholder="例：公众号连载 50 篇"
-            className="w-full rounded border border-ink-700 bg-ink-900 px-3 py-2 text-sm text-bone-50 focus:border-gold/50 focus:outline-none"
+            className="w-full rounded border border-ink-700 bg-ink-900 px-3 py-2 text-sm text-bone-50 placeholder:text-bone-400 focus:border-gold/50 focus:outline-none"
           />
         </Field>
 
@@ -93,41 +94,34 @@ export function BossForm({ existing, onClose }: { existing?: Boss; onClose: () =
             onChange={e => setDescription(e.target.value)}
             placeholder="给自己的一句话提醒"
             rows={2}
-            className="w-full rounded border border-ink-700 bg-ink-900 px-3 py-2 text-sm text-bone-50 focus:border-gold/50 focus:outline-none"
+            className="w-full rounded border border-ink-700 bg-ink-900 px-3 py-2 text-sm text-bone-50 placeholder:text-bone-400 focus:border-gold/50 focus:outline-none"
           />
         </Field>
 
-        <div className="grid grid-cols-2 gap-3">
-          <Field label="目标数（Publish 次数）">
-            <input
-              type="number"
-              value={target}
-              onChange={e => setTarget(parseInt(e.target.value) || 0)}
-              min={1}
-              className="num w-full rounded border border-ink-700 bg-ink-900 px-3 py-2 text-sm text-bone-50 focus:border-gold/50 focus:outline-none"
-            />
-          </Field>
-          <Field label="截止日期（选填）">
-            <input
-              type="date"
-              value={deadline}
-              onChange={e => setDeadline(e.target.value)}
-              className="num w-full rounded border border-ink-700 bg-ink-900 px-3 py-2 text-sm text-bone-50 focus:border-gold/50 focus:outline-none"
-            />
-          </Field>
-        </div>
+        <Field label="目标数（Publish 次数）">
+          <input
+            type="number"
+            value={target}
+            onChange={e => setTarget(parseInt(e.target.value) || 0)}
+            min={1}
+            className="num w-full rounded border border-ink-700 bg-ink-900 px-3 py-2 text-sm text-bone-50 focus:border-gold/50 focus:outline-none"
+          />
+        </Field>
+
+        <DeadlinePicker value={deadline} onChange={setDeadline} />
 
         <Field label="绑定主题（选填）">
           <div className="flex flex-wrap gap-2">
             {TOPICS.map(t => (
               <button
                 key={t.value}
+                type="button"
                 onClick={() => setTopic(t.value as any)}
                 className={`rounded border px-3 py-1 text-xs transition-all
                   ${topic === t.value
                     ? 'border-gold bg-gold/10 text-gold shadow-glow'
                     : 'border-ink-700 text-bone-200 hover:border-ink-600'}`}
-                style={topic === t.value ? { borderColor: t.color, color: t.color } : {}}
+                style={topic === t.value ? { borderColor: t.color, color: t.color, background: `${t.color}10` } : {}}
               >
                 {t.label}
               </button>
@@ -140,6 +134,7 @@ export function BossForm({ existing, onClose }: { existing?: Boss; onClose: () =
         <div>
           {existing && (
             <button
+              type="button"
               onClick={del}
               className="text-xs text-warning hover:text-warning/70"
             >
@@ -149,12 +144,14 @@ export function BossForm({ existing, onClose }: { existing?: Boss; onClose: () =
         </div>
         <div className="flex gap-2">
           <button
+            type="button"
             onClick={onClose}
             className="rounded border border-ink-700 px-4 py-2 text-sm text-bone-200 hover:border-ink-600"
           >
             取消
           </button>
           <button
+            type="button"
             onClick={save}
             disabled={saving}
             className="rounded border border-gold bg-gold/10 px-4 py-2 text-sm text-gold hover:bg-gold/20 disabled:opacity-50"
