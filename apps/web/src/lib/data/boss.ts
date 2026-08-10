@@ -35,7 +35,8 @@ async function saveBossesToSettings(bosses: Boss[]) {
 
 export async function getActiveBosses(): Promise<Boss[]> {
   const all = await getBossesFromSettings();
-  return all.filter(b => b.status === 'active');
+  // 缺 status 视为 active（兼容历史脏数据）
+  return all.filter(b => !b.status || b.status === 'active');
 }
 
 export async function getAllBosses(): Promise<Boss[]> {

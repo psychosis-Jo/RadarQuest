@@ -9,7 +9,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function BossesPage() {
   const [bosses, stats, usedConstellationIds] = await Promise.all([getAllBosses(), getUserStats(), getUsedConstellationIds()]);
-  const active = bosses.filter(b => b.status === 'active');
+  // 缺 status 视为 active（兼容历史脏数据 / seed 没写 status 的情况）
+  const isActive = (b: any) => !b.status || b.status === 'active';
+  const active = bosses.filter(isActive);
   const completed = bosses.filter(b => b.status === 'completed');
   const abandoned = bosses.filter(b => b.status === 'abandoned');
 

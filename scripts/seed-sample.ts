@@ -23,6 +23,7 @@ function makeSampleBoss() {
     current: 0,
     deadline: '2026-12-31',
     topic: 'one-person',
+    status: 'active' as const,
     created_at: new Date().toISOString()
   } as any;
   if (c) {
