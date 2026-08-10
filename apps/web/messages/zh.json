@@ -1,0 +1,31 @@
+{
+  "app": {
+    "name": "Radar Quest",
+    "tagline": "把「看到热点」变成「产出一个作品」"
+  },
+  "tabs": {
+    "trending": "Trending 榜",
+    "spike": "短时间爆发",
+    "rise": "持续上升",
+    "density": "讨论密度",
+    "cross": "跨平台提及"
+  },
+  "actions": {
+    "watch": "看",
+    "save": "收",
+    "note": "写",
+    "build": "做",
+    "publish": "发"
+  },
+  "home": {
+    "today_quests": "今日任务",
+    "skill_trees": "技能树",
+    "active_bosses": "活跃 Boss",
+    "your_sky": "你的星图"
+  },
+  "empty": {
+    "no_items": "夜色帆船：今晚海面平静，暂无新星",
+    "no_notes": "空卷轴：等你落下第一笔墨",
+    "no_publish": "未完成的星座：你还一颗星都没有点亮"
+  }
+}

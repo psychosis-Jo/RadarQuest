@@ -1,0 +1,25 @@
+{
+  "name": "radar-quest",
+  "version": "0.1.0",
+  "private": true,
+  "description": "把'看到热点'变成'产出一个作品'。一个面向内容创作者和独立开发者的个人技术雷达。",
+  "scripts": {
+    "dev": "pnpm --filter @radar-quest/web dev",
+    "build": "pnpm --filter @radar-quest/web build",
+    "start": "pnpm --filter @radar-quest/web start",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "fetch": "tsx scripts/fetch.ts",
+    "compute-tags": "tsx scripts/compute-tags.ts",
+    "seed": "tsx scripts/seed-sample.ts",
+    "export": "tsx scripts/export.ts"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
+  }
+}

@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #0F1424;
+    --foreground: #F4E9D8;
+    --surface: #1A2138;
+    --border: #2A3149;
+    --gold: #D4A574;
+    --celestial: #5FE0C7;
+    --amber: #E8B86F;
+    --mist: #B8A4D4;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Fraunces', serif;
+    font-optical-sizing: auto;
+    font-variation-settings: 'SOFT' 50;
+    letter-spacing: -0.01em;
+  }
+
+  .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 极淡星点背景层（可由 ambient 开关控制） */
+  .starfield::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, #F4E9D8 50%, transparent 100%),
+      radial-gradient(1px 1px at 70% 60%, #F4E9D8 50%, transparent 100%),
+      radial-gradient(1px 1px at 40% 80%, #F4E9D8 50%, transparent 100%),
+      radial-gradient(1px 1px at 90% 20%, #F4E9D8 50%, transparent 100%),
+      radial-gradient(1px 1px at 10% 70%, #F4E9D8 50%, transparent 100%);
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: -1;
+  }
+}
+
+@layer components {
+  /* 手绘风卡片边框 */
+  .hand-drawn-border {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    position: relative;
+  }
+  .hand-drawn-border::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 200ms ease;
+    pointer-events: none;
+  }
+  .hand-drawn-border:hover::after {
+    opacity: 0.3;
+  }
+
+  /* XP 数字动效 */
+  .xp-pop {
+    animation: xp-rise 400ms ease-out;
+  }
+}
+
+/* 减弱动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

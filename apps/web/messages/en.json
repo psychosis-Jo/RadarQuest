@@ -1,0 +1,31 @@
+{
+  "app": {
+    "name": "Radar Quest",
+    "tagline": "Turn \"saw a trend\" into \"shipped a work\""
+  },
+  "tabs": {
+    "trending": "Trending",
+    "spike": "Sudden Spike",
+    "rise": "Steady Rise",
+    "density": "Discussion Density",
+    "cross": "Cross-Platform"
+  },
+  "actions": {
+    "watch": "Watch",
+    "save": "Save",
+    "note": "Note",
+    "build": "Build",
+    "publish": "Publish"
+  },
+  "home": {
+    "today_quests": "Today's Quests",
+    "skill_trees": "Skill Trees",
+    "active_bosses": "Active Bosses",
+    "your_sky": "Your Sky"
+  },
+  "empty": {
+    "no_items": "Quiet night: no new stars yet",
+    "no_notes": "Empty scroll: waiting for your first ink",
+    "no_publish": "Unfinished constellation: not a single star lit yet"
+  }
+}

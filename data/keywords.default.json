@@ -1,0 +1,59 @@
+{
+  "AI": {
+    "label_zh": "AI 应用",
+    "label_en": "AI Applied",
+    "color": "#5FE0C7",
+    "weight": 1.0,
+    "keywords_zh": [
+      "AI Agent", "AI 应用", "AI 提效", "AI 工作流",
+      "LLM 应用", "大模型应用", "AI 副业", "AI 编程", "AI 工具",
+      "MCP", "提示词", "提示工程", "RAG", "智能体",
+      "向量数据库", "Agent 框架", "Vibe Coding", "AI 创业"
+    ],
+    "keywords_en": [
+      "AI agent", "agentic", "LLM application", "RAG", "vector search",
+      "vector database", "AI wrapper", "AI workflow", "AI automation",
+      "AI productivity", "vibe coding", "prompt engineering", "MCP",
+      "Model Context Protocol", "agent framework", "AI coding assistant",
+      "WaytoAGI", "DataWhale"
+    ]
+  },
+  "one-person": {
+    "label_zh": "一人公司",
+    "label_en": "One-Person Business",
+    "color": "#E8B86F",
+    "weight": 1.0,
+    "keywords_zh": [
+      "一人公司", "独立开发者", "独立创业", "独立产品", "独立 SaaS",
+      "微 SaaS", "微型 SaaS", "超级个体", "超级个体户",
+      "数字游民", "自由职业", "副业", "个体创业", "极简创业",
+      "自雇", "单兵作战", "远程工作", "远程协作", "创作者经济"
+    ],
+    "keywords_en": [
+      "solopreneur", "one-person business", "indie hacker", "indie maker",
+      "bootstrapped", "bootstrapping", "micro-SaaS", "lifestyle business",
+      "ramen profitable", "1k MRR", "10k MRR", "small bets", "parallel bets",
+      "solo founder", "creator economy", "indie SaaS", "no employees"
+    ]
+  },
+  "self-mgmt": {
+    "label_zh": "自我管理",
+    "label_en": "Self-Management",
+    "color": "#B8A4D4",
+    "weight": 1.0,
+    "keywords_zh": [
+      "自我管理", "自我提效", "自我提升", "个人知识管理", "第二大脑",
+      "笔记系统", "复盘", "晨间日记", "周复盘", "精力管理", "时间管理",
+      "习惯养成", "个人操作系统", "人生 OS", "工作流", "自动化",
+      "任务管理", "待办", "GTD", "番茄工作法", "Notion 系统",
+      "Obsidian 系统", "知识管理"
+    ],
+    "keywords_en": [
+      "personal knowledge management", "PKM", "second brain", "Zettelkasten",
+      "PARA method", "GTD", "deep work", "weekly review", "inbox zero",
+      "life OS", "personal OS", "task management", "time blocking",
+      "habit tracking", "bullet journal", "workflow automation",
+      "personal CRM", "Notion", "Obsidian", "Roam Research", "Logseq", "Tana"
+    ]
+  }
+}
