@@ -79,7 +79,7 @@ export function ActionBar({ itemId, done }: { itemId: string; done: string[] }) 
   }
 
   return (
-    <div className="mt-3 flex items-center gap-1">
+    <div className="flex flex-wrap items-center gap-1">
       {ACTIONS.map(a => {
         const isDone = done.includes(a.type);
         return (
@@ -87,12 +87,13 @@ export function ActionBar({ itemId, done }: { itemId: string; done: string[] }) 
             key={a.type}
             onClick={() => handleClick(a.type)}
             disabled={isPending || isDone}
-            className={`group flex items-center gap-1 rounded border px-2 py-1 text-xs transition-all
-              ${isDone
-                ? 'border-celestial/50 bg-celestial/10 text-celestial'
-                : 'border-ink-700 bg-ink-800 text-bone-200 hover:border-gold/50 hover:bg-ink-700'}
-              disabled:opacity-50`}
+            className={`group flex items-center gap-1 rounded border px-2 py-1 text-xs transition-colors ${
+              isDone
+                ? 'border-gold/40 bg-gold/10 text-gold'
+                : 'border-ink-700 bg-ink-800/40 text-bone-200 hover:border-ink-600 hover:bg-ink-800 hover:text-bone-50'
+            } disabled:opacity-50`}
             title={`${a.label}（+${a.xp} XP）`}
+            aria-label={`${a.label} ${a.label}（+${a.xp} XP）`}
           >
             <span>{a.emoji}</span>
             <span className="hidden sm:inline">{a.label}</span>
@@ -148,7 +149,7 @@ export function ActionBar({ itemId, done }: { itemId: string; done: string[] }) 
       )}
 
       {state && (
-        <div className="num fixed right-4 top-4 z-50 rounded border border-gold bg-ink-800 px-3 py-2 text-xs text-gold shadow-xl">
+        <div className="num fixed right-4 top-16 z-50 rounded border border-gold bg-ink-800 px-3 py-2 text-xs text-gold shadow-xl sm:top-20">
           {state.hint ?? `+${state.xp} XP`}
         </div>
       )}

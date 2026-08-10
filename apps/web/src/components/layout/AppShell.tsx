@@ -13,9 +13,9 @@ export function AppShell({
   return (
     <>
       <Header />
-      <div className="mx-auto max-w-7xl px-6 py-6">
-        <div className={`grid gap-6 ${showSidebar ? 'lg:grid-cols-[1fr_280px]' : ''}`}>
-          <main>{children}</main>
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8">
+        <div className={showSidebar ? 'grid gap-6 lg:grid-cols-[1fr_280px] lg:gap-8' : ''}>
+          <main className="min-w-0">{children}</main>
           {showSidebar && (
             <div className="hidden lg:block">
               <Sidebar />

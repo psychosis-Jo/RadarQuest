@@ -11,14 +11,19 @@ export default async function HomePage() {
   return (
     <AppShell activeTab="trending">
       <div>
-        <header className="mb-6">
-          <h1 className="font-display text-3xl text-bone-50">Trending 榜</h1>
-          <p className="mt-1 text-sm text-bone-400">
-            今天在榜单上的项目 · 共 {items.length} 条
+        <header className="mb-5 sm:mb-6">
+          <p className="num text-[10px] uppercase tracking-widest text-bone-400">
+            Trending · 今日
+          </p>
+          <h1 className="mt-1 font-display text-2xl text-bone-50 sm:text-3xl">
+            正在升起的新星
+          </h1>
+          <p className="num mt-1 text-xs text-bone-400">
+            共 {items.length} 条 · 按 last_seen 倒序
           </p>
         </header>
         <TabNav active="trending" />
-        <div className="pt-6">
+        <div className="pt-5 sm:pt-6">
           <ItemList items={items} emptyMessage="今晚海面平静，暂无新星" />
         </div>
       </div>

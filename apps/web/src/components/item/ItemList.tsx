@@ -6,8 +6,11 @@ import { getItemActionMap } from '@/lib/data/actions';
 export async function ItemList({ items, emptyMessage }: { items: Item[]; emptyMessage: string }) {
   if (items.length === 0) {
     return (
-      <div className="rounded border border-dashed border-ink-700 bg-ink-800/30 p-12 text-center">
-        <p className="font-display text-lg text-bone-400">{emptyMessage}</p>
+      <div className="rounded border border-dashed border-ink-700 bg-ink-800/20 p-10 text-center sm:p-16">
+        <p className="font-display text-lg text-bone-400 sm:text-xl">{emptyMessage}</p>
+        <p className="num mt-2 text-[10px] uppercase tracking-widest text-bone-400">
+          Tab 会在数据充足后自动出现
+        </p>
       </div>
     );
   }
@@ -16,7 +19,7 @@ export async function ItemList({ items, emptyMessage }: { items: Item[]; emptyMe
   const actionMap = await getItemActionMap(items.map(it => it.id));
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {items.map(it => (
         <ItemCard key={it.id} item={it} done={actionMap[it.id] ?? []} />
       ))}

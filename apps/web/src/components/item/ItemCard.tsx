@@ -3,13 +3,13 @@ import type { ActionType } from '@radar-quest/shared';
 import { TOPIC_COLORS } from '@radar-quest/shared';
 import { ActionBar } from './ActionBar';
 
-const SOURCE_LABEL: Record<string, { label: string; color: string }> = {
-  github:     { label: 'GitHub',     color: 'text-bone-200' },
-  ph:         { label: 'ProductHunt', color: 'text-flame' },
-  hn:         { label: 'Hacker News', color: 'text-flame' },
-  reddit:     { label: 'Reddit',     color: 'text-flame' },
-  wechat:     { label: '公众号',     color: 'text-celestial' },
-  newsletter: { label: 'Newsletter', color: 'text-amber' }
+const SOURCE_LABEL: Record<string, { label: string }> = {
+  github:     { label: 'GitHub' },
+  ph:         { label: 'Product Hunt' },
+  hn:         { label: 'Hacker News' },
+  reddit:     { label: 'Reddit' },
+  wechat:     { label: '公众号' },
+  newsletter: { label: 'Newsletter' }
 };
 
 const TOPIC_LABELS_ZH: Record<string, string> = {
@@ -19,62 +19,86 @@ const TOPIC_LABELS_ZH: Record<string, string> = {
 };
 
 export function ItemCard({ item, done }: { item: Item; done: ActionType[] }) {
-  const src = SOURCE_LABEL[item.source] ?? { label: item.source, color: 'text-bone-200' };
+  const src = SOURCE_LABEL[item.source] ?? { label: item.source };
   const stars = (item.metrics as any)?.stars;
   const score = (item.metrics as any)?.score;
   const comments = (item.metrics as any)?.comments;
   const metric = stars ? `★ ${stars.toLocaleString()}` : score ? `▲ ${score}` : '';
-  const doneTypes = done;
+
+  // 找到第一个 topic（用于左边一条极淡的指示条）
+  const leadTopic = item.topics[0];
+  const leadColor = leadTopic ? (TOPIC_COLORS as Record<string, string>)[leadTopic] : null;
 
   return (
-    <article className="hand-drawn-border group rounded bg-ink-800/60 p-5 transition-all hover:bg-ink-800 hover:shadow-glow">
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0 flex-1">
-          <a
-            href={item.url}
-            target="_blank"
-            rel="noreferrer"
-            className="font-display text-lg leading-snug text-bone-50 hover:text-gold"
-          >
-            {item.title}
-          </a>
-          {item.summary && (
-            <p className="mt-1 line-clamp-2 text-sm text-bone-200">
-              {item.summary}
-            </p>
-          )}
-        </div>
-        <div className="shrink-0 text-right">
-          <p className={`num text-xs ${src.color}`}>{src.label}</p>
-          {metric && <p className="num mt-1 text-xs text-bone-400">{metric}</p>}
-          {comments ? <p className="num text-[10px] text-bone-400">💬 {comments}</p> : null}
-        </div>
-      </div>
-
-      {/* 主题标签 */}
-      {item.topics.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {item.topics.map(t => (
-            <span
-              key={t}
-              className="num rounded border px-2 py-0.5 text-[10px] uppercase tracking-wider"
-              style={{
-                borderColor: (TOPIC_COLORS as Record<string, string>)[t] + '60',
-                color: (TOPIC_COLORS as Record<string, string>)[t]
-              }}
-            >
-              {TOPIC_LABELS_ZH[t] ?? t}
-            </span>
-          ))}
-          {item.matched_keywords.slice(0, 3).map(kw => (
-            <span key={kw} className="num rounded bg-ink-700 px-2 py-0.5 text-[10px] text-bone-400">
-              {kw}
-            </span>
-          ))}
-        </div>
+    <article className="hand-drawn-border group relative flex gap-4 rounded p-5 transition-colors hover:bg-ink-800/80 sm:p-6">
+      {/* Topic 指示条（极细，左侧） */}
+      {leadColor && (
+        <span
+          aria-hidden
+          className="absolute left-0 top-5 bottom-5 w-px sm:top-6 sm:bottom-6"
+          style={{ background: leadColor, opacity: 0.4 }}
+        />
       )}
 
-      <ActionBar itemId={item.id} done={doneTypes} />
+      <div className="min-w-0 flex-1">
+        {/* Meta: source + metric */}
+        <div className="num flex items-center gap-3 text-[10px] uppercase tracking-widest text-bone-400">
+          <span>{src.label}</span>
+          {metric && <span className="text-bone-200">{metric}</span>}
+          {comments ? <span>💬 {comments}</span> : null}
+        </div>
+
+        {/* 标题 */}
+        <a
+          href={item.url}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-2 block font-display text-lg leading-snug text-bone-50 transition-colors hover:text-gold sm:text-xl"
+        >
+          {item.title}
+        </a>
+
+        {/* 摘要 */}
+        {item.summary && (
+          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-bone-200">
+            {item.summary}
+          </p>
+        )}
+
+        {/* Topic 标签 + 关键词 */}
+        {item.topics.length > 0 && (
+          <div className="mt-3 flex flex-wrap items-center gap-1.5">
+            {item.topics.map(t => {
+              const color = (TOPIC_COLORS as Record<string, string>)[t];
+              return (
+                <span
+                  key={t}
+                  className="rounded border px-2 py-0.5 text-[10px] uppercase tracking-wider"
+                  style={{
+                    borderColor: color ? color + '50' : 'var(--ink-700)',
+                    color: color ?? 'var(--bone-200)'
+                  }}
+                >
+                  {TOPIC_LABELS_ZH[t] ?? t}
+                </span>
+              );
+            })}
+            {item.matched_keywords.slice(0, 3).map(kw => (
+              <span
+                key={kw}
+                className="rounded bg-ink-700/60 px-2 py-0.5 text-[10px] text-bone-400"
+              >
+                {kw}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* 5 动作 */}
+        <div className="mt-4">
+          <ActionBar itemId={item.id} done={done} />
+        </div>
+      </div>
     </article>
   );
 }

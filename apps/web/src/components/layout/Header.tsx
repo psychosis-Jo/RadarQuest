@@ -6,42 +6,86 @@ import { CompassRose } from '../hand-drawn/Divider';
 export async function Header() {
   const stats = await getUserStats();
   const bosses = await getActiveBosses();
-  const bossText = bosses.length === 0 ? '无活跃' : bosses.length === 1 ? bosses[0].name.slice(0, 10) : `${bosses.length} 个活跃`;
+  const bossText = bosses.length === 0
+    ? '无活跃'
+    : bosses.length === 1
+      ? bosses[0].name
+      : `${bosses.length} 个活跃`;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-ink-700 bg-ink-900/80 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3">
-        <Link href="/" className="flex items-center gap-2">
+    <header className="sticky top-0 z-40 border-b border-ink-700 bg-ink-900">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+        {/* Logo */}
+        <Link href="/" className="flex shrink-0 items-center gap-2">
           <CompassRose size={20} className="text-gold" />
-          <span className="font-display text-xl text-bone-50">
+          <span className="font-display text-lg text-bone-50 sm:text-xl">
             Radar <span className="italic text-gold">Quest</span>
           </span>
         </Link>
 
-        <div className="flex items-center gap-4 text-xs">
-          <Stat label="Lv" value={stats.level} highlight />
+        {/* Stats — desktop full / mobile condensed */}
+        <div className="hidden items-center gap-5 sm:flex">
+          <Stat label="Lv" value={stats.level} accent="gold" />
           <Stat label="XP" value={stats.total_xp} sub={`+${stats.today_xp} 今日`} />
-          <Stat label="🔥" value={stats.action_streak} sub="天 streak" />
+          <Stat label="Streak" value={stats.action_streak} sub="天" accent="flame" />
           <Stat label="星座" value={bossText} />
         </div>
 
-        <nav className="flex items-center gap-3 text-xs">
-          <Link href="/quests" className="text-bone-200 hover:text-bone-50">任务</Link>
-          <Link href="/skills" className="text-bone-200 hover:text-bone-50">技能</Link>
-          <Link href="/bosses" className="text-bone-200 hover:text-bone-50">星座</Link>
-          <Link href="/settings" className="text-bone-200 hover:text-bone-50">设置</Link>
+        {/* Mobile condensed stats */}
+        <div className="flex items-center gap-3 sm:hidden">
+          <span className="num text-sm text-gold">Lv {stats.level}</span>
+          <span className="num text-sm text-bone-200">{stats.total_xp} XP</span>
+          {stats.action_streak > 0 && (
+            <span className="num text-sm text-flame">{stats.action_streak}天</span>
+          )}
+        </div>
+
+        {/* Nav */}
+        <nav className="flex items-center gap-1 text-xs sm:gap-3 sm:text-sm">
+          <NavLink href="/quests">任务</NavLink>
+          <NavLink href="/skills">技能</NavLink>
+          <NavLink href="/bosses">星座</NavLink>
+          <NavLink href="/settings">设置</NavLink>
         </nav>
       </div>
     </header>
   );
 }
 
-function Stat({ label, value, sub, highlight }: { label: string; value: any; sub?: string; highlight?: boolean }) {
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col items-end">
-      <div className="flex items-baseline gap-1">
-        <span className="text-[10px] uppercase tracking-wider text-bone-400">{label}</span>
-        <span className={`num ${highlight ? 'font-display text-base text-gold' : 'text-sm text-bone-50'}`}>
+    <Link
+      href={href}
+      className="rounded px-2 py-1 text-bone-200 transition-colors hover:bg-ink-800 hover:text-bone-50 sm:px-3"
+    >
+      {children}
+    </Link>
+  );
+}
+
+function Stat({
+  label,
+  value,
+  sub,
+  accent
+}: {
+  label: string;
+  value: string | number;
+  sub?: string;
+  accent?: 'gold' | 'flame';
+}) {
+  const valueClass = accent === 'gold'
+    ? 'num text-sm text-gold'
+    : accent === 'flame'
+      ? 'num text-sm text-flame'
+      : 'num text-sm text-bone-50';
+  return (
+    <div className="flex flex-col items-end leading-tight">
+      <div className="flex items-baseline gap-1.5">
+        <span className="num text-[10px] uppercase tracking-widest text-bone-400">
+          {label}
+        </span>
+        <span className={valueClass}>
           {value}
         </span>
       </div>
