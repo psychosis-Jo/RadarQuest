@@ -14,10 +14,8 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* 全屏底图：fixed inset-0，z-0 锁在最底。
-          Header (z-40) 和 AppShell 都自然压在它上面。 */}
+      {/* 全屏底：纯底色 + 微胇胧 nebula 辐射 + 双层环场小点（不靠背景图） */}
       <div className="fixed inset-0 z-0 bg-ink-900" aria-hidden>
-        <div className="starfield-photo absolute inset-0" />
         <div className="starfield-veil absolute inset-0" />
         <div className="starfield absolute inset-0" />
         <div className="starfield-far absolute inset-0" />

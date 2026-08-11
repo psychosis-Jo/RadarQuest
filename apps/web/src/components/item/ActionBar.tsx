@@ -4,7 +4,7 @@ import { ACTION_LABELS, type ActionType, XP_VALUES } from '@starcatcher/shared';
 
 const ACTIONS: ActionType[] = ['watch', 'save', 'note', 'build', 'publish'];
 
-export function ActionBar({ itemId, done }: { itemId: string; done: string[] }) {
+export function ActionBar({ itemId, done, compact = false }: { itemId: string; done: string[]; compact?: boolean }) {
   const [state, setState] = useState<{ type: ActionType | null; xp: number; hint?: string } | null>(null);
   const [isPending, startTransition] = useTransition();
   const [publishing, setPublishing] = useState(false);
@@ -78,6 +78,24 @@ export function ActionBar({ itemId, done }: { itemId: string; done: string[] }) 
         const a = ACTION_LABELS[t];
         const xp = XP_VALUES[t];
         const isDone = done.includes(t);
+        if (compact) {
+          return (
+            <button
+              key={t}
+              onClick={() => handleClick(t)}
+              disabled={isPending || isDone}
+              className={`flex h-7 w-7 items-center justify-center rounded-button border transition-colors disabled:opacity-50 ${
+                isDone
+                  ? 'border-gold/40 bg-gold/10 text-gold'
+                  : 'border-ink-700 bg-ink-800/40 text-bone-200 hover:border-ink-600 hover:bg-ink-800 hover:text-bone-50'
+              }`}
+              title={`${a.zh}（+${xp} XP）`}
+              aria-label={`${a.zh}（+${xp} XP）`}
+            >
+              <i className={`ph-light ph-${a.icon} text-[15px] leading-none`} aria-hidden />
+            </button>
+          );
+        }
         return (
           <button
             key={t}

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Item } from '@/lib/data/types';
 import type { ActionType } from '@starcatcher/shared';
 import { TOPIC_COLORS, TOPIC_LABELS } from '@starcatcher/shared';
@@ -10,7 +10,7 @@ import {
   type Topic
 } from '@/lib/starcloud/force-simulation';
 import { CanvasChips } from './CanvasChips';
-import { ItemDrawer } from './ItemDrawer';
+import { StarDetailCard, type Anchor } from './StarDetailCard';
 
 type Stats = { actions: ActionType[]; totalXp: number };
 type ClusterKey = Topic;
@@ -18,8 +18,8 @@ type ClusterKey = Topic;
 const STORAGE_KEY = 'starcatcher:starcloud:positions:v2';
 const VB_W = 1200;
 const VB_H = 600;
+const LINE_NEAR_DIST = 160;  // 主题线：同主题近邻 (<=160px) 才连
 
-// 3 簇在 viewBox 内的位置（与 force-simulation 一致）
 const CLUSTER_CENTERS: Record<ClusterKey, { x: number; y: number }> = {
   'AI':           { x: 600, y: 110 },
   'one-person':   { x: 960, y: 480 },
@@ -34,18 +34,16 @@ export function StarCanvas({
 }: {
   items: Item[];
   statsMap: Record<string, Stats>;
-  /** 背景层（照片 + vignette + 双层星场）是否在 StarCanvas 内部渲染。
-   *  HomePage 用 false，把背景提到 viewport 级 fixed 元素 */
+  /** showBackground=false 时由 HomePage 在外层画底色 + ambient 星场 */
   showBackground?: boolean;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [positions, setPositions] = useState<Map<string, Position>>(new Map());
   const [mounted, setMounted] = useState(false);
-  // 用 local state 而不是 URL —— 让点击立即响应
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [anchor, setAnchor] = useState<Anchor | null>(null);
   const [topicFilter, setTopicFilter] = useState<ClusterKey | null>(null);
 
-  // 跑一次模拟（或读 localStorage 缓存）
   useEffect(() => {
     if (items.length === 0) return;
 
@@ -78,7 +76,6 @@ export function StarCanvas({
     writeStored(cacheKey, toStore);
   }, [items, statsMap]);
 
-  // 分组
   const groups = useMemo(() => {
     const out: Record<ClusterKey, Item[]> = {
       'AI': [], 'one-person': [], 'self-mgmt': [], '__unmapped__': []
@@ -91,26 +88,70 @@ export function StarCanvas({
     return out;
   }, [items]);
 
+  // 同主题近邻连线（每个 topic 内部做最近邻连接）
+  const lines = useMemo(() => {
+    const out: Array<{ a: Position; b: Position; topic: ClusterKey }> = [];
+    for (const t of Object.keys(CLUSTER_CENTERS) as ClusterKey[]) {
+      const arr = (groups[t] ?? [])
+        .map(it => ({ id: it.id, pos: positions.get(it.id) }))
+        .filter(x => x.pos) as Array<{ id: string; pos: Position }>;
+      if (arr.length < 2) continue;
+      for (let i = 0; i < arr.length; i++) {
+        let nearest = -1, nearestD = LINE_NEAR_DIST;
+        for (let j = 0; j < arr.length; j++) {
+          if (i === j) continue;
+          const dx = arr[i].pos.x - arr[j].pos.x;
+          const dy = arr[i].pos.y - arr[j].pos.y;
+          const d = Math.hypot(dx, dy);
+          if (d < nearestD) { nearestD = d; nearest = j; }
+        }
+        if (nearest >= 0) {
+          out.push({ a: arr[i].pos, b: arr[nearest].pos, topic: t });
+        }
+      }
+    }
+    return out;
+  }, [groups, positions]);
+
   const selectedItem = useMemo(
     () => selectedId ? items.find(i => i.id === selectedId) ?? null : null,
     [selectedId, items]
   );
 
   const topicColor = (t: ClusterKey): string => {
-    if (t === '__unmapped__') return '#6B7390';
+    if (t === '__unmapped__') return '#A8B0C8';
     return TOPIC_COLORS[t as keyof typeof TOPIC_COLORS];
   };
+
+  // 点击星 → 记录点击位置 + 选中
+  const onStarClick = useCallback((e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    setAnchor({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+      containerW: rect.width,
+      containerH: rect.height
+    });
+    setSelectedId(id);
+  }, []);
+
+  // 点击画布空白 → 关闭
+  const onCanvasClick = useCallback(() => {
+    setSelectedId(null);
+    setAnchor(null);
+  }, []);
 
   return (
     <div
       ref={containerRef}
+      onClick={onCanvasClick}
       className="relative h-[calc(100vh-64px)] w-full overflow-hidden sm:h-[calc(100vh-72px)]"
     >
-      {/* 背景：照片 + vignette + 双层星场。
-          showBackground=false 时由 HomePage 提到 viewport 级 */}
+      {/* 背景：纯底色 + ambient 星场（不靠背景图） */}
       {showBackground && (
         <div className="absolute inset-0 bg-ink-900" aria-hidden>
-          <div className="starfield-photo absolute inset-0" />
           <div className="starfield-veil absolute inset-0" />
           <div className="starfield absolute inset-0" />
           <div className="starfield-far absolute inset-0" />
@@ -123,30 +164,53 @@ export function StarCanvas({
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
-          {/* 每个 topic 一圈极淡的辐射（nebula 感） */}
+          {/* 簇内 nebula 辐射 */}
           <radialGradient id="glow-AI" cx="50%" cy="50%" r="50%">
-            <stop offset="0%"   stopColor="#5FE0C7" stopOpacity="0.30" />
+            <stop offset="0%"   stopColor="#5FE0C7" stopOpacity="0.32" />
             <stop offset="40%"  stopColor="#5FE0C7" stopOpacity="0.12" />
             <stop offset="100%" stopColor="#5FE0C7" stopOpacity="0" />
           </radialGradient>
           <radialGradient id="glow-one-person" cx="50%" cy="50%" r="50%">
-            <stop offset="0%"   stopColor="#E8B86F" stopOpacity="0.30" />
+            <stop offset="0%"   stopColor="#E8B86F" stopOpacity="0.32" />
             <stop offset="40%"  stopColor="#E8B86F" stopOpacity="0.12" />
             <stop offset="100%" stopColor="#E8B86F" stopOpacity="0" />
           </radialGradient>
           <radialGradient id="glow-self-mgmt" cx="50%" cy="50%" r="50%">
-            <stop offset="0%"   stopColor="#B8A4D4" stopOpacity="0.30" />
+            <stop offset="0%"   stopColor="#B8A4D4" stopOpacity="0.32" />
             <stop offset="40%"  stopColor="#B8A4D4" stopOpacity="0.12" />
             <stop offset="100%" stopColor="#B8A4D4" stopOpacity="0" />
           </radialGradient>
+          <radialGradient id="glow-unmapped" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stopColor="#A8B0C8" stopOpacity="0.20" />
+            <stop offset="100%" stopColor="#A8B0C8" stopOpacity="0" />
+          </radialGradient>
         </defs>
 
-        {/* Cluster glow（先画，在星底下） */}
+        {/* 簇光晕 */}
         <circle cx={CLUSTER_CENTERS.AI.x}           cy={CLUSTER_CENTERS.AI.y}           r={220} fill="url(#glow-AI)" />
         <circle cx={CLUSTER_CENTERS['one-person'].x} cy={CLUSTER_CENTERS['one-person'].y} r={220} fill="url(#glow-one-person)" />
         <circle cx={CLUSTER_CENTERS['self-mgmt'].x}  cy={CLUSTER_CENTERS['self-mgmt'].y}  r={220} fill="url(#glow-self-mgmt)" />
+        <circle cx={CLUSTER_CENTERS.__unmapped__.x}  cy={CLUSTER_CENTERS.__unmapped__.y}  r={180} fill="url(#glow-unmapped)" />
 
-        {/* 星 */}
+        {/* 同主题近邻细线（在星下，渲染顺序：线 → 星） */}
+        {lines.map((l, i) => {
+          const c = topicColor(l.topic);
+          const isSel = selectedId && (
+            (positions.get(selectedId) === l.a) || (positions.get(selectedId) === l.b)
+          );
+          return (
+            <line
+              key={i}
+              x1={l.a.x} y1={l.a.y} x2={l.b.x} y2={l.b.y}
+              stroke={c}
+              strokeOpacity={isSel ? 0.5 : 0.18}
+              strokeWidth={1}
+              strokeDasharray={isSel ? '0' : '2 4'}
+            />
+          );
+        })}
+
+        {/* 内容星点 */}
         {items.map((item, idx) => {
           const lead = (item.topics[0] as ClusterKey) || '__unmapped__';
           const pos = positions.get(item.id);
@@ -156,33 +220,45 @@ export function StarCanvas({
           const stats = statsMap[item.id] ?? { actions: [], totalXp: 0 };
           const r = radiusForItem(stats.totalXp, stats.actions.length);
           const color = topicColor(lead);
-          // 亮度：0.55 - 1.0 区间（避免太暗看不见）
           const brightness = 0.55 + (stats.actions.length / 5) * 0.45;
           const isComplete = stats.actions.length >= 5;
           const isSelected = selectedId === item.id;
           const delay = Math.min(idx * 5, 700);
+          const glowId = `star-glow-${item.id}`;
 
           return (
             <g
               key={item.id}
               style={{
-                opacity: mounted && !hidden ? (dimmed ? 0.12 : brightness) : 0,
+                opacity: mounted && !hidden ? (dimmed ? 0.18 : brightness) : 0,
                 transition: `opacity 800ms ${delay}ms ease-out`,
                 cursor: 'pointer'
               }}
-              onClick={() => setSelectedId(item.id)}
+              onClick={(e) => onStarClick(e, item.id)}
             >
-              {/* 选中：金环（加粗，避免在照片背景上消失） */}
+              {/* 选中：金环 */}
               {isSelected && (
                 <circle cx={pos.x} cy={pos.y} r={r + 8}
-                  fill="none" stroke="#D4A574" strokeWidth={2} opacity={1} />
+                  fill="none" stroke="#D4A574" strokeWidth={1.5} opacity={1} />
               )}
-              {/* 5 动作全做：金色光圈（加粗） */}
+              {/* 5 动作全做：金色光圈 */}
               {isComplete && !isSelected && (
                 <circle cx={pos.x} cy={pos.y} r={r + 5}
                   fill="none" stroke="#D4A574" strokeWidth={1.2} opacity={0.7} />
               )}
-              {/* 星本体：fill 是 topic 色，stroke 是深色细边，在照片背景上才有边 */}
+              {/* glow halo（用 stopColor 引用 topic 色） */}
+              <defs>
+                <radialGradient id={glowId} cx="50%" cy="50%" r="50%">
+                  <stop offset="0%"   stopColor={color} stopOpacity={0.65} />
+                  <stop offset="50%"  stopColor={color} stopOpacity={0.20} />
+                  <stop offset="100%" stopColor={color} stopOpacity={0} />
+                </radialGradient>
+              </defs>
+              <circle
+                cx={pos.x} cy={pos.y} r={r * 4}
+                fill={`url(#${glowId})`}
+              />
+              {/* 星本体 */}
               <circle
                 cx={pos.x} cy={pos.y} r={r}
                 fill={color}
@@ -191,7 +267,7 @@ export function StarCanvas({
                 className="star-node"
                 style={{
                   transformOrigin: `${pos.x}px ${pos.y}px`,
-                  filter: `drop-shadow(0 0 2px rgba(15, 20, 36, 0.5))`
+                  filter: `drop-shadow(0 0 2px ${color})`
                 }}
               >
                 <title>{item.title}{item.source ? ` · ${item.source}` : ''}</title>
@@ -201,8 +277,8 @@ export function StarCanvas({
         })}
       </svg>
 
-      {/* 左下 chips */}
-      <div className="absolute bottom-6 left-4 z-10 sm:bottom-8 sm:left-6">
+      {/* 顶部 chips 浮在 SVG 上面 */}
+      <div className="pointer-events-none absolute left-4 top-4 z-10 sm:left-6 sm:top-6">
         <CanvasChips
           counts={{
             all: items.length,
@@ -216,23 +292,18 @@ export function StarCanvas({
         />
       </div>
 
-      {/* 右上小统计 */}
-      <div className="num absolute right-4 top-4 z-10 text-right text-caption text-bone-400 sm:right-6 sm:top-6">
-        <div className="text-bone-200">
-          {items.length} 颗 ·{' '}
-          {Object.values(statsMap).reduce((s, v) => s + v.totalXp, 0)} XP
-        </div>
-        <div className="mt-0.5 opacity-60">
-          {mounted ? '点击星进入详情' : '正在定位星图…'}
-        </div>
+      {/* 统计条 */}
+      <div className="num pointer-events-none absolute bottom-4 right-4 z-10 text-[10px] text-bone-400 sm:bottom-6 sm:right-6">
+        {items.length} 颗 · 已留下的星
       </div>
 
-      {/* Drawer（直接 import，inline 渲染，立即响应） */}
-      {selectedItem && (
-        <ItemDrawer
+      {/* 独立弹出卡（替换原 ItemDrawer） */}
+      {selectedItem && anchor && (
+        <StarDetailCard
           item={selectedItem}
           done={statsMap[selectedItem.id]?.actions ?? []}
-          onClose={() => setSelectedId(null)}
+          anchor={anchor}
+          onClose={() => { setSelectedId(null); setAnchor(null); }}
         />
       )}
 
@@ -241,36 +312,17 @@ export function StarCanvas({
           transition: r 200ms ease, filter 200ms ease;
         }
         :global(svg g:hover .star-node) {
-          filter: brightness(1.5);
+          filter: brightness(1.6) drop-shadow(0 0 6px currentColor);
         }
-        :global(svg g:hover) {
-          filter: drop-shadow(0 0 6px currentColor);
-        }
-        /* 用户提供的深空照片作为底图 —— per DESIGN §15.10 */
-        :global(.starfield-photo) {
-          background-image: url('/starfield-bg.jpg');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-          /* 微微降饱和让它更"古典星图册"，但保留亮度（不再压暗，靠 vignette 控对比） */
-          filter: saturate(0.75);
-        }
-        @media (max-width: 640px) {
-          :global(.starfield-photo) {
-            background-image: url('/starfield-bg-sm.jpg');
-          }
-        }
-        /* 椭圆 vignette：极轻 —— 只在中心略压暗（30%）让用户星对比度够，
-           边缘只压 45%，保证照片在左右两边清晰可见，不出"框感" */
+        /* ambient 星场（小点 + 极轻的 vignette） */
         :global(.starfield-veil) {
           background: radial-gradient(
             ellipse 110% 110% at 50% 50%,
-            rgba(15, 20, 36, 0.30) 0%,
-            rgba(15, 20, 36, 0.40) 60%,
-            rgba(15, 20, 36, 0.45) 100%
+            rgba(15, 20, 36, 0.20) 0%,
+            rgba(15, 20, 36, 0.30) 60%,
+            rgba(15, 20, 36, 0.35) 100%
           );
         }
-        /* 近景星：明显可见 */
         :global(.starfield) {
           background-image:
             radial-gradient(1.2px 1.2px at 12% 22%, rgba(244, 233, 216, 0.7) 50%, transparent 100%),
@@ -283,7 +335,6 @@ export function StarCanvas({
           background-size: 100% 100%;
           background-repeat: no-repeat;
         }
-        /* 远景星：极淡、数量多、模拟深邃感 */
         :global(.starfield-far) {
           background-image:
             radial-gradient(0.5px 0.5px at 5% 15%, rgba(244, 233, 216, 0.3) 50%, transparent 100%),

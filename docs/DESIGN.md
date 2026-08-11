@@ -564,15 +564,34 @@ AI 簇中心 (600, 110)   → #5FE0C7 三段渐变 (0.18 / 0.08 / 0)
 - **不要**在 `/bosses`（那里有真实星座）或 `/sky-atlas`（那是已发现星座册）用
 - 永远不画"连线"，保持"单点散布"感
 
-### 15.4 Item Detail Drawer 视觉
+### 15.4 Star Detail Card 视觉（v1.3 起，原 Drawer 改为独立弹卡）
 
-DESIGN §9 是文字描述，v1 落地的视觉规则：
+v1.2 用右侧 Drawer 弹 item 详情，但右侧栏 + 黑色空白区显得"挤 + 不必要"。v1.3 改为**点星位置弹出的小卡**：
 
-- **容器**：固定右侧 50% 宽（`max-w-2xl`），全屏高，**左边压一层 `bg-ink-900/60` 蒙层**
-- **border**：`border-l border-ink-700` —— 不用 shadow 浮起来
-- **header**：`px-5 py-3`，左 `text-caption text-bone-400`（不用 uppercase tracking-widest，那是 SaaS 风）
-- **关闭按钮**：`rounded-button` (8px)，`text-bone-400 hover:text-bone-50`
-- **drawer 本身**：不用 `shadow-2xl`（per DESIGN 14 Don't）
+- **容器**：固定 300px 宽，`absolute` 定位在点星位置右下偏移 (14, 14)
+- **贴边**：右 / 下超出 viewport 8px 内自动翻到左上
+- **背景**：`bg-ink-900/95` + `backdrop-blur-sm`，`border border-ink-700`，`rounded-card` (8px)
+- **阴影**：`shadow-2xl`（小卡允许，因为它是 floating overlay，不像 Drawer 占半屏）
+- **进入动画**：`scale-[0.98] → 1.0` + `opacity: 0 → 1`，200ms ease-out
+- **关闭**：
+  - 右上 `ph-x` 图标按钮（28x28）
+  - 点击星云画布空白处
+  - 按 ESC
+- **不**锁定 body 滚动（弹卡不挡视野）
+- **不**渲染全屏蒙层（让星云依然可见，"星点亮了，卡在星旁边"的隐喻）
+
+**结构**：
+- Meta 行：source + metric + 💬 comments（`text-caption text-bone-400`）
+- 标题：`font-display text-base` (16px)，2 行 clamp
+- Topic 标签：3 个上限，`text-[10px]`，同 §15.5 样式
+- 摘要：`text-[13px]`、`line-clamp-3`
+- 5 动作（compact 模式）：28x28 icon-only，hover 显示 tooltip
+- 外链按钮：底部 full-width，border-ink-700 + `ph-arrow-square-out` 图标
+
+**为什么不用 Drawer 了**：
+- Drawer 右侧 50% 宽 + 黑色空白 → 视觉重心被抢
+- 点星之后，**信息是关于那颗星**的，卡应该靠近那颗星，不是"统一收件箱"
+- 与参考实现（个人星空项目）一致：星 + 详情是空间相邻的两个元素
 
 ### 15.5 Item Card 视觉（捕捉 / Drawer 内通用）
 
@@ -626,56 +645,44 @@ DESIGN §2 说 mist "只作辅助色，不作主色"。v1 的具体定义：
 - ✗ **不作页面级 accent 色**（按钮、链接、边框）
 - ✗ **不与 gold 同框出现**（两种"重要色"同框会打架）
 
-### 15.10 首页背景：深空照片 + 椭圆 vignette
+### 15.10 首页背景：纯色 + ambient 星场 + 簇光晕（v1.3 起）
 
-§0 写"基底 = `#0F1424` 深墨蓝 vellum"。v1.1 起**主页 `/` 引入一张深空天体照**做底图（用户自备图，1920×1080，青蓝星云调），但仍保留 vellum 气质。具体规则：
+v1.1~v1.2 用了 `/starfield-bg.jpg` 深空照片做底图，配椭圆 vignette。v1.3 改回**纯色 + 程序化星场**：
+- 照片被认为"脏"（vignette 强行压亮 → 边缘接近全黑 → 像被裁掉）
+- 视觉重心被照片抢走，反而把用户的"星"显得次要
+- 真实夜空 + 真实星座 = 撞 risk 太高（且和"用户自己的星云"语义冲突）
 
-**架构：背景不是嵌在 `StarCanvas` 内部，而是 `HomePage` 顶层** 的 `fixed inset-0 z-0` 全屏层，覆盖整个 viewport（包括 sidebar 那一列）—— 这样左右两侧和 sidebar 后面都在照片上，不会出现"1280px 容器外的空白"。
+**当前架构（v1.3）：**
 
-`StarCanvas` 接收 `showBackground` prop（默认 `true`）。`HomePage` 传 `false`，让交互画布（SVG + 用户星）只画在主区，不重复渲染背景。
+1. `bg-ink-900` —— `#0F1424` 纯色兜底
+2. `.starfield-veil` —— **极轻椭圆 vignette**（仅 0.20-0.35 透明度），只为让中心略聚焦
+3. `.starfield` —— 7 颗近景 CSS dot（中等亮度）
+4. `.starfield-far` —— 18 颗远景 CSS dot（极淡）
+5. SVG 簇光晕（每个 topic 一圈 nebula 辐射）—— 4 个 `<radialGradient>`
+6. SVG 内容星点 + radialGradient 光晕（per star，`star-glow-${id}`）
 
-**层叠（从底到顶）：**
-1. `bg-ink-900` —— 兜底（在 fixed 背景层内）
-2. `.starfield-photo` —— 深空照片，CSS `background-image: url('/starfield-bg.jpg')`，`background-size: cover`
-3. `.starfield-veil` —— **极轻椭圆 vignette**，用 `radial-gradient(ellipse 110% 110% at 50% 50%, rgba(15,20,36,0.30) 0%, rgba(15,20,36,0.40) 60%, rgba(15,20,36,0.45) 100%)`。
-   - 椭圆比容器稍大（110%）保证可见区全在 gradient 内，不出"框感"
-   - 中心 30% 蒙层、边缘 45% 蒙层 —— **绝不**超过 50%，否则左右会出黑边
-   - 早期版本用 82% 外圈被否决，照片在边缘接近全黑像被裁掉
-4. `.starfield` —— 近景 7 颗 CSS dot
-5. `.starfield-far` —— 远景 18 颗 CSS dot
-6. SVG 簇光晕 + 用户星点（在主区 `StarCanvas` 内的 SVG）
+**用户星点视觉：**
+- 每颗 content star 包一个 `r * 4` 半径的 radialGradient 光晕（`stopOpacity: 0.65 → 0.20 → 0`）
+- `filter: drop-shadow(0 0 2px ${color})` —— 单色 drop shadow
+- `stroke="rgba(15, 20, 36, 0.6)"` 0.8px 细描边（避免和 ambient 背景融在一起）
 
-**z-index 层级（整个页面）：**
-- 背景层 `fixed z-0`（锁在最底）
-- `AppShell` 内容 `z-auto`（sidebar 的 `bg-ink-800/60` 卡片自然透出照片）
-- `Header sticky z-40`（最上）
+**主题连线（同 topic 近邻）：**
+- 每个 topic 内部做最近邻连接
+- 距离阈值 160px（viewBox 1200x600 坐标）
+- 选中星所在连线 opacity 0.5 + 实线，其他 0.18 + 虚线
+- 颜色 = topic 色
 
-**照片处理：**
-- 桌面：1920×1080 JPEG q78（~530KB）
-- 移动端（`max-width: 640px`）：960×540 JPEG q75（~150KB）
-- CSS `filter: saturate(0.75)` —— 只降饱和不压暗，亮度由 vignette 控（之前 brightness(0.85) + 重 vignette 叠加导致边缘接近全黑）
+**约束（保持）：**
+- 背景只用于主页 `/`，**不**用于 `/capture` / `/my/*` / `/settings` / `/my/sky-atlas`
+- 不用真实星座做装饰星空（星座专属于 Boss）
+- 不做渐变背景 / 玻璃拟态 / 霓虹
 
-**用户星点为应对亮底图做的调整：**
-- 加 `stroke="rgba(15, 20, 36, 0.6)"` 0.8px 细深色描边（保证在亮星云上仍有边）
-- 加 `filter: drop-shadow(0 0 2px rgba(15,20,36,0.5))` 暗晕
-- 簇光晕 inner opacity 0.18 → **0.30**，mid 0.08 → **0.12**（亮底上需要更显）
-- 选中金环 stroke 1.5 → **2.0**，完成金环 stroke 0.8 → **1.2**
-
-**约束：**
-- 照片**只用于主页 `/`**
-- **不用于** `/bosses` / `/quests` / `/settings` / `/skills` —— 那些页面保持 vellum 纯色背景，避免和功能视觉抢戏
-- 换图原则：深空青蓝调、星点密集但不能太亮（有 89% 像素亮度 >40 的话中心要靠 vignette 压住）
-- 不做"实拍银河"以外的题材（不放地球 / 城市夜景 / 写实星图册插画）
-
-**对应资源：**
-- `apps/web/public/starfield-bg.jpg`（桌面）
-- `apps/web/public/starfield-bg-sm.jpg`（移动端）
+**对应资源（v1.3 已删）：**
+- ~~`apps/web/public/starfield-bg.jpg`~~
+- ~~`apps/web/public/starfield-bg-sm.jpg`~~
 
 ---
 
-> **以后 v1.x 改 UI 之前先看这节。** §15 是 §5.1 / §4 / §9 / §0 的"实施注释"，不是新设计。
-
----
 
 ## 16. 路由与 IA 速查
 
