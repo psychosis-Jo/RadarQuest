@@ -102,8 +102,10 @@ export function StarCanvas({
       ref={containerRef}
       className="relative h-[calc(100vh-64px)] w-full overflow-hidden sm:h-[calc(100vh-72px)]"
     >
-      {/* 背景：双层微粒（近 + 远） */}
+      {/* 背景：用户提供的深空照片 + 椭圆 vignette + 双层星场 */}
       <div className="absolute inset-0 bg-ink-900" aria-hidden>
+        <div className="starfield-photo absolute inset-0" />
+        <div className="starfield-veil absolute inset-0" />
         <div className="starfield absolute inset-0" />
         <div className="starfield-far absolute inset-0" />
       </div>
@@ -116,18 +118,18 @@ export function StarCanvas({
         <defs>
           {/* 每个 topic 一圈极淡的辐射（nebula 感） */}
           <radialGradient id="glow-AI" cx="50%" cy="50%" r="50%">
-            <stop offset="0%"   stopColor="#5FE0C7" stopOpacity="0.18" />
-            <stop offset="40%"  stopColor="#5FE0C7" stopOpacity="0.08" />
+            <stop offset="0%"   stopColor="#5FE0C7" stopOpacity="0.30" />
+            <stop offset="40%"  stopColor="#5FE0C7" stopOpacity="0.12" />
             <stop offset="100%" stopColor="#5FE0C7" stopOpacity="0" />
           </radialGradient>
           <radialGradient id="glow-one-person" cx="50%" cy="50%" r="50%">
-            <stop offset="0%"   stopColor="#E8B86F" stopOpacity="0.18" />
-            <stop offset="40%"  stopColor="#E8B86F" stopOpacity="0.08" />
+            <stop offset="0%"   stopColor="#E8B86F" stopOpacity="0.30" />
+            <stop offset="40%"  stopColor="#E8B86F" stopOpacity="0.12" />
             <stop offset="100%" stopColor="#E8B86F" stopOpacity="0" />
           </radialGradient>
           <radialGradient id="glow-self-mgmt" cx="50%" cy="50%" r="50%">
-            <stop offset="0%"   stopColor="#B8A4D4" stopOpacity="0.18" />
-            <stop offset="40%"  stopColor="#B8A4D4" stopOpacity="0.08" />
+            <stop offset="0%"   stopColor="#B8A4D4" stopOpacity="0.30" />
+            <stop offset="40%"  stopColor="#B8A4D4" stopOpacity="0.12" />
             <stop offset="100%" stopColor="#B8A4D4" stopOpacity="0" />
           </radialGradient>
         </defs>
@@ -163,24 +165,27 @@ export function StarCanvas({
               }}
               onClick={() => setSelectedId(item.id)}
             >
-              {/* 选中：金环 */}
+              {/* 选中：金环（加粗，避免在照片背景上消失） */}
               {isSelected && (
                 <circle cx={pos.x} cy={pos.y} r={r + 8}
-                  fill="none" stroke="#D4A574" strokeWidth={1.5} opacity={0.9} />
+                  fill="none" stroke="#D4A574" strokeWidth={2} opacity={1} />
               )}
-              {/* 5 动作全做：金色光圈 */}
+              {/* 5 动作全做：金色光圈（加粗） */}
               {isComplete && !isSelected && (
                 <circle cx={pos.x} cy={pos.y} r={r + 5}
-                  fill="none" stroke="#D4A574" strokeWidth={0.8} opacity={0.5} />
+                  fill="none" stroke="#D4A574" strokeWidth={1.2} opacity={0.7} />
               )}
-              {/* 星本体 */}
+              {/* 星本体：fill 是 topic 色，stroke 是深色细边，在照片背景上才有边 */}
               <circle
                 cx={pos.x} cy={pos.y} r={r}
                 fill={color}
-                stroke={color}
-                strokeWidth={0.5}
+                stroke="rgba(15, 20, 36, 0.6)"
+                strokeWidth={0.8}
                 className="star-node"
-                style={{ transformOrigin: `${pos.x}px ${pos.y}px` }}
+                style={{
+                  transformOrigin: `${pos.x}px ${pos.y}px`,
+                  filter: `drop-shadow(0 0 2px rgba(15, 20, 36, 0.5))`
+                }}
               >
                 <title>{item.title}{item.source ? ` · ${item.source}` : ''}</title>
               </circle>
@@ -233,6 +238,30 @@ export function StarCanvas({
         }
         :global(svg g:hover) {
           filter: drop-shadow(0 0 6px currentColor);
+        }
+        /* 用户提供的深空照片作为底图 —— per DESIGN §15.10 */
+        :global(.starfield-photo) {
+          background-image: url('/starfield-bg.jpg');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          /* 微微降饱和 + 压暗，让它更"古典星图册"，不抢用户星戏 */
+          filter: saturate(0.7) brightness(0.85);
+        }
+        @media (max-width: 640px) {
+          :global(.starfield-photo) {
+            background-image: url('/starfield-bg-sm.jpg');
+          }
+        }
+        /* 椭圆 vignette：中心透（30% 蒙层）边缘暗（82% 蒙层）
+           把视觉焦点留在中央 3 簇上，照片在边缘自然过渡到 vellum */
+        :global(.starfield-veil) {
+          background: radial-gradient(
+            ellipse 80% 70% at 50% 45%,
+            rgba(15, 20, 36, 0.30) 0%,
+            rgba(15, 20, 36, 0.55) 55%,
+            rgba(15, 20, 36, 0.82) 100%
+          );
         }
         /* 近景星：明显可见 */
         :global(.starfield) {

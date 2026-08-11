@@ -575,9 +575,42 @@ DESIGN §2 说 mist "只作辅助色，不作主色"。v1 的具体定义：
 - ✗ **不作页面级 accent 色**（按钮、链接、边框）
 - ✗ **不与 gold 同框出现**（两种"重要色"同框会打架）
 
+### 15.10 首页背景：深空照片 + 椭圆 vignette
+
+§0 写"基底 = `#0F1424` 深墨蓝 vellum"。v1.1 起**主页 `/` 引入一张深空天体照**做底图（用户自备图，1920×1080，青蓝星云调），但仍保留 vellum 气质。具体规则：
+
+**层叠（从底到顶）：**
+1. `bg-ink-900` —— 兜底
+2. `.starfield-photo` —— 深空照片，CSS `background-image: url('/starfield-bg.jpg')`，`background-size: cover`
+3. `.starfield-veil` —— **椭圆 vignette**，用 `radial-gradient(ellipse 80% 70% at 50% 45%, rgba(15,20,36,0.30) 0%, rgba(15,20,36,0.55) 55%, rgba(15,20,36,0.82) 100%)` 把中心 30% 蒙层、边缘 82% 蒙层
+4. `.starfield` —— 近景 7 颗 CSS dot
+5. `.starfield-far` —— 远景 18 颗 CSS dot
+6. SVG 簇光晕 + 用户星点
+
+**照片处理：**
+- 桌面：1920×1080 JPEG q78（~530KB）
+- 移动端（`max-width: 640px`）：960×540 JPEG q75（~150KB）
+- CSS `filter: saturate(0.7) brightness(0.85)` —— 降饱和 + 压暗，避免照片太鲜艳抢戏
+
+**用户星点为应对亮底图做的调整：**
+- 加 `stroke="rgba(15, 20, 36, 0.6)"` 0.8px 细深色描边（保证在亮星云上仍有边）
+- 加 `filter: drop-shadow(0 0 2px rgba(15,20,36,0.5))` 暗晕
+- 簇光晕 inner opacity 0.18 → **0.30**，mid 0.08 → **0.12**（亮底上需要更显）
+- 选中金环 stroke 1.5 → **2.0**，完成金环 stroke 0.8 → **1.2**
+
+**约束：**
+- 照片**只用于主页 `/`**
+- **不用于** `/bosses` / `/quests` / `/settings` / `/skills` —— 那些页面保持 vellum 纯色背景，避免和功能视觉抢戏
+- 换图原则：深空青蓝调、星点密集但不能太亮（有 89% 像素亮度 >40 的话中心要靠 vignette 压住）
+- 不做"实拍银河"以外的题材（不放地球 / 城市夜景 / 写实星图册插画）
+
+**对应资源：**
+- `apps/web/public/starfield-bg.jpg`（桌面）
+- `apps/web/public/starfield-bg-sm.jpg`（移动端）
+
 ---
 
-> **以后 v1.x 改 UI 之前先看这节。** §15 是 §5.1 / §4 / §9 的"实施注释"，不是新设计。
+> **以后 v1.x 改 UI 之前先看这节。** §15 是 §5.1 / §4 / §9 / §0 的"实施注释"，不是新设计。
 
 ---
 
