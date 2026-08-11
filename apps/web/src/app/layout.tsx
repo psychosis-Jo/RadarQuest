@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Fraunces, Inter, JetBrains_Mono } from 'next/font/google';
 import '../styles/globals.css';
+import '@phosphor-icons/web/light';
 
 const fraunces = Fraunces({
   subsets: ['latin'],

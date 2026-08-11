@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BookOpen, Star, User, Gear } from '@phosphor-icons/react/dist/ssr';
+
 import { getUserStats } from '@/lib/data/stats';
 import { getActiveBosses } from '@/lib/data/boss';
 import { CompassRose } from '../hand-drawn/Divider';
@@ -41,25 +41,25 @@ export async function Header() {
           )}
         </div>
 
-        {/* Nav — 4 项主 tab (Phosphor light weight, 1px 笔画) */}
+        {/* Nav — 4 项主 tab (Phosphor light web font) */}
         <nav className="flex items-center gap-1 text-xs sm:gap-1 sm:text-sm">
-          <NavLink href="/capture" icon={<BookOpen size={18} weight="light" />}>捕捉</NavLink>
-          <NavLink href="/" icon={<Star size={18} weight="light" />}>星云</NavLink>
-          <NavLink href="/my" icon={<User size={18} weight="light" />}>我的</NavLink>
-          <NavLink href="/settings" icon={<Gear size={18} weight="light" />}>设置</NavLink>
+          <NavLink href="/capture" icon="book-open">捕捉</NavLink>
+          <NavLink href="/" icon="star">星云</NavLink>
+          <NavLink href="/my" icon="user">我的</NavLink>
+          <NavLink href="/settings" icon="gear">设置</NavLink>
         </nav>
       </div>
     </header>
   );
 }
 
-function NavLink({ href, children, icon }: { href: string; children: React.ReactNode; icon?: React.ReactNode }) {
+function NavLink({ href, children, icon }: { href: string; children: React.ReactNode; icon?: string }) {
   return (
     <Link
       href={href}
       className="flex items-center gap-1.5 rounded-button px-2 py-1 text-bone-200 transition-colors hover:bg-ink-800 hover:text-bone-50 sm:px-3"
     >
-      {icon}
+      {icon && <i className={`ph-light ph-${icon} text-[18px] leading-none`} aria-hidden />}
       <span>{children}</span>
     </Link>
   );
