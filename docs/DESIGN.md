@@ -582,7 +582,10 @@ DESIGN §2 说 mist "只作辅助色，不作主色"。v1 的具体定义：
 **层叠（从底到顶）：**
 1. `bg-ink-900` —— 兜底
 2. `.starfield-photo` —— 深空照片，CSS `background-image: url('/starfield-bg.jpg')`，`background-size: cover`
-3. `.starfield-veil` —— **椭圆 vignette**，用 `radial-gradient(ellipse 80% 70% at 50% 45%, rgba(15,20,36,0.30) 0%, rgba(15,20,36,0.55) 55%, rgba(15,20,36,0.82) 100%)` 把中心 30% 蒙层、边缘 82% 蒙层
+3. `.starfield-veil` —— **极轻椭圆 vignette**，用 `radial-gradient(ellipse 110% 110% at 50% 50%, rgba(15,20,36,0.30) 0%, rgba(15,20,36,0.40) 60%, rgba(15,20,36,0.45) 100%)`。
+   - 椭圆比容器稍大（110%）保证可见区全在 gradient 内，不出"框感"
+   - 中心 30% 蒙层、边缘 45% 蒙层 —— **绝不**超过 50%，否则左右会出黑边
+   - 早期版本用 82% 外圈被否决，照片在边缘接近全黑像被裁掉
 4. `.starfield` —— 近景 7 颗 CSS dot
 5. `.starfield-far` —— 远景 18 颗 CSS dot
 6. SVG 簇光晕 + 用户星点
@@ -590,7 +593,7 @@ DESIGN §2 说 mist "只作辅助色，不作主色"。v1 的具体定义：
 **照片处理：**
 - 桌面：1920×1080 JPEG q78（~530KB）
 - 移动端（`max-width: 640px`）：960×540 JPEG q75（~150KB）
-- CSS `filter: saturate(0.7) brightness(0.85)` —— 降饱和 + 压暗，避免照片太鲜艳抢戏
+- CSS `filter: saturate(0.75)` —— 只降饱和不压暗，亮度由 vignette 控（之前 brightness(0.85) + 重 vignette 叠加导致边缘接近全黑）
 
 **用户星点为应对亮底图做的调整：**
 - 加 `stroke="rgba(15, 20, 36, 0.6)"` 0.8px 细深色描边（保证在亮星云上仍有边）
