@@ -579,8 +579,12 @@ DESIGN §2 说 mist "只作辅助色，不作主色"。v1 的具体定义：
 
 §0 写"基底 = `#0F1424` 深墨蓝 vellum"。v1.1 起**主页 `/` 引入一张深空天体照**做底图（用户自备图，1920×1080，青蓝星云调），但仍保留 vellum 气质。具体规则：
 
+**架构：背景不是嵌在 `StarCanvas` 内部，而是 `HomePage` 顶层** 的 `fixed inset-0 z-0` 全屏层，覆盖整个 viewport（包括 sidebar 那一列）—— 这样左右两侧和 sidebar 后面都在照片上，不会出现"1280px 容器外的空白"。
+
+`StarCanvas` 接收 `showBackground` prop（默认 `true`）。`HomePage` 传 `false`，让交互画布（SVG + 用户星）只画在主区，不重复渲染背景。
+
 **层叠（从底到顶）：**
-1. `bg-ink-900` —— 兜底
+1. `bg-ink-900` —— 兜底（在 fixed 背景层内）
 2. `.starfield-photo` —— 深空照片，CSS `background-image: url('/starfield-bg.jpg')`，`background-size: cover`
 3. `.starfield-veil` —— **极轻椭圆 vignette**，用 `radial-gradient(ellipse 110% 110% at 50% 50%, rgba(15,20,36,0.30) 0%, rgba(15,20,36,0.40) 60%, rgba(15,20,36,0.45) 100%)`。
    - 椭圆比容器稍大（110%）保证可见区全在 gradient 内，不出"框感"
@@ -588,7 +592,12 @@ DESIGN §2 说 mist "只作辅助色，不作主色"。v1 的具体定义：
    - 早期版本用 82% 外圈被否决，照片在边缘接近全黑像被裁掉
 4. `.starfield` —— 近景 7 颗 CSS dot
 5. `.starfield-far` —— 远景 18 颗 CSS dot
-6. SVG 簇光晕 + 用户星点
+6. SVG 簇光晕 + 用户星点（在主区 `StarCanvas` 内的 SVG）
+
+**z-index 层级（整个页面）：**
+- 背景层 `fixed z-0`（锁在最底）
+- `AppShell` 内容 `z-auto`（sidebar 的 `bg-ink-800/60` 卡片自然透出照片）
+- `Header sticky z-40`（最上）
 
 **照片处理：**
 - 桌面：1920×1080 JPEG q78（~530KB）
