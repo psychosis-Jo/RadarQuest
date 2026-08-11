@@ -3,9 +3,9 @@
 import { useMemo, useState, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { TOPIC_COLORS, TOPIC_LABELS } from '@radar-quest/shared';
+import { TOPIC_COLORS, TOPIC_LABELS } from '@starcatcher/shared';
 import type { Item } from '@/lib/data/types';
-import type { ActionType } from '@radar-quest/shared';
+import type { ActionType } from '@starcatcher/shared';
 import { ActionBar } from '@/components/item/ActionBar';
 
 type TriageAction = 'keep' | 'save' | 'dismiss';

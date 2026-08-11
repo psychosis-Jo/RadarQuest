@@ -2,7 +2,6 @@ import Link from 'next/link';
 
 import { getUserStats } from '@/lib/data/stats';
 import { getActiveBosses } from '@/lib/data/boss';
-import { CompassRose } from '../hand-drawn/Divider';
 
 export async function Header() {
   const stats = await getUserStats();
@@ -18,9 +17,9 @@ export async function Header() {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
         {/* Logo */}
         <Link href="/" className="flex shrink-0 items-center gap-2">
-          <CompassRose size={20} className="text-gold" />
+          <i className="ph-light ph-star text-[20px] leading-none text-gold" aria-hidden />
           <span className="font-display text-lg text-bone-50 sm:text-xl">
-            Radar <span className="italic text-gold">Quest</span>
+            Star <span className="italic text-gold">Catcher</span>
           </span>
         </Link>
 

@@ -1,6 +1,6 @@
 'use client';
 import type { Topic } from '@/lib/starcloud/force-simulation';
-import { TOPIC_COLORS, TOPIC_LABELS } from '@radar-quest/shared';
+import { TOPIC_COLORS, TOPIC_LABELS } from '@starcatcher/shared';
 
 interface Counts {
   all: number;

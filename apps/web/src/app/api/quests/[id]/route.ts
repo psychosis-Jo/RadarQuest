@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSupabase } from '@/lib/data/supabase';
 import { recordAction } from '@/lib/data/actions';
-import type { ActionType } from '@radar-quest/shared';
+import type { ActionType } from '@starcatcher/shared';
 
 const VALID_ACTIONS: ActionType[] = ['watch', 'save', 'note', 'build', 'publish'];
 

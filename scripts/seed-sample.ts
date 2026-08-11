@@ -18,7 +18,7 @@ function makeSampleBoss() {
   const base = {
     id: 'boss_001',
     name: '公众号首发：开篇 1 篇 1000+ 字',
-    description: '用 Radar Quest 的输出来完成你的第一篇公众号文章',
+    description: '用 StarCatcher 的输出来完成你的第一篇公众号文章',
     target: 1,
     current: 0,
     deadline: '2026-12-31',

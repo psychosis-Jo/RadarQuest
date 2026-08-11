@@ -1,4 +1,4 @@
-# Radar Quest — IA.md
+# StarCatcher — IA.md
 
 > 信息架构与路由规范。代码改之前先在这里对齐。
 > 配套阅读：[DESIGN.md](DESIGN.md)（视觉 / Token / 组件规则）
@@ -82,7 +82,7 @@
 
 ## 4. 捕捉页（`/capture`）—— 主题聚合卡片流
 
-**为什么不要 5-Tab**：5-Tab（Trending/Spike/Rise/Density/Cross）原本是按"热度维度"分桶，但 Radar Quest 的核心是 **topic**（AI / 一人公司 / 自我管理），不是热度分类。维度分裂会让用户在三屏之间跳；topic 聚合更直接——"我今天关心 AI 方向，看 AI 区就行"。
+**为什么不要 5-Tab**：5-Tab（Trending/Spike/Rise/Density/Cross）原本是按"热度维度"分桶，但 StarCatcher 的核心是 **topic**（AI / 一人公司 / 自我管理），不是热度分类。维度分裂会让用户在三屏之间跳；topic 聚合更直接——"我今天关心 AI 方向，看 AI 区就行"。
 
 **页面结构**：
 

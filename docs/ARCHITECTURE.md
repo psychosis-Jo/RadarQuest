@@ -22,7 +22,7 @@
 ## 2. 仓库结构
 
 ```
-radar-quest/
+starcatcher/
 ├── .github/
 │   ├── workflows/
 │   │   ├── daily-fetch.yml          # GitHub Actions cron
@@ -221,14 +221,14 @@ PRODUCTHUNT_API_TOKEN=
 RSSHUB_BASE_URL=https://rsshub.app      # 建议自托管
 
 # 应用
-NEXT_PUBLIC_APP_NAME="Radar Quest"
+NEXT_PUBLIC_APP_NAME="StarCatcher"
 NEXT_PUBLIC_DEFAULT_LOCALE=zh
 ```
 
 ## 6. 部署形态
 
 ```
-GitHub repo (radar-quest)
+GitHub repo (starcatcher)
    │
    ├── main branch → Vercel (auto deploy on push)
    │

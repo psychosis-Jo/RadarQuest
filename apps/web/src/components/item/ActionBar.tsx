@@ -1,6 +1,6 @@
 'use client';
 import { useState, useTransition } from 'react';
-import { ACTION_LABELS, type ActionType, XP_VALUES } from '@radar-quest/shared';
+import { ACTION_LABELS, type ActionType, XP_VALUES } from '@starcatcher/shared';
 
 const ACTIONS: ActionType[] = ['watch', 'save', 'note', 'build', 'publish'];
 

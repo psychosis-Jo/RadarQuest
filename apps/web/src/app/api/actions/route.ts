@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { recordAction } from '@/lib/data/actions';
-import type { ActionType } from '@radar-quest/shared';
+import type { ActionType } from '@starcatcher/shared';
 
 export async function POST(req: Request) {
   try {

@@ -1,6 +1,6 @@
 import 'server-only';
 import { getSupabase } from './supabase';
-import { XP_VALUES, type ActionType } from '@radar-quest/shared';
+import { XP_VALUES, type ActionType } from '@starcatcher/shared';
 import { checkAndUnlockAchievements } from './achievements';
 import type { Item } from './types';
 

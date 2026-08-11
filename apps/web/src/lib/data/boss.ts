@@ -1,6 +1,6 @@
 import 'server-only';
 import { getSupabase } from './supabase';
-import type { ConstellationTier } from '@radar-quest/shared';
+import type { ConstellationTier } from '@starcatcher/shared';
 
 export interface Boss {
   id: string;

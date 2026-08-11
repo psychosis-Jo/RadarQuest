@@ -35,7 +35,7 @@
 
 ## 不做（明确）
 
-- **AI 自动 Publish**。这条由你决定。Radar Quest 只做工具
+- **AI 自动 Publish**。这条由你决定。StarCatcher 只做工具
 - **评论 / 关注 / 点赞**等社交动作。这不是社区
 - **替代 GitHub / PH / HN**。我们只聚合它们
 - **移动 App 原生**。v1-v3 全部 Web

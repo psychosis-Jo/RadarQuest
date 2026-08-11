@@ -23,7 +23,7 @@ importers:
       '@phosphor-icons/web':
         specifier: ^2.1.2
         version: 2.1.2
-      '@radar-quest/shared':
+      '@starcatcher/shared':
         specifier: workspace:*
         version: link:../../packages/shared
       '@supabase/ssr':

@@ -8,7 +8,7 @@
 - [ ] 0.2 装依赖：shadcn/ui、motion、howler、@supabase/supabase-js、rss-parser、cheerio、node-fetch、next-intl、zod
 - [ ] 0.3 创建 Supabase 项目，跑 `0001_init.sql` 迁移
 - [ ] 0.4 写 `.env.example`，配置本地 env
-- [ ] 0.5 初始化 Git 仓库（`radar-quest`），分支保护规则
+- [ ] 0.5 初始化 Git 仓库（`starcatcher`），分支保护规则
 - [ ] 0.6 写 `tsconfig.base.json`、根 `package.json` scripts
 
 **完成定义**：`pnpm dev` 起得来，Supabase 连接 OK

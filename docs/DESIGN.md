@@ -1,4 +1,4 @@
-# Radar Quest — DESIGN.md
+# StarCatcher — DESIGN.md
 
 > Personal tech radar for content creators.
 > "Saw a trend" → "Shipped a work"。
@@ -12,7 +12,7 @@
 > constellation on indigo vellum — 每一颗 Publish 是一颗被你点亮的星。
 > 你的产出史是一片**会生长的星云**，你的 Boss 是**真实星座**的轮廓。
 
-Radar Quest 是一片夜空，不是 productivity 工作台。深墨蓝 vellum 是底，金色 ink 是点缀，三个主题色（星辉青 / 琥珀金 / 雾紫）只描亮你真正在意的信号。视觉中心是**你自己的星云**——所有你留下过痕迹的热点散落其中，按话题聚拢成簇，按状态显示亮度。**每点一次 Publish，天上就多一颗星**。
+StarCatcher 是一片夜空，不是 productivity 工作台。深墨蓝 vellum 是底，金色 ink 是点缀，三个主题色（星辉青 / 琥珀金 / 雾紫）只描亮你真正在意的信号。视觉中心是**你自己的星云**——所有你留下过痕迹的热点散落其中，按话题聚拢成簇，按状态显示亮度。**每点一次 Publish，天上就多一颗星**。
 
 **Boss 来自真实星座**：v1 用 IAU 88 星座做 Boss 模板（猎户、天鹅、仙后...），用户自命名任务、点燃对应的星。完成后的星座移入"星图册"——这是你的产出史。
 
@@ -38,7 +38,7 @@ Radar Quest 是一片夜空，不是 productivity 工作台。深墨蓝 vellum �
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│  HEADER: 🧭 Radar Quest  · [📥 捕捉][✦ 星云][👤 我的][⚙]│
+│  HEADER: 🧭 StarCatcher  · [📥 捕捉][✦ 星云][👤 我的][⚙]│
 ├──────────────────────────────────────────────┬───────────┤
 │                                              │ 侧栏 280px│
 │           ★  ★    ★      ★                   │ ┌───────┐ │
@@ -63,7 +63,7 @@ Radar Quest 是一片夜空，不是 productivity 工作台。深墨蓝 vellum �
 - **我的**（`/my`）= 沉淀（Level / XP / 任务 / 技能 / 星座 / 星图册）
 - **设置**（`/settings`）= 关键词 / 信源 / 强度档位
 
-> **为什么不要 5-Tab**：5-Tab（Trending / Spike / Rise / Density / Cross）是按"热度维度"分桶的，但 Radar Quest 的核心维度是 **topic**。按 topic 聚合让用户"想看 AI 直接去 AI 区"，比"想看短期爆发的去 Spike tab"更直接。**5-Tab 概念已废弃**，不在 `/capture` 里复刻（详见 IA.md §4）。
+> **为什么不要 5-Tab**：5-Tab（Trending / Spike / Rise / Density / Cross）是按"热度维度"分桶的，但 StarCatcher 的核心维度是 **topic**。按 topic 聚合让用户"想看 AI 直接去 AI 区"，比"想看短期爆发的去 Spike tab"更直接。**5-Tab 概念已废弃**，不在 `/capture` 里复刻（详见 IA.md §4）。
 
 **流转**（v1.2 目标态）：
 
@@ -338,7 +338,7 @@ XP 阶梯：5 → 15 → 30 → 50 → 100，**最后一级翻倍**（呼应 Pub
 **为什么是"主题聚合"而不是 5-Tab**：
 
 5-Tab（Trending / Spike / Rise / Density / Cross）是按"热度维度"分桶。
-Radar Quest 的核心维度是 **topic**（AI / 一人公司 / 自我管理 / 未分类）——
+StarCatcher 的核心维度是 **topic**（AI / 一人公司 / 自我管理 / 未分类）——
 用户想看 AI 直接去 AI 区，比"想看短期爆发的去 Spike tab"更直接。
 5-Tab 概念已**彻底放弃**，不在 `/capture` 里复刻。
 

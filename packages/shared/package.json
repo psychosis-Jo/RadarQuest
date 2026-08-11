@@ -1,5 +1,5 @@
 {
-  "name": "@radar-quest/shared",
+  "name": "@starcatcher/shared",
   "version": "0.1.0",
   "private": true,
   "main": "./src/index.ts",

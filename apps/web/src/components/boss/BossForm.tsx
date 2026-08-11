@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { pickConstellationForBoss, getConstellationById } from '@radar-quest/shared';
+import { pickConstellationForBoss, getConstellationById } from '@starcatcher/shared';
 import { DeadlinePicker } from './DeadlinePicker';
 import { ConstellationPicker } from './ConstellationPicker';
 

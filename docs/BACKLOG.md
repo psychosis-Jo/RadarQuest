@@ -62,7 +62,7 @@
 - [ ] 移动端 PWA（offline + add to home screen）
 - [ ] i18n：英文界面（不只是中文 + 英文双套）
 - [ ] README + 开源声明（MIT）
-- [ ] 把模板仓拆成 radar-quest-template + radar-quest（个人数据）
+- [ ] 把模板仓拆成 starcatcher-template + starcatcher（个人数据）
 
 ## v2 — Triage UX 续（用户已说先不做）
 

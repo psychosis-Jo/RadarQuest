@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ACTION_LABELS } from '@radar-quest/shared';
+import { ACTION_LABELS } from '@starcatcher/shared';
 
 interface Item {
   id: string;

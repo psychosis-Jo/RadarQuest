@@ -1,6 +1,6 @@
 import 'server-only';
 import { getSupabase } from './supabase';
-import { levelFromXP, xpInCurrentLevel, xpToNextLevel, XP_PER_LEVEL } from '@radar-quest/shared';
+import { levelFromXP, xpInCurrentLevel, xpToNextLevel, XP_PER_LEVEL } from '@starcatcher/shared';
 import type { UserStats } from './types';
 
 export async function getUserStats(): Promise<UserStats> {

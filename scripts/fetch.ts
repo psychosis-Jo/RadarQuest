@@ -10,7 +10,7 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { createHash } from 'node:crypto';
-import { matchTopics, type KeywordSet } from '@radar-quest/shared';
+import { matchTopics, type KeywordSet } from '@starcatcher/shared';
 
 import {
   fetchGitHubTrending,

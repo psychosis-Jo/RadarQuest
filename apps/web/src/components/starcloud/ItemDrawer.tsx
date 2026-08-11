@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import type { Item } from '@/lib/data/types';
-import type { ActionType } from '@radar-quest/shared';
+import type { ActionType } from '@starcatcher/shared';
 import { ItemCard } from '@/components/item/ItemCard';
 
 export function ItemDrawer({

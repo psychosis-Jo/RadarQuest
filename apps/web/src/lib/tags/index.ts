@@ -1,6 +1,6 @@
 // 5 个标签的服务端实现
 // 客户端直接复用 packages/shared 的纯函数；这里负责拉数据并归一化
-import type { TabKey } from '@radar-quest/shared';
+import type { TabKey } from '@starcatcher/shared';
 
 export async function getTabItems(tab: TabKey, supabase: any, options: { days?: number; limit?: number } = {}) {
   const { days = 1, limit = 50 } = options;

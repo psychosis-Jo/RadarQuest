@@ -4,7 +4,7 @@
 
 ## 方案 A（推荐）
 
-### 公开仓：`yourname/radar-quest`
+### 公开仓：`yourname/starcatcher`
 - 全部应用代码
 - 默认配置（`data/keywords.default.json` 等）
 - `docs/` 全部
@@ -27,10 +27,10 @@
 
 如果你想完全离线 / 不依赖云服务：
 
-### 公开仓：`yourname/radar-quest`（代码）
+### 公开仓：`yourname/starcatcher`（代码）
 - 同上
 
-### 私有仓：`yourname/radar-quest-data`（配置）
+### 私有仓：`yourname/starcatcher-data`（配置）
 - 你的真实关键词 JSON
 - 你的真实 Boss 配置 JSON
 - 你的导出（每月一次）
@@ -42,8 +42,8 @@
 
 ## 用户视角：如何 fork + 部署
 
-1. 访问 `github.com/yourname/radar-quest`
-2. 点 "Use this template" → 命名 `radar-quest`
+1. 访问 `github.com/yourname/starcatcher`
+2. 点 "Use this template" → 命名 `starcatcher`
 3. 克隆到本地
 4. 注册 Supabase 账号（免费）
 5. 在 Supabase SQL 编辑器跑 `supabase/migrations/0001_init.sql`

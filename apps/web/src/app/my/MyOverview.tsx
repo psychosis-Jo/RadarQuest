@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ACTION_LABELS } from '@radar-quest/shared';
+import { ACTION_LABELS } from '@starcatcher/shared';
 import type { UserStats } from '@/lib/data/types';
 import type { Boss } from '@/lib/data/boss';
 

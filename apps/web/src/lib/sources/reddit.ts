@@ -15,7 +15,7 @@ export async function fetchReddit(config: RedditConfig): Promise<FetchedItem[]> 
     const url = `https://www.reddit.com/r/${sub}/top.json?t=day&limit=${config.max_items_per_sub}`;
     try {
       const res = await fetch(url, {
-        headers: { 'User-Agent': 'RadarQuest/0.1 (https://github.com/radar-quest)' }
+        headers: { 'User-Agent': 'StarCatcher/0.1 (https://github.com/starcatcher)' }
       });
       if (!res.ok) continue;
       const data = await res.json();

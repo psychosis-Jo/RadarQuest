@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { getSkillProgress } from '@/lib/data/skill';
 import { getActiveBosses } from '@/lib/data/boss';
-import { TOPIC_COLORS, TOPIC_LABELS } from '@radar-quest/shared';
+import { TOPIC_COLORS, TOPIC_LABELS } from '@starcatcher/shared';
 
 const TOPIC_LABELS_ZH = {
   AI: 'AI 应用',

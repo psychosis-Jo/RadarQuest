@@ -22,7 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Radar Quest',
+  title: 'StarCatcher',
   description: '把"看到热点"变成"产出一个作品"。每完成一次，就点亮一颗星。'
 };
 

@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Item } from '@/lib/data/types';
-import type { ActionType } from '@radar-quest/shared';
-import { TOPIC_COLORS, TOPIC_LABELS } from '@radar-quest/shared';
+import type { ActionType } from '@starcatcher/shared';
+import { TOPIC_COLORS, TOPIC_LABELS } from '@starcatcher/shared';
 import {
   simulateLayout,
   radiusForItem,
@@ -15,7 +15,7 @@ import { ItemDrawer } from './ItemDrawer';
 type Stats = { actions: ActionType[]; totalXp: number };
 type ClusterKey = Topic;
 
-const STORAGE_KEY = 'radar-quest:starcloud:positions:v2';
+const STORAGE_KEY = 'starcatcher:starcloud:positions:v2';
 const VB_W = 1200;
 const VB_H = 600;
 

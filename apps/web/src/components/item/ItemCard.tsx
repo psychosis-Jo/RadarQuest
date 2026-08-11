@@ -1,6 +1,6 @@
 import type { Item } from '@/lib/data/types';
-import type { ActionType } from '@radar-quest/shared';
-import { TOPIC_COLORS } from '@radar-quest/shared';
+import type { ActionType } from '@starcatcher/shared';
+import { TOPIC_COLORS } from '@starcatcher/shared';
 import { ActionBar } from './ActionBar';
 
 const SOURCE_LABEL: Record<string, { label: string }> = {

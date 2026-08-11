@@ -3,7 +3,7 @@
 // viewBox 0 0 1 1，position 来自 data/constellations.json
 // 状态：pending (虚线 · 灰) / in_progress (部分亮) / completed (实线 · 金)
 
-import type { Constellation } from '@radar-quest/shared';
+import type { Constellation } from '@starcatcher/shared';
 
 export type ConstellationState = 'pending' | 'in_progress' | 'completed';
 

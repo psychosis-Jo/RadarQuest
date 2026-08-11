@@ -1,7 +1,7 @@
 import { AppShell } from '@/components/layout/AppShell';
 import { getSkillProgress } from '@/lib/data/skill';
 import { getSupabase } from '@/lib/data/supabase';
-import { TOPIC_COLORS, ACTION_LABELS } from '@radar-quest/shared';
+import { TOPIC_COLORS, ACTION_LABELS } from '@starcatcher/shared';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';

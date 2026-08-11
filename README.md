@@ -1,8 +1,8 @@
-# Radar Quest
+# StarCatcher
 
 > 把"看到热点"变成"产出一个作品"。每完成一次，就点亮一颗星。慢慢地，你拥有了一整片自己的星图。
 
-Radar Quest 是一个面向内容创作者和独立开发者的个人技术雷达。
+StarCatcher 是一个面向内容创作者和独立开发者的个人技术雷达。
 它从 GitHub、Product Hunt、Hacker News、Reddit、Newsletter、公众号（通过 RSSHub）抓取热点，
 按 5 个维度（Trending 榜 / 短时间爆发 / 持续上升 / 讨论密度 / 跨平台提及）聚合，
 再用一套浪漫的星图式游戏化机制，把"看到"变成"做到"，把"做到"变成"发布"。
@@ -30,8 +30,8 @@ Radar Quest 是一个面向内容创作者和独立开发者的个人技术雷�
 
 ```bash
 # 1. 克隆
-git clone https://github.com/<your-username>/radar-quest.git
-cd radar-quest
+git clone https://github.com/psychosis-Jo/StarCatcher.git
+cd starcatcher
 
 # 2. 装依赖
 pnpm install
