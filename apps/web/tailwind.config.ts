@@ -47,6 +47,16 @@ const config: Config = {
         modal:  '12px'
         // chip / tag / input 仍用默认 4px (rounded)
       },
+      fontSize: {
+        // type scale —— per DESIGN.md §3
+        'display':    ['56px', { lineHeight: '1.05', letterSpacing: '-0.025em', fontWeight: '500' }],
+        'heading-lg': ['40px', { lineHeight: '1.1',  letterSpacing: '-0.02em',  fontWeight: '500' }],
+        'heading':    ['28px', { lineHeight: '1.2',  letterSpacing: '-0.015em', fontWeight: '500' }],
+        'heading-sm': ['20px', { lineHeight: '1.3',  letterSpacing: '-0.01em',  fontWeight: '500' }],
+        'subheading': ['18px', { lineHeight: '1.4',  letterSpacing: '-0.005em', fontWeight: '500' }],
+        'body':       ['15px', { lineHeight: '1.55', letterSpacing: '0',        fontWeight: '400' }],
+        'caption':    ['13px', { lineHeight: '1.45', letterSpacing: '0',        fontWeight: '400' }]
+      },
       keyframes: {
         twinkle: {
           '0%, 100%': { opacity: '0.4' },

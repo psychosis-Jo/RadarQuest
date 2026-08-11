@@ -134,7 +134,7 @@ export function SettingsForm({ initial }: { initial: any }) {
   return (
     <div className="space-y-8">
       {/* 强度档位 */}
-      <section className="hand-drawn-border rounded bg-ink-800/60 p-6">
+      <section className="hand-drawn-border rounded-card bg-ink-800/60 p-6">
         <h2 className="font-display text-xl text-bone-50">游戏化强度</h2>
         <p className="mt-1 text-sm text-bone-400">0 = 完全关闭，4 = 全力冲刺</p>
         <div className="mt-4 grid gap-2 sm:grid-cols-5">
@@ -142,12 +142,12 @@ export function SettingsForm({ initial }: { initial: any }) {
             <button
               key={l.value}
               onClick={() => setIntensity(l.value)}
-              className={`rounded border p-3 text-left transition-all
+              className={`rounded-button border p-3 text-left transition-all
                 ${intensity === l.value
                   ? 'border-gold bg-gold/10 shadow-glow'
                   : 'border-ink-700 bg-ink-900 hover:border-ink-600'}`}
             >
-              <div className="num text-[10px] uppercase tracking-widest text-bone-400">Lv {l.value}</div>
+              <div className="num text-caption text-bone-400">Lv {l.value}</div>
               <div className="font-display text-sm text-bone-50">{l.name}</div>
               <div className="mt-1 text-[10px] text-bone-400">{l.desc}</div>
             </button>
@@ -156,7 +156,7 @@ export function SettingsForm({ initial }: { initial: any }) {
       </section>
 
       {/* 独立开关 */}
-      <section className="hand-drawn-border rounded bg-ink-800/60 p-6">
+      <section className="hand-drawn-border rounded-card bg-ink-800/60 p-6">
         <h2 className="font-display text-xl text-bone-50">独立开关</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-3">
           <Field label="音效" value={soundMode} options={['off', 'action', 'publish', 'all']} onChange={setSoundMode} />
@@ -166,7 +166,7 @@ export function SettingsForm({ initial }: { initial: any }) {
       </section>
 
       {/* 关键词 */}
-      <section className="hand-drawn-border rounded bg-ink-800/60 p-6">
+      <section className="hand-drawn-border rounded-card bg-ink-800/60 p-6">
         <h2 className="font-display text-xl text-bone-50">关键词</h2>
         <p className="mt-1 text-sm text-bone-400">命中关键词的 item 会归到对应主题</p>
         <div className="mt-4 space-y-4">
@@ -183,7 +183,7 @@ export function SettingsForm({ initial }: { initial: any }) {
       </section>
 
       {/* 信源 */}
-      <section className="hand-drawn-border rounded bg-ink-800/60 p-6">
+      <section className="hand-drawn-border rounded-card bg-ink-800/60 p-6">
         <div className="flex items-baseline justify-between">
           <div>
             <h2 className="font-display text-xl text-bone-50">信源</h2>
@@ -194,7 +194,7 @@ export function SettingsForm({ initial }: { initial: any }) {
           <button
             onClick={resetSources}
             disabled={resetting}
-            className="rounded border border-ink-700 px-3 py-1.5 text-xs text-bone-300 hover:border-warning hover:text-warning disabled:opacity-50"
+            className="rounded-button border border-ink-700 px-3 py-1.5 text-xs text-bone-300 hover:border-warning hover:text-warning disabled:opacity-50"
           >
             {resetting ? '重置中…' : '恢复默认'}
           </button>
@@ -216,7 +216,7 @@ export function SettingsForm({ initial }: { initial: any }) {
         <button
           onClick={save}
           disabled={saving}
-          className="rounded border border-gold bg-gold/10 px-6 py-2 font-display text-bone-50 hover:bg-gold/20 disabled:opacity-50"
+          className="rounded-button border border-gold bg-gold/10 px-6 py-2 font-display text-bone-50 hover:bg-gold/20 disabled:opacity-50"
         >
           {saving ? '保存中…' : '保存设置'}
         </button>
@@ -228,13 +228,13 @@ export function SettingsForm({ initial }: { initial: any }) {
 function Field({ label, value, options, onChange }: any) {
   return (
     <div>
-      <label className="num text-[10px] uppercase tracking-widest text-bone-400">{label}</label>
+      <label className="num text-caption text-bone-400">{label}</label>
       <div className="mt-2 flex flex-wrap gap-1">
         {options.map((o: string) => (
           <button
             key={o}
             onClick={() => onChange(o)}
-            className={`rounded border px-3 py-1 text-xs transition-all
+            className={`rounded-button border px-3 py-1 text-xs transition-all
               ${value === o ? 'border-celestial bg-celestial/10 text-celestial' : 'border-ink-700 text-bone-200 hover:border-ink-600'}`}
           >
             {o}
@@ -276,7 +276,7 @@ function KeywordEditor({ label, color, value, onChange }: { label: string; color
           placeholder="加关键词，回车确认"
           className="flex-1 rounded border border-ink-700 bg-ink-900 px-2 py-1 text-xs text-bone-50 focus:border-gold/50 focus:outline-none"
         />
-        <button onClick={add} className="rounded border border-ink-700 px-3 py-1 text-xs text-bone-200 hover:border-gold/50">+</button>
+        <button onClick={add} className="rounded-button border border-ink-700 px-3 py-1 text-xs text-bone-200 hover:border-gold/50">+</button>
       </div>
     </div>
   );
@@ -286,12 +286,12 @@ function SourceRow({ def, state, onChange }: { def: any; state: any; onChange: (
   const enabled = state?.enabled ?? true;
   const list: string[] = state?.config?.[def.list?.key ?? ''] ?? [];
   return (
-    <div className={`rounded border p-4 transition-opacity ${enabled ? 'border-ink-700 bg-ink-900/40' : 'border-ink-800 bg-ink-900/20 opacity-60'}`}>
+    <div className={`rounded-card border p-4 transition-opacity ${enabled ? 'border-ink-700 bg-ink-900/40' : 'border-ink-800 bg-ink-900/20 opacity-60'}`}>
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
             <p className="font-display text-base text-bone-50">{def.label}</p>
-            {!enabled && <span className="num text-[10px] uppercase tracking-widest text-bone-400">已禁用</span>}
+            {!enabled && <span className="num text-caption text-bone-400">已禁用</span>}
           </div>
           <p className="mt-0.5 text-xs text-bone-400">{def.desc}</p>
         </div>
@@ -309,7 +309,7 @@ function SourceRow({ def, state, onChange }: { def: any; state: any; onChange: (
       </div>
       {def.list && enabled && (
         <div className="mt-3 border-t border-ink-700 pt-3">
-          <label className="num text-[10px] uppercase tracking-widest text-bone-400">
+          <label className="num text-caption text-bone-400">
             {def.list.label}
           </label>
           <div className="mt-2 flex flex-wrap gap-1.5">
@@ -362,7 +362,7 @@ function SourceListInput({ placeholder, onAdd }: { placeholder: string; onAdd: (
       />
       <button
         onClick={add}
-        className="rounded border border-ink-700 px-3 py-1 text-xs text-bone-200 hover:border-gold/50"
+        className="rounded-button border border-ink-700 px-3 py-1 text-xs text-bone-200 hover:border-gold/50"
       >+</button>
     </div>
   );

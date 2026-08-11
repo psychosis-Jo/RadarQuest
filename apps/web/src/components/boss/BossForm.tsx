@@ -121,7 +121,7 @@ export function BossForm({
   }
 
   return (
-    <div className="hand-drawn-border rounded bg-ink-800 p-6 shadow-glow">
+    <div className="hand-drawn-border rounded-card bg-ink-800 p-6 shadow-glow">
       <h3 className="font-display text-xl text-bone-50">
         {existing ? '编辑星座' : '创建新星座'}
       </h3>
@@ -179,7 +179,7 @@ export function BossForm({
                 key={t.value}
                 type="button"
                 onClick={() => setTopic(t.value as any)}
-                className={`rounded border px-3 py-1 text-xs transition-all
+                className={`rounded-button border px-3 py-1 text-xs transition-all
                   ${topic === t.value
                     ? 'border-gold bg-gold/10 text-gold shadow-glow'
                     : 'border-ink-700 text-bone-200 hover:border-ink-600'}`}
@@ -208,7 +208,7 @@ export function BossForm({
           <button
             type="button"
             onClick={onClose}
-            className="rounded border border-ink-700 px-4 py-2 text-sm text-bone-200 hover:border-ink-600"
+            className="rounded-button border border-ink-700 px-4 py-2 text-sm text-bone-200 hover:border-ink-600"
           >
             取消
           </button>
@@ -216,7 +216,7 @@ export function BossForm({
             type="button"
             onClick={save}
             disabled={saving}
-            className="rounded border border-gold bg-gold/10 px-4 py-2 text-sm text-gold hover:bg-gold/20 disabled:opacity-50"
+            className="rounded-button border border-gold bg-gold/10 px-4 py-2 text-sm text-gold hover:bg-gold/20 disabled:opacity-50"
           >
             {saving ? '保存中…' : existing ? '保存修改' : '创建星座'}
           </button>
@@ -229,7 +229,7 @@ export function BossForm({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="num text-[10px] uppercase tracking-widest text-bone-400">{label}</label>
+      <label className="num text-caption text-bone-400">{label}</label>
       <div className="mt-1.5">{children}</div>
     </div>
   );

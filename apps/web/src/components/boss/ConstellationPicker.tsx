@@ -21,7 +21,7 @@ export function ConstellationPicker({
   const c = getConstellationById(constId);
   if (!c) {
     return (
-      <div className="rounded border border-warning/40 bg-warning/5 p-3 text-xs text-warning">
+      <div className="rounded-card border border-warning/40 bg-warning/5 p-3 text-xs text-warning">
         未知星座 <code className="num">{constId}</code>（数据库里的 const_id 无效）
       </div>
     );
@@ -34,7 +34,7 @@ export function ConstellationPicker({
     'pending';
 
   return (
-    <div className="rounded border border-ink-700 bg-ink-900/50 p-3">
+    <div className="rounded-card border border-ink-700 bg-ink-900/50 p-3">
       <div className="flex items-start gap-4">
         <ConstellationArtwork
           constellation={c}
@@ -48,7 +48,7 @@ export function ConstellationPicker({
               {c.name_zh}
             </span>
             <span className="text-[11px] text-bone-400">{c.name_en}</span>
-            <span className="num text-[10px] uppercase tracking-widest text-bone-400">
+            <span className="num text-caption text-bone-400">
               {TIER_LABELS[c.tier].zh} · {c.stars.length} 星
             </span>
           </div>

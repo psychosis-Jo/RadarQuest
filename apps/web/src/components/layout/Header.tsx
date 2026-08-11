@@ -56,7 +56,7 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   return (
     <Link
       href={href}
-      className="rounded px-2 py-1 text-bone-200 transition-colors hover:bg-ink-800 hover:text-bone-50 sm:px-3"
+      className="rounded-button px-2 py-1 text-bone-200 transition-colors hover:bg-ink-800 hover:text-bone-50 sm:px-3"
     >
       {children}
     </Link>
@@ -82,7 +82,7 @@ function Stat({
   return (
     <div className="flex flex-col items-end leading-tight">
       <div className="flex items-baseline gap-1.5">
-        <span className="num text-[10px] uppercase tracking-widest text-bone-400">
+        <span className="num text-caption text-bone-400">
           {label}
         </span>
         <span className={valueClass}>

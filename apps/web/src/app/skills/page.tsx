@@ -72,8 +72,8 @@ export default async function SkillsPage() {
       </header>
 
       {/* 使用说明 */}
-      <div className="hand-drawn-border mb-8 rounded bg-ink-800/40 p-5">
-        <p className="num text-[10px] uppercase tracking-widest text-bone-400">这是什么</p>
+      <div className="hand-drawn-border mb-8 rounded-card bg-ink-800/40 p-5">
+        <p className="num text-caption text-bone-400">这是什么</p>
         <p className="mt-2 text-sm text-bone-200">
           每条 item 都会自动归到 1-3 个主题（看它的标题 / 摘要命中了哪些关键词）。
           你对它做的 5 种动作（Watch / Save / Note / Build / Publish）都会推进对应主题。
@@ -94,7 +94,7 @@ export default async function SkillsPage() {
           const pct = s.nextMilestone > 0 ? Math.min(100, (s.count / s.nextMilestone) * 100) : 100;
           const recent = recentByTopic[t];
           return (
-            <div key={t} className="hand-drawn-border rounded bg-ink-800/60 p-6">
+            <div key={t} className="hand-drawn-border rounded-card bg-ink-800/60 p-6">
               <div className="flex items-baseline justify-between">
                 <div>
                   <h2 className="font-display text-2xl" style={{ color }}>{TOPIC_LABELS_ZH[t]}</h2>
@@ -125,7 +125,7 @@ export default async function SkillsPage() {
 
               {/* 最近贡献这个树的动作 */}
               <div className="mt-5 border-t border-ink-700 pt-4">
-                <p className="num text-[10px] uppercase tracking-widest text-bone-400">最近贡献这个树的动作</p>
+                <p className="num text-caption text-bone-400">最近贡献这个树的动作</p>
                 {recent.length === 0 ? (
                   <p className="mt-2 text-xs text-bone-400">还没有。去做一些 {TOPIC_LABELS_ZH[t]} 相关的动作吧</p>
                 ) : (

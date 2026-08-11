@@ -87,7 +87,7 @@ export function ActionBar({ itemId, done }: { itemId: string; done: string[] }) 
             key={a.type}
             onClick={() => handleClick(a.type)}
             disabled={isPending || isDone}
-            className={`group flex items-center gap-1 rounded border px-2 py-1 text-xs transition-colors ${
+            className={`group flex items-center gap-1 rounded-button border px-2 py-1 text-xs transition-colors ${
               isDone
                 ? 'border-gold/40 bg-gold/10 text-gold'
                 : 'border-ink-700 bg-ink-800/40 text-bone-200 hover:border-ink-600 hover:bg-ink-800 hover:text-bone-50'
@@ -105,7 +105,7 @@ export function ActionBar({ itemId, done }: { itemId: string; done: string[] }) 
       {/* Note 弹层 */}
       {noteOpen === 'note' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/80 p-4">
-          <div className="w-full max-w-md rounded border border-gold/30 bg-ink-800 p-6 shadow-2xl">
+          <div className="w-full max-w-md rounded-modal border border-gold/30 bg-ink-800 p-6">
             <h3 className="font-display text-xl text-bone-50">📝 写一句笔记</h3>
             <p className="mt-1 text-xs text-bone-400">这对我有什么用？（+20 XP）</p>
             <textarea
@@ -115,8 +115,8 @@ export function ActionBar({ itemId, done }: { itemId: string; done: string[] }) 
               className="mt-3 h-32 w-full rounded border border-ink-700 bg-ink-900 p-3 text-sm text-bone-50 placeholder:text-bone-400 focus:border-gold/50 focus:outline-none"
             />
             <div className="mt-4 flex justify-end gap-2">
-              <button onClick={() => setNoteOpen(null)} className="px-3 py-1.5 text-xs text-bone-400 hover:text-bone-50">取消</button>
-              <button onClick={submitNote} className="rounded border border-gold bg-gold/10 px-3 py-1.5 text-xs text-gold hover:bg-gold/20">写下</button>
+              <button onClick={() => setNoteOpen(null)} className="rounded-button px-3 py-1.5 text-xs text-bone-400 hover:text-bone-50">取消</button>
+              <button onClick={submitNote} className="rounded-button border border-gold bg-gold/10 px-3 py-1.5 text-xs text-gold hover:bg-gold/20">写下</button>
             </div>
           </div>
         </div>
@@ -125,31 +125,31 @@ export function ActionBar({ itemId, done }: { itemId: string; done: string[] }) 
       {/* Publish 弹层 */}
       {publishing && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/80 p-4">
-          <div className="w-full max-w-md rounded border border-celestial/50 bg-ink-800 p-6 shadow-2xl">
+          <div className="w-full max-w-md rounded-modal border border-gold bg-ink-800 p-6">
             <h3 className="font-display text-xl text-bone-50">📢 发布作品</h3>
             <p className="mt-1 text-xs text-bone-400">关联到你的公众号文章 / 开源项目 / 推文（+100 XP）</p>
             <input
               value={pubRef.title}
               onChange={e => setPubRef({ ...pubRef, title: e.target.value })}
               placeholder="作品标题（必填）"
-              className="mt-3 w-full rounded border border-ink-700 bg-ink-900 p-2 text-sm text-bone-50 focus:border-celestial/50 focus:outline-none"
+              className="mt-3 w-full rounded border border-ink-700 bg-ink-900 p-2 text-sm text-bone-50 focus:border-gold/50 focus:outline-none"
             />
             <input
               value={pubRef.ref}
               onChange={e => setPubRef({ ...pubRef, ref: e.target.value })}
               placeholder="URL（可选）"
-              className="mt-2 w-full rounded border border-ink-700 bg-ink-900 p-2 text-sm text-bone-50 focus:border-celestial/50 focus:outline-none"
+              className="mt-2 w-full rounded border border-ink-700 bg-ink-900 p-2 text-sm text-bone-50 focus:border-gold/50 focus:outline-none"
             />
             <div className="mt-4 flex justify-end gap-2">
-              <button onClick={() => setPublishing(false)} className="px-3 py-1.5 text-xs text-bone-400 hover:text-bone-50">取消</button>
-              <button onClick={submitPublish} className="rounded border border-celestial bg-celestial/10 px-3 py-1.5 text-xs text-celestial hover:bg-celestial/20">点亮星图 ✦</button>
+              <button onClick={() => setPublishing(false)} className="rounded-button px-3 py-1.5 text-xs text-bone-400 hover:text-bone-50">取消</button>
+              <button onClick={submitPublish} className="rounded-button border border-gold bg-gold/15 px-3 py-1.5 font-display text-sm text-gold hover:bg-gold/25">点亮星图 ✦</button>
             </div>
           </div>
         </div>
       )}
 
       {state && (
-        <div className="num fixed right-4 top-16 z-50 rounded border border-gold bg-ink-800 px-3 py-2 text-xs text-gold shadow-xl sm:top-20">
+        <div className="num fixed right-4 top-16 z-50 rounded-button border border-gold bg-ink-800 px-3 py-2 text-xs text-gold shadow-xl sm:top-20">
           {state.hint ?? `+${state.xp} XP`}
         </div>
       )}

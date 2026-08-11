@@ -30,7 +30,7 @@ export function ItemCard({ item, done }: { item: Item; done: ActionType[] }) {
   const leadColor = leadTopic ? (TOPIC_COLORS as Record<string, string>)[leadTopic] : null;
 
   return (
-    <article className="hand-drawn-border group relative flex gap-4 rounded p-5 transition-colors hover:bg-ink-800/80 sm:p-6">
+    <article className="hand-drawn-border group relative flex gap-4 rounded-card p-5 transition-colors hover:bg-ink-800/80 sm:p-6">
       {/* Topic 指示条（极细，左侧） */}
       {leadColor && (
         <span
@@ -42,7 +42,7 @@ export function ItemCard({ item, done }: { item: Item; done: ActionType[] }) {
 
       <div className="min-w-0 flex-1">
         {/* Meta: source + metric */}
-        <div className="num flex items-center gap-3 text-[10px] uppercase tracking-widest text-bone-400">
+        <div className="num flex items-center gap-3 text-caption text-bone-400">
           <span>{src.label}</span>
           {metric && <span className="text-bone-200">{metric}</span>}
           {comments ? <span>💬 {comments}</span> : null}
@@ -53,14 +53,14 @@ export function ItemCard({ item, done }: { item: Item; done: ActionType[] }) {
           href={item.url}
           target="_blank"
           rel="noreferrer"
-          className="mt-2 block font-display text-lg leading-snug text-bone-50 transition-colors hover:text-gold sm:text-xl"
+          className="mt-2 block font-display text-heading-sm leading-snug text-bone-50 transition-colors hover:text-gold"
         >
           {item.title}
         </a>
 
         {/* 摘要 */}
         {item.summary && (
-          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-bone-200">
+          <p className="mt-2 line-clamp-2 text-body leading-relaxed text-bone-200">
             {item.summary}
           </p>
         )}
@@ -73,7 +73,7 @@ export function ItemCard({ item, done }: { item: Item; done: ActionType[] }) {
               return (
                 <span
                   key={t}
-                  className="rounded border px-2 py-0.5 text-[10px] uppercase tracking-wider"
+                  className="rounded border px-2 py-0.5 text-caption"
                   style={{
                     borderColor: color ? color + '50' : 'var(--ink-700)',
                     color: color ?? 'var(--bone-200)'

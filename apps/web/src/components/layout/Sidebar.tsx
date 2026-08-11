@@ -18,8 +18,8 @@ export async function Sidebar() {
   return (
     <aside className="space-y-4 lg:sticky lg:top-20 lg:self-start">
       {/* 技能树 */}
-      <div className="hand-drawn-border rounded bg-ink-800/60 p-5">
-        <p className="num mb-3 text-[10px] uppercase tracking-widest text-bone-400">
+      <div className="hand-drawn-border rounded-card bg-ink-800/60 p-5">
+        <p className="num mb-3 text-caption text-bone-400">
           Skill Trees · 技能树
         </p>
         <div className="space-y-3">
@@ -48,8 +48,8 @@ export async function Sidebar() {
       </div>
 
       {/* 在途星座 */}
-      <div className="hand-drawn-border rounded bg-ink-800/60 p-5">
-        <p className="num mb-3 text-[10px] uppercase tracking-widest text-bone-400">
+      <div className="hand-drawn-border rounded-card bg-ink-800/60 p-5">
+        <p className="num mb-3 text-caption text-bone-400">
           Active · 在途
         </p>
         {bosses.length === 0 ? (
@@ -78,7 +78,7 @@ export async function Sidebar() {
             })}
           </div>
         )}
-        <Link href="/bosses" className="num mt-3 block text-[10px] uppercase tracking-wider text-bone-400 hover:text-bone-50">
+        <Link href="/bosses" className="num mt-3 block text-caption text-bone-400 hover:text-bone-50">
           管理星座 →
         </Link>
       </div>

@@ -46,12 +46,12 @@ export function ItemDrawer({
         className="flex h-full w-full max-w-2xl flex-col border-l border-ink-700 bg-ink-900 shadow-2xl"
       >
         <header className="flex shrink-0 items-center justify-between border-b border-ink-700 px-5 py-3">
-          <p className="num text-[10px] uppercase tracking-widest text-bone-400">
+          <p className="num text-caption text-bone-400">
             Item Detail
           </p>
           <button
             onClick={onClose}
-            className="rounded px-2 py-1 text-bone-400 hover:bg-ink-800 hover:text-bone-50"
+            className="rounded-button px-2 py-1 text-bone-400 hover:bg-ink-800 hover:text-bone-50"
             aria-label="关闭"
           >
             ✕

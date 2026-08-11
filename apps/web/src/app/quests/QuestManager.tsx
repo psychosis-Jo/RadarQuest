@@ -155,20 +155,20 @@ export function QuestManager({ initialQuests, candidates }: { initialQuests: Que
         <button
           onClick={generate}
           disabled={generating}
-          className="rounded border border-ink-700 px-3 py-1.5 text-xs text-bone-200 hover:border-gold/50 disabled:opacity-50"
+          className="rounded-button border border-ink-700 px-3 py-1.5 text-xs text-bone-200 hover:border-gold/50 disabled:opacity-50"
         >
           {generating ? '生成中…' : '🔄 重新生成今日任务'}
         </button>
       </div>
 
       {error && (
-        <div className="mb-4 rounded border border-warning/30 bg-warning/5 p-3 text-xs text-warning">
+        <div className="mb-4 rounded-card border border-warning/30 bg-warning/5 p-3 text-xs text-warning">
           {error}
         </div>
       )}
 
       {quests.length === 0 ? (
-        <div className="rounded border border-dashed border-ink-700 bg-ink-800/30 p-12 text-center">
+        <div className="rounded-card border border-dashed border-ink-700 bg-ink-800/30 p-12 text-center">
           <p className="font-display text-lg text-bone-50">今天还没有任务</p>
           <p className="mt-2 text-sm text-bone-400">点上面的"重新生成"按钮</p>
         </div>
@@ -182,11 +182,11 @@ export function QuestManager({ initialQuests, candidates }: { initialQuests: Que
             return (
               <div
                 key={q.id}
-                className={`hand-drawn-border group relative rounded p-5 transition-all
+                className={`hand-drawn-border group relative rounded-card p-5 transition-all
                   ${isDone ? 'border-celestial/50 bg-celestial/5' : 'bg-ink-800/60 hover:bg-ink-800 hover:shadow-glow'}`}
               >
                 <div className="flex items-baseline justify-between">
-                  <p className="num text-[10px] uppercase tracking-widest text-bone-400">
+                  <p className="num text-caption text-bone-400">
                     Quest {i + 1}
                   </p>
                   {topic && (
@@ -213,7 +213,7 @@ export function QuestManager({ initialQuests, candidates }: { initialQuests: Que
                       href={item.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="rounded border border-ink-700 px-2 py-1 text-[10px] text-bone-200 hover:border-gold/50"
+                      className="rounded-button border border-ink-700 px-2 py-1 text-[10px] text-bone-200 hover:border-gold/50"
                     >
                       打开 →
                     </a>
@@ -221,7 +221,7 @@ export function QuestManager({ initialQuests, candidates }: { initialQuests: Que
                   {!isDone && (
                     <button
                       onClick={() => complete(q)}
-                      className="rounded border border-celestial/50 bg-celestial/10 px-2 py-1 text-[10px] text-celestial hover:bg-celestial/20"
+                      className="rounded-button border border-celestial/50 bg-celestial/10 px-2 py-1 text-[10px] text-celestial hover:bg-celestial/20"
                     >
                       ✓ 完成
                     </button>

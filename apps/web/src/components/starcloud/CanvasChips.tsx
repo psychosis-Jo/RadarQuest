@@ -1,6 +1,6 @@
 'use client';
 import type { Topic } from '@/lib/starcloud/force-simulation';
-import { TOPIC_LABELS } from '@radar-quest/shared';
+import { TOPIC_COLORS, TOPIC_LABELS } from '@radar-quest/shared';
 
 interface Counts {
   all: number;
@@ -10,16 +10,19 @@ interface Counts {
   __unmapped__: number;
 }
 
+// 用 token 不用 raw hex —— per DESIGN §15.7
+const BONE_50 = '#F4E9D8'; // bone-50
+const BONE_400 = '#6B7390'; // bone-400
 const CHIPS: Array<{
   key: 'all' | Topic;
   label: string;
   color: string;
 }> = [
-  { key: 'all',         label: '全部',     color: '#F4E9D8' }, // bone-50
-  { key: 'AI',          label: 'AI',       color: '#5FE0C7' },
-  { key: 'one-person',  label: '一人公司', color: '#E8B86F' },
-  { key: 'self-mgmt',   label: '自我管理', color: '#B8A4D4' },
-  { key: '__unmapped__',label: '未分类',   color: '#6B7390' }
+  { key: 'all',         label: '全部',     color: BONE_50 },
+  { key: 'AI',          label: TOPIC_LABELS.AI.zh,           color: TOPIC_COLORS.AI },
+  { key: 'one-person',  label: TOPIC_LABELS['one-person'].zh,  color: TOPIC_COLORS['one-person'] },
+  { key: 'self-mgmt',   label: TOPIC_LABELS['self-mgmt'].zh,   color: TOPIC_COLORS['self-mgmt'] },
+  { key: '__unmapped__',label: '未分类',   color: BONE_400 }
 ];
 
 export function CanvasChips({

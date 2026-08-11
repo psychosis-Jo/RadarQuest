@@ -65,7 +65,7 @@ export function BossManager({
           {!creating && !editing && (
             <button
               onClick={() => setCreating(true)}
-              className="rounded border border-gold bg-gold/10 px-3 py-1.5 text-xs text-gold hover:bg-gold/20"
+              className="rounded-button border border-gold bg-gold/10 px-3 py-1.5 text-xs text-gold hover:bg-gold/20"
             >
               + 新建星座
             </button>
@@ -79,7 +79,7 @@ export function BossManager({
             const pct = Math.min(100, (b.current / b.target) * 100);
             const topicColor = TOPIC_COLORS[b.topic ?? ''] ?? '#A8B0C8';
             return (
-              <div key={b.id} className="hand-drawn-border rounded bg-ink-800/60 p-5">
+              <div key={b.id} className="hand-drawn-border rounded-card bg-ink-800/60 p-5">
                 {editing?.id === b.id ? (
                   <BossForm existing={b} usedConstellationIds={usedConstellationIds} onClose={() => setEditing(null)} />
                 ) : (
@@ -105,13 +105,13 @@ export function BossManager({
                       <div className="flex items-center gap-3">
                         <button
                           onClick={() => setEditing(b)}
-                          className="rounded border border-ink-600 px-2.5 py-1 text-bone-300 transition-colors hover:border-gold/50 hover:text-gold"
+                          className="rounded-button border border-ink-600 px-2.5 py-1 text-bone-300 transition-colors hover:border-gold/50 hover:text-gold"
                         >
                           编辑
                         </button>
                         <button
                           onClick={() => quickDelete(b)}
-                          className="rounded border border-warning/40 px-2.5 py-1 text-warning transition-colors hover:border-warning hover:bg-warning/10"
+                          className="rounded-button border border-warning/40 px-2.5 py-1 text-warning transition-colors hover:border-warning hover:bg-warning/10"
                         >
                           删除
                         </button>
@@ -123,7 +123,7 @@ export function BossManager({
             );
           })}
           {active.length === 0 && !creating && (
-            <div className="rounded border border-dashed border-ink-700 bg-ink-800/30 p-8 text-center">
+            <div className="rounded-card border border-dashed border-ink-700 bg-ink-800/30 p-8 text-center">
               <p className="text-sm text-bone-400">还没有在途的星座</p>
               <button
                 onClick={() => setCreating(true)}
@@ -142,7 +142,7 @@ export function BossManager({
           <h2 className="font-display mb-3 text-lg text-celestial">已发现 ({completed.length})</h2>
           <div className="space-y-2">
             {completed.map(b => (
-              <div key={b.id} className="rounded border border-celestial/30 bg-celestial/5 p-4">
+              <div key={b.id} className="rounded-card border border-celestial/30 bg-celestial/5 p-4">
                 <div className="flex items-baseline justify-between">
                   <p className="text-sm text-bone-50">{b.name}</p>
                   <span className="num text-xs text-celestial">✓ {b.current}/{b.target}</span>
@@ -162,7 +162,7 @@ export function BossManager({
           <h2 className="font-display mb-3 text-lg text-bone-400">放弃 ({abandoned.length})</h2>
           <div className="space-y-2">
             {abandoned.map(b => (
-              <div key={b.id} className="flex items-center justify-between rounded border border-ink-700 bg-ink-800/30 p-3">
+              <div key={b.id} className="flex items-center justify-between rounded-card border border-ink-700 bg-ink-800/30 p-3">
                 <p className="text-sm text-bone-400 line-through">{b.name}</p>
                 <button
                   onClick={() => quickDelete(b)}

@@ -205,7 +205,7 @@ export function StarCanvas({
       </div>
 
       {/* 右上小统计 */}
-      <div className="num absolute right-4 top-4 z-10 text-right text-[10px] uppercase tracking-widest text-bone-400 sm:right-6 sm:top-6">
+      <div className="num absolute right-4 top-4 z-10 text-right text-caption text-bone-400 sm:right-6 sm:top-6">
         <div className="text-bone-200">
           {items.length} 颗 ·{' '}
           {Object.values(statsMap).reduce((s, v) => s + v.totalXp, 0)} XP

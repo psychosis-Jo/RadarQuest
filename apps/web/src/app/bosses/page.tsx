@@ -25,8 +25,8 @@ export default async function BossesPage() {
       </header>
 
       {/* 使用说明 */}
-      <div className="hand-drawn-border mb-6 rounded bg-ink-800/40 p-5">
-        <p className="num text-[10px] uppercase tracking-widest text-bone-400">这是什么</p>
+      <div className="hand-drawn-border mb-6 rounded-card bg-ink-800/40 p-5">
+        <p className="num text-caption text-bone-400">这是什么</p>
         <p className="mt-2 text-sm text-bone-200">
           星座是你给自己立的中长期产出。v1 用 IAU 88 真实星座做模板——小犬座（2 星）适合 1-2 次的小事，猎户座（7 星）适合中等产出，天龙座（12 星）适合 100 个 AI 作品这种大工程。
           每完成一次 Publish，对应在途的星座就点亮一星；全部点亮就自动"已发现"，永久进星图册。

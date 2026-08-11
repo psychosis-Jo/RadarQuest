@@ -68,7 +68,7 @@ export function DeadlinePicker({ value, onChange }: DeadlinePickerProps) {
 
   return (
     <div>
-      <label className="num text-[10px] uppercase tracking-widest text-bone-400">
+      <label className="num text-caption text-bone-400">
         截止日期（选填）
       </label>
 
@@ -108,10 +108,10 @@ export function DeadlinePicker({ value, onChange }: DeadlinePickerProps) {
 
       {/* 自定义日期选择器：年 / 月 / 日 三段 */}
       {pickerOpen && (
-        <div className="mt-3 rounded border border-ink-700 bg-ink-900 p-3">
+        <div className="mt-3 rounded-card border border-ink-700 bg-ink-900 p-3">
           {/* 年份选择 */}
           <div className="flex items-center gap-2">
-            <span className="num text-[10px] uppercase tracking-widest text-bone-400">年</span>
+            <span className="num text-caption text-bone-400">年</span>
             <div className="flex flex-wrap gap-1">
               {[viewYear - 1, viewYear, viewYear + 1, viewYear + 2].map(y => (
                 <button
@@ -131,7 +131,7 @@ export function DeadlinePicker({ value, onChange }: DeadlinePickerProps) {
 
           {/* 月份选择 */}
           <div className="mt-3 flex items-center gap-2">
-            <span className="num text-[10px] uppercase tracking-widest text-bone-400">月</span>
+            <span className="num text-caption text-bone-400">月</span>
             <div className="grid grid-cols-6 gap-1 sm:grid-cols-12">
               {MONTHS_ZH.map((m, idx) => (
                 <button
@@ -152,7 +152,7 @@ export function DeadlinePicker({ value, onChange }: DeadlinePickerProps) {
 
           {/* 日选择 */}
           <div className="mt-3">
-            <span className="num text-[10px] uppercase tracking-widest text-bone-400">日</span>
+            <span className="num text-caption text-bone-400">日</span>
             <div className="mt-1.5 grid grid-cols-7 gap-1">
               {WEEKDAYS_ZH.map(d => (
                 <div key={d} className="num text-center text-[10px] text-bone-400">{d}</div>
@@ -183,7 +183,7 @@ export function DeadlinePicker({ value, onChange }: DeadlinePickerProps) {
           <button
             type="button"
             onClick={() => setPickerOpen(false)}
-            className="mt-3 w-full rounded border border-ink-700 py-1.5 text-xs text-bone-200 hover:border-celestial/50 hover:text-celestial"
+            className="mt-3 w-full rounded-button border border-ink-700 py-1.5 text-xs text-bone-200 hover:border-celestial/50 hover:text-celestial"
           >
             完成 · 收起
           </button>
@@ -192,9 +192,9 @@ export function DeadlinePicker({ value, onChange }: DeadlinePickerProps) {
 
       {/* 当前选中：星图式展示 */}
       {value && (
-        <div className="mt-4 rounded border border-ink-700 bg-ink-900/50 p-4">
+        <div className="mt-4 rounded-card border border-ink-700 bg-ink-900/50 p-4">
           <div className="flex items-baseline justify-between">
-            <p className="num text-[10px] uppercase tracking-widest text-bone-400">
+            <p className="num text-caption text-bone-400">
               截止 · deadline
             </p>
             <button
@@ -240,7 +240,7 @@ function StarNode({ label, date, color, filled }: { label: string; date: string;
           />
         </svg>
       </div>
-      <p className="num text-[10px] uppercase tracking-wider" style={{ color: starColor }}>
+      <p className="num text-caption" style={{ color: starColor }}>
         {label}
       </p>
       <p className="num text-[10px] text-bone-400">{date}</p>
