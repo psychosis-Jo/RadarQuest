@@ -7,6 +7,7 @@ import { TOPIC_COLORS, TOPIC_LABELS } from '@starcatcher/shared';
 import type { Item } from '@/lib/data/types';
 import type { ActionType } from '@starcatcher/shared';
 import { ActionBar } from '@/components/item/ActionBar';
+import { toast } from '@/components/toast/Toaster';
 
 type TriageAction = 'keep' | 'save' | 'dismiss';
 
@@ -76,7 +77,7 @@ export function CaptureView({ initialUnprocessed, initialKept, initialActions }:
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({ error: 'triage failed' }));
-        alert('操作失败：' + (err.error ?? res.statusText));
+        toast('操作失败：' + (err.error ?? res.statusText), { tone: 'warning' });
         return;
       }
       setUnprocessed(prev => prev.filter(p => p.id !== item.id));

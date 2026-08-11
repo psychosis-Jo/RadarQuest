@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { BossForm } from '@/components/boss/BossForm';
+import { toast } from '@/components/toast/Toaster';
 
 interface Boss {
   id: string;
@@ -29,7 +30,7 @@ async function deleteBossById(id: string, name: string): Promise<boolean> {
   if (!confirm(`确定删除星座「${name}」？\n（当前进度 ${name} 将一起消失）`)) return false;
   const res = await fetch(`/api/bosses/${id}`, { method: 'DELETE' });
   if (!res.ok) {
-    alert('删除失败');
+    toast('删除失败', { tone: 'warning' });
     return false;
   }
   return true;

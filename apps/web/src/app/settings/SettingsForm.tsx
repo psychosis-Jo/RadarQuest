@@ -1,8 +1,10 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { applyAudioSettings, type SoundMode, type IntensityLevel } from '@/lib/audio/controller';
+import { toast } from '@/components/toast/Toaster';
 
-const INTENSITY_LEVELS = [
+const INTENSITY_LEVELS: { value: IntensityLevel; name: string; desc: string }[] = [
   { value: 0, name: 'Pure Data', desc: '关掉游戏化 · 纯数据' },
   { value: 1, name: 'Stealth',   desc: '后台算 XP · 不显示' },
   { value: 2, name: 'Standard',  desc: '任务卡 + 进度条（推荐）' },
@@ -40,8 +42,8 @@ const SOURCE_DEFS: {
 
 export function SettingsForm({ initial }: { initial: any }) {
   const router = useRouter();
-  const [intensity, setIntensity] = useState(initial?.intensity_level ?? 2);
-  const [soundMode, setSoundMode] = useState(initial?.sound_mode ?? 'publish');
+  const [intensity, setIntensity] = useState<IntensityLevel>(initial?.intensity_level ?? 2);
+  const [soundMode, setSoundMode] = useState<SoundMode>(initial?.sound_mode ?? 'publish');
   const [animationMode, setAnimationMode] = useState(initial?.animation_mode ?? 'standard');
   const [dailyCount, setDailyCount] = useState(initial?.daily_quest_count ?? 3);
   const [keywords, setKeywords] = useState<Record<string, string[]>>(() => ({
@@ -65,6 +67,12 @@ export function SettingsForm({ initial }: { initial: any }) {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [resetting, setResetting] = useState(false);
+
+  // 进入页面时同步 audio 状态（处理 SSR / 多端 / 改库后）
+  useEffect(() => {
+    applyAudioSettings({ soundMode, intensityLevel: intensity });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function save() {
     setSaving(true);
@@ -94,12 +102,15 @@ export function SettingsForm({ initial }: { initial: any }) {
       });
       if (res.ok) {
         setSaved(true);
+        // 同步音频设置（mute + intensity）
+        applyAudioSettings({ soundMode, intensityLevel: intensity });
+        toast('设置已保存', { tone: 'gold' });
         setTimeout(() => router.refresh(), 500);
       } else {
-        alert('保存失败：' + (await res.text()));
+        toast('保存失败：' + (await res.text()), { tone: 'warning' });
       }
     } catch (err) {
-      alert('网络错误：' + (err as Error).message);
+      toast('网络错误：' + (err as Error).message, { tone: 'warning' });
     } finally {
       setSaving(false);
     }
@@ -124,7 +135,7 @@ export function SettingsForm({ initial }: { initial: any }) {
         setSaved(true);
         setTimeout(() => router.refresh(), 500);
       } else {
-        alert('重置失败：' + (await res.text()));
+        toast('重置失败：' + (await res.text()), { tone: 'warning' });
       }
     } finally {
       setResetting(false);

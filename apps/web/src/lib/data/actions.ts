@@ -1,6 +1,6 @@
 import 'server-only';
 import { getSupabase } from './supabase';
-import { XP_VALUES, type ActionType } from '@starcatcher/shared';
+import { XP_VALUES, levelFromXP, type ActionType } from '@starcatcher/shared';
 import { checkAndUnlockAchievements } from './achievements';
 import type { Item } from './types';
 
@@ -13,6 +13,10 @@ export interface ActionResult {
   xp: number;
   newAchievements: string[];
   alreadyDone: boolean;
+  /** 本次 publish 导致新完成的 Boss 名（用于客户端播星座音） */
+  completedBosses: string[];
+  /** 本次记录导致的 LevelUp 事件 */
+  levelUp: { from: number; to: number } | null;
 }
 
 const ACTION_RANK: Record<ActionType, number> = {
@@ -59,6 +63,10 @@ export async function recordAction(opts: {
   const supabase = getSupabase();
   const xp = XP_VALUES[opts.action];
 
+  // 拿当前总 XP（用于算 levelUp）
+  const { data: xpRows } = await supabase.from('actions').select('xp_earned');
+  const totalXpBefore = (xpRows ?? []).reduce((s: number, r: any) => s + (r.xp_earned ?? 0), 0);
+
   // 先查：(item, action) 是否已经记过
   const { data: existing } = await supabase
     .from('actions')
@@ -69,7 +77,7 @@ export async function recordAction(opts: {
 
   if (existing && existing.length > 0) {
     // 已经记过：不插行、不加 XP、不触发 boss
-    return { xp: 0, newAchievements: [], alreadyDone: true };
+    return { xp: 0, newAchievements: [], alreadyDone: true, completedBosses: [], levelUp: null };
   }
 
   // 新建
@@ -109,10 +117,20 @@ export async function recordAction(opts: {
       .eq('id', opts.itemId)
       .single();
     const itemTopics = (item?.topics as string[]) ?? [];
-    await incrementBosses(itemTopics);
+    const bossResult = await incrementBosses(itemTopics);
+    const prevLevel = levelFromXP(totalXpBefore);
+    const newLevel = levelFromXP(totalXpBefore + xp);
+    return {
+      xp,
+      newAchievements,
+      alreadyDone: false,
+      completedBosses: bossResult.completed,
+      levelUp: newLevel > prevLevel ? { from: prevLevel, to: newLevel } : null
+    };
   }
 
-  return { xp, newAchievements, alreadyDone: false };
+  // alreadyDone 分支也要返回空数组
+  return { xp: 0, newAchievements: [], alreadyDone: true, completedBosses: [], levelUp: null };
 }
 
 /**
@@ -120,11 +138,12 @@ export async function recordAction(opts: {
  * - boss.topic 为空（不绑定）=> 任何 publish 都推进
  * - boss.topic 有值         => item.topics 包含该 topic 才推进
  */
-async function incrementBosses(itemTopics: string[]) {
+async function incrementBosses(itemTopics: string[]): Promise<{ completed: string[]; changed: boolean }> {
   const supabase = getSupabase();
   const { data: settings } = await supabase.from('settings').select('bosses').eq('id', 1).single();
   const bosses = (settings?.bosses as any[]) ?? [];
   let changed = false;
+  const completed: string[] = [];
   for (const b of bosses) {
     if (b.status !== 'active') continue;
     if ((b.current ?? 0) >= b.target) continue;
@@ -134,12 +153,14 @@ async function incrementBosses(itemTopics: string[]) {
     if (b.current >= b.target) {
       b.status = 'completed';
       b.completed_at = new Date().toISOString();
+      completed.push(b.name);
     }
     changed = true;
   }
   if (changed) {
     await supabase.from('settings').update({ bosses, updated_at: new Date().toISOString() }).eq('id', 1);
   }
+  return { completed, changed };
 }
 
 /**

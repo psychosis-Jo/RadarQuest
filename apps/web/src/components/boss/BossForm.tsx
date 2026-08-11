@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { pickConstellationForBoss, getConstellationById } from '@starcatcher/shared';
+import { playConstellationSound, type SoundMode } from '@/lib/audio/controller';
+import { toast } from '@/components/toast/Toaster';
 import { DeadlinePicker } from './DeadlinePicker';
 import { ConstellationPicker } from './ConstellationPicker';
 
@@ -74,13 +76,13 @@ export function BossForm({
       setSkipped(prev => new Set([...prev, constId]));
       setConstId(next.id);
     } else {
-      alert('当前 tier 和相邻 tier 都没可换的了');
+      toast('当前 tier 和相邻 tier 都没可换的了', { tone: 'info' });
     }
   }
 
   async function save() {
-    if (!name.trim()) { alert('给 Boss 起个名字'); return; }
-    if (target < 1) { alert('目标数至少 1'); return; }
+    if (!name.trim()) { toast('给星座起个名字', { tone: 'warning' }); return; }
+    if (target < 1) { toast('目标数至少 1', { tone: 'warning' }); return; }
     setSaving(true);
     const pickedConst = constId ? getConstTier(constId) : undefined;
     const payload = {
@@ -104,7 +106,7 @@ export function BossForm({
       onClose();
       router.refresh();
     } else {
-      alert('保存失败：' + (await res.text()));
+      toast('保存失败：' + (await res.text()), { tone: 'warning' });
     }
   }
 
@@ -116,7 +118,7 @@ export function BossForm({
       onClose();
       router.refresh();
     } else {
-      alert('删除失败');
+      toast('删除失败', { tone: 'warning' });
     }
   }
 

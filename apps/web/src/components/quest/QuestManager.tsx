@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ACTION_LABELS } from '@starcatcher/shared';
+import { toast } from '@/components/toast/Toaster';
 
 interface Item {
   id: string;
@@ -138,14 +139,14 @@ export function QuestManager({ initialQuests, candidates }: { initialQuests: Que
       // 提示用户：实际记的 action 情况
       if (data.actionResult) {
         if (data.actionResult.alreadyDone) {
-          alert('✓ 任务完成（这个动作之前已经记过，XP 不重复加）');
+          toast('任务完成（这个动作之前已经记过，XP 不重复加）', { tone: 'info' });
         } else if (data.actionResult.xp > 0) {
-          alert(`✓ 任务完成 +${data.actionResult.xp} XP`);
+          toast(`任务完成 +${data.actionResult.xp} XP`, { tone: 'gold' });
         }
       }
       router.refresh();
     } else {
-      alert('更新失败');
+      toast('更新失败', { tone: 'warning' });
     }
   }
 

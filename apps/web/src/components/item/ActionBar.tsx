@@ -1,10 +1,17 @@
 'use client';
 import { useState, useTransition } from 'react';
 import { ACTION_LABELS, type ActionType, XP_VALUES } from '@starcatcher/shared';
+import { playActionSound, type SoundMode } from '@/lib/audio/controller';
+import { toast } from '@/components/toast/Toaster';
 
 const ACTIONS: ActionType[] = ['watch', 'save', 'note', 'build', 'publish'];
 
 export function ActionBar({ itemId, done, compact = false }: { itemId: string; done: string[]; compact?: boolean }) {
+  const [soundMode, setSoundMode] = useState<SoundMode>(() => {
+    if (typeof window === 'undefined') return 'publish';
+    const v = (window as any).__starcatcherSoundMode;
+    return (v === 'off' || v === 'action' || v === 'publish' || v === 'all') ? v : 'publish';
+  });
   const [state, setState] = useState<{ type: ActionType | null; xp: number; hint?: string } | null>(null);
   const [isPending, startTransition] = useTransition();
   const [publishing, setPublishing] = useState(false);
@@ -22,7 +29,7 @@ export function ActionBar({ itemId, done, compact = false }: { itemId: string; d
         });
         if (!res.ok) {
           const err = await res.json().catch(() => ({}));
-          alert('操作失败：' + (err.error ?? res.statusText));
+          toast('操作失败：' + (err.error ?? res.statusText), { tone: 'warning' });
           return;
         }
         const data = await res.json();
@@ -31,11 +38,31 @@ export function ActionBar({ itemId, done, compact = false }: { itemId: string; d
           setState({ type: action, xp: 0, hint: '已记录' });
         } else {
           setState({ type: action, xp: data.xp });
+          // 触发动作音（受 soundMode 过滤）
+          playActionSound(action, soundMode);
+          // 触发 Boss 完成音 + toast
+          if (data.completedBosses && data.completedBosses.length > 0) {
+            for (const name of data.completedBosses) {
+              if (typeof window !== 'undefined' && window.StarCatcherAudio) {
+                window.StarCatcherAudio.play('constellation');
+              }
+              toast(`星座点亮：${name}`, { tone: 'gold', ttl: 3600 });
+            }
+          }
+          // 升级音 + toast
+          if (data.levelUp) {
+            setTimeout(() => {
+              if (typeof window !== 'undefined' && window.StarCatcherAudio) {
+                window.StarCatcherAudio.play('levelup');
+              }
+              toast(`升级 → Lv ${data.levelUp.to}`, { tone: 'gold', ttl: 3200 });
+            }, 300);
+          }
         }
         setTimeout(() => setState(null), 1500);
         if (typeof window !== 'undefined') window.location.reload();
       } catch (err) {
-        alert('网络错误');
+        toast('网络错误', { tone: 'warning' });
       }
     });
   }
@@ -54,7 +81,7 @@ export function ActionBar({ itemId, done, compact = false }: { itemId: string; d
 
   function submitNote() {
     if (!noteText.trim()) {
-      alert('写点什么吧');
+      toast('写点什么吧', { tone: 'warning' });
       return;
     }
     record('note', noteText);
@@ -64,7 +91,7 @@ export function ActionBar({ itemId, done, compact = false }: { itemId: string; d
 
   function submitPublish() {
     if (!pubRef.title.trim()) {
-      alert('至少写个标题');
+      toast('至少写个标题', { tone: 'warning' });
       return;
     }
     record('publish', undefined, pubRef.ref, pubRef.title);

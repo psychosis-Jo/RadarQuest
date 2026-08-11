@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Fraunces, Inter, JetBrains_Mono } from 'next/font/google';
 import '../styles/globals.css';
 import '@phosphor-icons/web/light';
+import { ToasterProvider } from '@/components/toast/Toaster';
+import { AudioInit } from '@/components/audio/AudioInit';
 
 const fraunces = Fraunces({
   subsets: ['latin'],
@@ -30,7 +32,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="zh" className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="starfield min-h-screen bg-ink-900 text-bone-50 antialiased">
-        {children}
+        <ToasterProvider>
+          <AudioInit />
+          {children}
+        </ToasterProvider>
       </body>
     </html>
   );
