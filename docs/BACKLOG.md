@@ -63,3 +63,9 @@
 - [ ] i18n：英文界面（不只是中文 + 英文双套）
 - [ ] README + 开源声明（MIT）
 - [ ] 把模板仓拆成 radar-quest-template + radar-quest（个人数据）
+
+## v2 — Triage UX 续（用户已说先不做）
+
+- [ ] 星云主页加"保留 / 收藏 / 忽略"按钮（Drawer 内），复用 `/api/items/[id]/triage`
+  - 现状：`state` + `saved` 字段已就绪，`/capture` 三动作已接好；星云主页只展示 `state='kept'`，但暂不能在云里直接 triage
+  - 决策（v1.2 → v2）：先靠 `/capture` 流程把数据走通；星云内 triage 等用户实际用一段时间再决定 UI
