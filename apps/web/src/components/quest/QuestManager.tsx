@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { ACTION_LABELS } from '@radar-quest/shared';
 
 interface Item {
   id: string;
@@ -29,11 +30,11 @@ const TOPIC_LABELS: Record<string, { zh: string; color: string }> = {
   'self-mgmt': { zh: '自我管理', color: '#B8A4D4' }
 };
 
-const ACTION_HINT: Record<string, { zh: string; emoji: string; xp: number }> = {
-  watch: { zh: '扫一眼', emoji: '👀', xp: 5 },
-  save:  { zh: '收藏',   emoji: '🔖', xp: 10 },
-  note:  { zh: '写笔记', emoji: '📝', xp: 20 },
-  build: { zh: '动手做', emoji: '🛠', xp: 50 }
+const ACTION_HINT: Record<string, { zh: string; icon: string; xp: number }> = {
+  watch: { zh: '扫一眼', icon: ACTION_LABELS.watch.icon,   xp: 5 },
+  save:  { zh: '收藏',   icon: ACTION_LABELS.save.icon,    xp: 10 },
+  note:  { zh: '写笔记', icon: ACTION_LABELS.note.icon,    xp: 20 },
+  build: { zh: '动手做', icon: ACTION_LABELS.build.icon,   xp: 50 }
 };
 
 function pickQuests(candidates: Item[]): { items: Item[]; hints: string[] } {
@@ -198,8 +199,9 @@ export function QuestManager({ initialQuests, candidates }: { initialQuests: Que
                 </p>
                 <p className="mt-2 text-xs text-bone-400">{q.description}</p>
                 {hint && (
-                  <p className="num mt-2 text-[10px] text-gold">
-                    {hint.emoji} +{hint.xp} XP
+                  <p className="num mt-2 flex items-center gap-1 text-[10px] text-gold">
+                    <i className={`ph-light ph-${hint.icon} text-[12px] leading-none`} aria-hidden />
+                    <span>+{hint.xp} XP</span>
                   </p>
                 )}
                 {item && (

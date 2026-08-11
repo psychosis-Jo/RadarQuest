@@ -1,14 +1,8 @@
 'use client';
 import { useState, useTransition } from 'react';
-import type { ActionType } from '@radar-quest/shared';
+import { ACTION_LABELS, type ActionType, XP_VALUES } from '@radar-quest/shared';
 
-const ACTIONS: { type: ActionType; emoji: string; label: string; xp: number }[] = [
-  { type: 'watch',   emoji: '👀', label: '看', xp: 5 },
-  { type: 'save',    emoji: '🔖', label: '收', xp: 10 },
-  { type: 'note',    emoji: '📝', label: '写', xp: 20 },
-  { type: 'build',   emoji: '🛠', label: '做', xp: 50 },
-  { type: 'publish', emoji: '📢', label: '发', xp: 100 }
-];
+const ACTIONS: ActionType[] = ['watch', 'save', 'note', 'build', 'publish'];
 
 export function ActionBar({ itemId, done }: { itemId: string; done: string[] }) {
   const [state, setState] = useState<{ type: ActionType | null; xp: number; hint?: string } | null>(null);
@@ -80,24 +74,26 @@ export function ActionBar({ itemId, done }: { itemId: string; done: string[] }) 
 
   return (
     <div className="flex flex-wrap items-center gap-1">
-      {ACTIONS.map(a => {
-        const isDone = done.includes(a.type);
+      {ACTIONS.map(t => {
+        const a = ACTION_LABELS[t];
+        const xp = XP_VALUES[t];
+        const isDone = done.includes(t);
         return (
           <button
-            key={a.type}
-            onClick={() => handleClick(a.type)}
+            key={t}
+            onClick={() => handleClick(t)}
             disabled={isPending || isDone}
             className={`group flex items-center gap-1 rounded-button border px-2 py-1 text-xs transition-colors ${
               isDone
                 ? 'border-gold/40 bg-gold/10 text-gold'
                 : 'border-ink-700 bg-ink-800/40 text-bone-200 hover:border-ink-600 hover:bg-ink-800 hover:text-bone-50'
             } disabled:opacity-50`}
-            title={`${a.label}（+${a.xp} XP）`}
-            aria-label={`${a.label} ${a.label}（+${a.xp} XP）`}
+            title={`${a.zh}（+${xp} XP）`}
+            aria-label={`${a.zh}（+${xp} XP）`}
           >
-            <span>{a.emoji}</span>
-            <span className="hidden sm:inline">{a.label}</span>
-            <span className="num text-[10px] opacity-60">+{a.xp}</span>
+            <i className={`ph-light ph-${a.icon} text-[14px] leading-none`} aria-hidden />
+            <span className="hidden sm:inline">{a.zh}</span>
+            <span className="num text-[10px] opacity-60">+{xp}</span>
           </button>
         );
       })}
@@ -106,7 +102,7 @@ export function ActionBar({ itemId, done }: { itemId: string; done: string[] }) 
       {noteOpen === 'note' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/80 p-4">
           <div className="w-full max-w-md rounded-modal border border-gold/30 bg-ink-800 p-6">
-            <h3 className="font-display text-xl text-bone-50">📝 写一句笔记</h3>
+            <h3 className="flex items-center gap-2 font-display text-xl text-bone-50"><i className="ph-light ph-note-pencil text-[20px] leading-none" aria-hidden />写一句笔记</h3>
             <p className="mt-1 text-xs text-bone-400">这对我有什么用？（+20 XP）</p>
             <textarea
               value={noteText}
@@ -126,7 +122,7 @@ export function ActionBar({ itemId, done }: { itemId: string; done: string[] }) 
       {publishing && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/80 p-4">
           <div className="w-full max-w-md rounded-modal border border-gold bg-ink-800 p-6">
-            <h3 className="font-display text-xl text-bone-50">📢 发布作品</h3>
+            <h3 className="flex items-center gap-2 font-display text-xl text-bone-50"><i className="ph-light ph-megaphone text-[20px] leading-none text-gold" aria-hidden />发布作品</h3>
             <p className="mt-1 text-xs text-bone-400">关联到你的公众号文章 / 开源项目 / 推文（+100 XP）</p>
             <input
               value={pubRef.title}

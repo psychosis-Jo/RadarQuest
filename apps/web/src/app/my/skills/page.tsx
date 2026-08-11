@@ -1,7 +1,7 @@
 import { AppShell } from '@/components/layout/AppShell';
 import { getSkillProgress } from '@/lib/data/skill';
 import { getSupabase } from '@/lib/data/supabase';
-import { TOPIC_COLORS } from '@radar-quest/shared';
+import { TOPIC_COLORS, ACTION_LABELS } from '@radar-quest/shared';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
@@ -125,9 +125,12 @@ export default async function SkillsPage() {
                   <ul className="mt-2 space-y-1.5">
                     {recent.map(r => (
                       <li key={r.id} className="flex items-baseline justify-between gap-2 text-xs">
-                        <span className="truncate text-bone-200">
-                          <span className="mr-1">{actionEmoji(r.action_type)}</span>
-                          {r.item_title}
+                        <span className="flex min-w-0 items-center gap-1.5 text-bone-200">
+                          <i
+                            className={`ph-light ph-${ACTION_LABELS[r.action_type as keyof typeof ACTION_LABELS]?.icon ?? 'circle'} shrink-0 text-[14px] leading-none text-bone-200`}
+                            aria-hidden
+                          />
+                          <span className="truncate">{r.item_title}</span>
                         </span>
                         <span className="num shrink-0 text-[10px] text-bone-400">+{r.xp} XP</span>
                       </li>
@@ -143,6 +146,4 @@ export default async function SkillsPage() {
   );
 }
 
-function actionEmoji(t: string) {
-  return { watch: '👀', save: '🔖', note: '📝', build: '🛠', publish: '📢' }[t] ?? '·';
-}
+

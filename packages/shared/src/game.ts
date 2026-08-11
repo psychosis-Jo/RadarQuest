@@ -10,12 +10,12 @@ export const XP_VALUES: Record<ActionType, number> = {
   publish: 100
 };
 
-export const ACTION_LABELS: Record<ActionType, { zh: string; en: string; emoji: string }> = {
-  watch:   { zh: '看',     en: 'Watch',   emoji: '👀' },
-  save:    { zh: '收',     en: 'Save',    emoji: '🔖' },
-  note:    { zh: '写',     en: 'Note',    emoji: '📝' },
-  build:   { zh: '做',     en: 'Build',   emoji: '🛠' },
-  publish: { zh: '发',     en: 'Publish', emoji: '📢' }
+export const ACTION_LABELS: Record<ActionType, { zh: string; en: string; icon: string }> = {
+  watch:   { zh: '看', en: 'Watch',   icon: 'eye' },
+  save:    { zh: '收', en: 'Save',    icon: 'bookmark-simple' },
+  note:    { zh: '写', en: 'Note',    icon: 'note-pencil' },
+  build:   { zh: '做', en: 'Build',   icon: 'hammer' },
+  publish: { zh: '发', en: 'Publish', icon: 'megaphone' }
 };
 
 export const XP_PER_LEVEL = 100;

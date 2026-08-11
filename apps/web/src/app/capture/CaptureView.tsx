@@ -19,16 +19,16 @@ const SOURCE_LABEL: Record<string, string> = {
   newsletter: 'Newsletter'
 };
 
-const TRIAGE: { action: TriageAction; emoji: string; label: string; tone: 'gold' | 'mist' | 'warning' }[] = [
-  { action: 'keep',    emoji: '✅', label: '保留', tone: 'gold' },
-  { action: 'save',    emoji: '⭐', label: '收藏', tone: 'mist' },
-  { action: 'dismiss', emoji: '❌', label: '忽略', tone: 'warning' }
+const TRIAGE: { action: TriageAction; icon: string; label: string; tone: 'gold' | 'mist' | 'warning' }[] = [
+  { action: 'keep',    icon: 'check',          label: '保留', tone: 'gold' },
+  { action: 'save',    icon: 'star',           label: '收藏', tone: 'mist' },
+  { action: 'dismiss', icon: 'x',              label: '忽略', tone: 'warning' }
 ];
 
 const TONE_CLASS: Record<'gold' | 'mist' | 'warning', string> = {
-  gold:   'border-gold/40 text-gold hover:bg-gold/10',
-  mist:   'border-mist/40 text-mist hover:bg-mist/10',
-  warning:'border-warning/40 text-warning hover:bg-warning/10'
+  gold:    'text-gold border-gold/30 hover:bg-gold/10',
+  mist:    'text-mist border-mist/30 hover:bg-mist/10',
+  warning: 'text-warning border-warning/30 hover:bg-warning/10'
 };
 
 type Props = {
@@ -46,7 +46,6 @@ export function CaptureView({ initialUnprocessed, initialKept, initialActions }:
   const [busyId, setBusyId] = useState<string | null>(null);
   const [hint, setHint] = useState<string | null>(null);
 
-  // 按 topic 分组（保持固定顺序）
   const groups = useMemo(() => {
     const byTopic: Record<string, Item[]> = {
       AI: [],
@@ -80,7 +79,6 @@ export function CaptureView({ initialUnprocessed, initialKept, initialActions }:
         alert('操作失败：' + (err.error ?? res.statusText));
         return;
       }
-      // 本地状态机：unprocessed 移除，按目标决定往哪放
       setUnprocessed(prev => prev.filter(p => p.id !== item.id));
       if (action === 'keep') {
         setKept(prev => [item, ...prev]);
@@ -99,10 +97,8 @@ export function CaptureView({ initialUnprocessed, initialKept, initialActions }:
 
   return (
     <div className="space-y-12">
-      {/* 顶部统计 */}
       <header>
-        <p className="num text-caption text-bone-400">/capture · 捕捉</p>
-        <h1 className="mt-1 font-display text-3xl text-bone-50">今日新抓到</h1>
+        <h1 className="font-display text-3xl text-bone-50">捕捉</h1>
         <p className="mt-2 text-sm text-bone-200">
           共 <span className="num text-bone-50">{unprocessed.length}</span> 条未处理
           {kept.length > 0 && (
@@ -110,18 +106,16 @@ export function CaptureView({ initialUnprocessed, initialKept, initialActions }:
           )}
         </p>
         <p className="mt-2 text-caption text-bone-400">
-          按主题分组。看完一条，✅ 留下、⭐ 收藏、❌ 忽略。
+          按主题分组。看完一条，留下 / 收藏 / 忽略。
         </p>
       </header>
 
-      {/* 顶部 hint 浮条 */}
       {hint && (
         <div className="num fixed right-4 top-20 z-50 rounded-button border border-gold bg-ink-800 px-3 py-2 text-xs text-gold shadow-xl">
           {hint}
         </div>
       )}
 
-      {/* 主题分组 */}
       {groups.length === 0 ? (
         <div className="rounded-card border border-dashed border-ink-700 bg-ink-800/30 p-16 text-center">
           <p className="font-display text-lg text-bone-50">暂未抓到新的信息</p>
@@ -160,7 +154,6 @@ export function CaptureView({ initialUnprocessed, initialKept, initialActions }:
         })
       )}
 
-      {/* 已保留区 */}
       {kept.length > 0 && (
         <section className="border-t border-ink-700 pt-8">
           <div className="mb-4 flex items-baseline justify-between">
@@ -210,7 +203,7 @@ function CaptureCard({
   const leadColor = leadTopic ? (TOPIC_COLORS as Record<string, string>)[leadTopic] : null;
 
   return (
-    <article className="hand-drawn-border group relative flex gap-4 rounded-card bg-ink-800/40 p-5 transition-colors hover:bg-ink-800/70 sm:p-6">
+    <article className="hand-drawn-border group relative flex flex-col rounded-card bg-ink-800/40 p-5 transition-colors hover:bg-ink-800/70 sm:p-6">
       {leadColor && (
         <span
           aria-hidden
@@ -219,73 +212,76 @@ function CaptureCard({
         />
       )}
 
-      <div className="min-w-0 flex-1">
-        <div className="num flex flex-wrap items-center gap-3 text-caption text-bone-400">
+      {/* Meta 行：来源 + 指标 + Triage 三动作（右上角，节省横向空间） */}
+      <div className="flex items-start justify-between gap-3">
+        <div className="num flex flex-wrap items-center gap-x-3 gap-y-1 text-caption text-bone-400">
           <span>{src}</span>
           {metric && <span className="text-bone-200">{metric}</span>}
           {comments ? <span>💬 {comments}</span> : null}
           {isKept && <span className="text-gold">· 已保留</span>}
         </div>
-
-        <a
-          href={item.url}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-2 block font-display text-heading-sm leading-snug text-bone-50 transition-colors hover:text-gold"
-        >
-          {item.title}
-        </a>
-
-        {item.summary && (
-          <p className="mt-2 line-clamp-2 text-body leading-relaxed text-bone-200">
-            {item.summary}
-          </p>
-        )}
-
-        {item.topics.length > 0 && (
-          <div className="mt-3 flex flex-wrap items-center gap-1.5">
-            {item.topics.map(t => {
-              const color = (TOPIC_COLORS as Record<string, string>)[t];
-              return (
-                <span
-                  key={t}
-                  className="rounded border px-2 py-0.5 text-caption"
-                  style={{
-                    borderColor: color ? color + '50' : 'var(--ink-700)',
-                    color: color ?? 'var(--bone-200)'
-                  }}
-                >
-                  {(TOPIC_LABELS as any)[t]?.zh ?? t}
-                </span>
-              );
-            })}
-            {item.matched_keywords.slice(0, 3).map(kw => (
-              <span key={kw} className="rounded bg-ink-700/60 px-2 py-0.5 text-[10px] text-bone-400">
-                {kw}
-              </span>
-            ))}
-          </div>
-        )}
-
-        <div className="mt-4">
-          <ActionBar itemId={item.id} done={done} />
+        <div className="flex shrink-0 items-center gap-1">
+          {TRIAGE.map(t => (
+            <button
+              key={t.action}
+              onClick={() => onTriage(t.action)}
+              disabled={busy}
+              title={t.label}
+              aria-label={t.label}
+              className={`flex h-7 w-7 items-center justify-center rounded-button border transition-colors disabled:opacity-50 ${TONE_CLASS[t.tone]}`}
+            >
+              <i className={`ph-light ph-${t.icon} text-[15px] leading-none`} aria-hidden />
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Triage 行（侧栏） */}
-      <div className="flex shrink-0 flex-col items-stretch gap-1.5 border-l border-ink-700 pl-4 sm:w-24">
-        {TRIAGE.map(t => (
-          <button
-            key={t.action}
-            onClick={() => onTriage(t.action)}
-            disabled={busy}
-            className={`flex items-center justify-center gap-1 rounded-button border px-2 py-1.5 text-xs transition-colors disabled:opacity-50 ${TONE_CLASS[t.tone]}`}
-            title={`${t.label}这条`}
-          >
-            <span>{t.emoji}</span>
-            <span className="hidden sm:inline">{t.label}</span>
-          </button>
-        ))}
+      {/* 标题 */}
+      <a
+        href={item.url}
+        target="_blank"
+        rel="noreferrer"
+        className="mt-2 block font-display text-heading-sm leading-snug text-bone-50 transition-colors hover:text-gold"
+      >
+        {item.title}
+      </a>
+
+      {/* 摘要 */}
+      {item.summary && (
+        <p className="mt-2 line-clamp-2 text-body leading-relaxed text-bone-200">
+          {item.summary}
+        </p>
+      )}
+
+      {/* Topic 标签 + 关键词 */}
+      {item.topics.length > 0 && (
+        <div className="mt-3 flex flex-wrap items-center gap-1.5">
+          {item.topics.map(t => {
+            const color = (TOPIC_COLORS as Record<string, string>)[t];
+            return (
+              <span
+                key={t}
+                className="rounded border px-2 py-0.5 text-caption"
+                style={{
+                  borderColor: color ? color + '50' : 'var(--ink-700)',
+                  color: color ?? 'var(--bone-200)'
+                }}
+              >
+                {(TOPIC_LABELS as any)[t]?.zh ?? t}
+              </span>
+            );
+          })}
+          {item.matched_keywords.slice(0, 3).map(kw => (
+            <span key={kw} className="rounded bg-ink-700/60 px-2 py-0.5 text-[10px] text-bone-400">
+              {kw}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* 5 动作 */}
+      <div className="mt-4">
+        <ActionBar itemId={item.id} done={done} />
       </div>
     </article>
   );

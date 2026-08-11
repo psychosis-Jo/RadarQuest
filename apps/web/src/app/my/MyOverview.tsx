@@ -30,8 +30,7 @@ export function MyOverview({
   return (
     <div className="space-y-10">
       <header>
-        <p className="num text-caption text-bone-400">/my · 我的</p>
-        <h1 className="mt-1 font-display text-3xl text-bone-50">这片星云属于你</h1>
+        <h1 className="font-display text-3xl text-bone-50">我的</h1>
         <p className="mt-2 text-sm text-bone-200">
           等级、连续动作、在途星座 —— 沉淀下来的产出轨迹。
         </p>
@@ -113,7 +112,7 @@ export function MyOverview({
             const lbl = ACTION_LABELS[t];
             return (
               <div key={t} className="rounded-card border border-ink-700 bg-ink-800/30 p-3 text-center">
-                <p className="text-xl leading-none">{lbl.emoji}</p>
+                <i className={`ph-light ph-${lbl.icon} text-[22px] leading-none text-bone-200`} aria-hidden />
                 <p className="num mt-2 text-lg text-bone-50">{count}</p>
                 <p className="num mt-0.5 text-[10px] text-bone-400">{lbl.zh}</p>
               </div>
