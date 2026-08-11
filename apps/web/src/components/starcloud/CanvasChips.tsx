@@ -1,6 +1,7 @@
 'use client';
-import type { Topic } from '@/lib/starcloud/force-simulation';
 import { TOPIC_COLORS, TOPIC_LABELS } from '@starcatcher/shared';
+
+type Topic = 'AI' | 'one-person' | 'self-mgmt' | '__unmapped__';
 
 interface Counts {
   all: number;

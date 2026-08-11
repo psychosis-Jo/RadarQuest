@@ -19,10 +19,9 @@
 
 ## v2.x — 性能与精修
 
-- [ ] 力学布局从 client 改到 **server 预计算**（fetch 时算位置写 DB）
-  - 现状：客户端 d3-force + localStorage
-  - 原因：第一版优先视觉；多设备同步、性能极致时才上服务端
-- [ ] Pan / zoom 画布（拖动空白平移，滚轮缩放）
+- ~~力学布局从 client 改到 **server 预计算**~~ v1.3 已改为 hash 确定性位置（同一 item.id 永远同位置，无需 localStorage 缓存，多设备自动同步）
+- ~~Pan / zoom 画布~~ v1.3 已实做（pointer 拖拽 + 滚轮缩放 + 双击重置）
+- [ ] Pinch zoom（移动端双指缩放）
 - [ ] Hover tooltip 自定义（当前用浏览器原生 `<title>`，简陋）
 - [ ] 已完成 5 动作的星，缓慢 twinkle（呼吸感）
 - [ ] 移动端降级：保留卡片墙 + 顶部 banner「星云视图需桌面端」

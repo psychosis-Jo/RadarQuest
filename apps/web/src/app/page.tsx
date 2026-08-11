@@ -14,11 +14,9 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* 全屏底：纯底色 + 微胇胧 nebula 辐射 + 双层环场小点（不靠背景图） */}
+      {/* 全屏底：纯底色 + 微 vignette（ambient 由 canvas 接管，twinkle 更有生气） */}
       <div className="fixed inset-0 z-0 bg-ink-900" aria-hidden>
         <div className="starfield-veil absolute inset-0" />
-        <div className="starfield absolute inset-0" />
-        <div className="starfield-far absolute inset-0" />
       </div>
 
       <AppShell activeTab="">
