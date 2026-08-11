@@ -21,6 +21,9 @@ export interface Item {
   metrics: Record<string, number>;
   metadata: Record<string, unknown>;
   archived: boolean;
+  // Triage 状态机（per IA.md §4）
+  state: 'unprocessed' | 'kept' | 'dismissed';
+  saved: boolean;
 }
 
 export interface Action {
@@ -44,6 +47,7 @@ export interface UserStats {
   today_xp: number;
   today_actions: number;
   today_publishes: number;
+  today_by_type: Record<string, number>;
 }
 
 export interface SkillProgress {

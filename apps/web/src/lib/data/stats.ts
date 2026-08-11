@@ -26,6 +26,14 @@ export async function getUserStats(): Promise<UserStats> {
   // 输出 streak（按周）
   const publish_streak_weeks = calcPublishStreakWeeks((stats ?? []) as any[]);
 
+  // 今日按 action_type 分组
+  const todayByType: Record<string, number> = {
+    watch: 0, save: 0, note: 0, build: 0, publish: 0
+  };
+  for (const a of todayActions) {
+    if (a.action_type in todayByType) todayByType[a.action_type]++;
+  }
+
   return {
     total_xp,
     level: levelFromXP(total_xp),
@@ -35,7 +43,8 @@ export async function getUserStats(): Promise<UserStats> {
     publish_streak_weeks,
     today_xp,
     today_actions: todayActions.length,
-    today_publishes
+    today_publishes,
+    today_by_type: todayByType
   };
 }
 
