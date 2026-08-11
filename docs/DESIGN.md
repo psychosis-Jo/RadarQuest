@@ -20,8 +20,8 @@ Radar Quest 是一片夜空，不是 productivity 工作台。深墨蓝 vellum �
 
 - **捕捉**（`/capture`）—— 按主题聚合的卡片流
 - **星云**（`/`）—— 已留下的星（force-directed SVG）
-- **我的**（`/me`）—— 等级 / XP / 任务 / 技能 / 星座
-- **设置**（`/me/settings`）—— 关键词 / 信源 / 强度
+- **我的**（`/my`）—— 等级 / XP / 任务 / 技能 / 星座
+- **设置**（`/settings`）—— 关键词 / 信源 / 强度
 
 详细路由 / 页面职责 / 迁移路径见 [IA.md](IA.md)。
 
@@ -60,8 +60,8 @@ Radar Quest 是一片夜空，不是 productivity 工作台。深墨蓝 vellum �
 
 - **捕捉**（`/capture`）= 外部世界的"未处理卡片"，按 **topic** 聚合（不是 5-Tab）
 - **星云**（`/`）= 你已留下痕迹的内部世界（force-directed 画布）
-- **我的**（`/me`）= 沉淀（Level / XP / 任务 / 技能 / 星座 / 星图册）
-- **设置**（`/me/settings`）= 关键词 / 信源 / 强度档位
+- **我的**（`/my`）= 沉淀（Level / XP / 任务 / 技能 / 星座 / 星图册）
+- **设置**（`/settings`）= 关键词 / 信源 / 强度档位
 
 > **为什么不要 5-Tab**：5-Tab（Trending / Spike / Rise / Density / Cross）是按"热度维度"分桶的，但 Radar Quest 的核心维度是 **topic**。按 topic 聚合让用户"想看 AI 直接去 AI 区"，比"想看短期爆发的去 Spike tab"更直接。**5-Tab 概念已废弃**，不在 `/capture` 里复刻（详见 IA.md §4）。
 
@@ -687,31 +687,31 @@ DESIGN §2 说 mist "只作辅助色，不作主色"。v1 的具体定义：
 |------|------|------|------|
 | `/` | 星云（主页） | SVG 星辰 | 已实现 |
 | `/capture` | 捕捉 | 主题聚合卡片流 | ⏳ 待建 |
-| `/me` | 我的（概览） | Level / XP / 活跃 boss / 今日动作 | ⏳ 待建（移入） |
-| `/me/quests` | 我的 / 任务 | QuestManager | ⏳ 迁移 |
-| `/me/skills` | 我的 / 技能 | 技能树 | ⏳ 迁移 |
-| `/me/bosses` | 我的 / 星座 | BossManager | ⏳ 迁移 |
-| `/me/sky-atlas` | 星图册 | 已完成星座 | ⏳ 待建（DESIGN §7） |
-| `/me/settings` | 设置 | SettingsForm | ⏳ 迁移 |
+| `/my` | 我的（概览） | Level / XP / 活跃 boss / 今日动作 | ⏳ 待建（移入） |
+| `/my/quests` | 我的 / 任务 | QuestManager | ⏳ 迁移 |
+| `/my/skills` | 我的 / 技能 | 技能树 | ⏳ 迁移 |
+| `/my/bosses` | 我的 / 星座 | BossManager | ⏳ 迁移 |
+| `/my/sky-atlas` | 星图册 | 已完成星座 | ⏳ 待建（DESIGN §7） |
+| `/settings` | 设置 | SettingsForm | ⏳ 迁移（原地重建，不嵌套在 /my） |
 
 ### 16.2 Header 导航（v1.2 目标态）
 
-4 项主 nav + 1 个齿轮 icon：
+4 项主 nav：
 
 ```
-[Logo]  ···  [📥 捕捉]  [✦ 星云]  [👤 我的]  [⚙]
+[Logo]  ···  [捕捉]  [星云]  [我的]  [设置]
 ```
 
-齿轮 → `/me/settings`，不进主 nav。
+（图标见 §16.5 / IA.md，**不用 emoji**，用自绘 SVG 匹配古星图册气质）
 
 ### 16.3 旧路由处置（v1.1 → v1.2）
 
 | 旧 | 新 | 方式 |
 |----|----|----|
-| `/quests` | `/me/quests` | 301 重定向 |
-| `/skills` | `/me/skills` | 301 重定向 |
-| `/bosses` | `/me/bosses` | 301 重定向 |
-| `/settings` | `/me/settings` | 301 重定向 |
+| `/quests` | `/my/quests` | **删除**（不留重定向，测试期） |
+| `/skills` | `/my/skills` | **删除** |
+| `/bosses` | `/my/bosses` | **删除** |
+| `/settings` | `/settings`（同 URL 重建） | 内容平移到 /settings，URL 不变 |
 | `/spike` `/rise` `/density` `/cross` | — | **删除**（5-Tab 概念废弃） |
 
 ### 16.4 数据流速记
@@ -725,7 +725,7 @@ DESIGN §2 说 mist "只作辅助色，不作主色"。v1 的具体定义：
         ↓
     5 动作 → actions 表 + boss 进度 + skill 进度
         ↓
-    沉淀到 /me
+    沉淀到 /my
 ```
 
 ---

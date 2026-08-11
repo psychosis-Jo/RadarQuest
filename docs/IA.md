@@ -24,7 +24,7 @@
 │ ·按主题聚合│             │ ·按 topic 簇 │             │ ·任务进度│
 │ ·快速决策  │             │ ·在做的事  │             │ ·星座进度│
 └──────────┘             └──────────┘             └──────────┘
-  /capture                 /                       /me
+  /capture                 /                       /my
 ```
 
 | 步骤 | 页面 | 状态机 | 元素 |
@@ -45,42 +45,40 @@
 ```
 /                       星云（主页）—— SVG 星辰
 /capture                捕捉 —— 主题聚合卡片流
-/me                     我的（概览：Level / XP / 活跃 boss / 今日动作数）
-/me/quests              我的 / 任务
-/me/skills              我的 / 技能（技能树）
-/me/bosses              我的 / 星座（活跃 / 已完成 / 放弃）
-/me/sky-atlas           星图册（DESIGN §7）
-/me/settings            设置
+/my                    我的（概览：Level / XP / 活跃 boss / 今日动作数）
+/my/quests              我的 / 任务
+/my/skills              我的 / 技能（技能树）
+/my/bosses              我的 / 星座（活跃 / 已完成 / 放弃）
+/my/sky-atlas           星图册（DESIGN §7）
+/settings                设置（独立 nav，不嵌套在我的里）
 ```
 
-**Header 导航（4 项 + 齿轮）**：
+**Header 导航（4 项）**：
 ```
-[Logo]    [📥 捕捉]  [✦ 星云]  [👤 我的]  [⚙ 设置]
+[Logo]    [捕捉]  [星云]  [我的]  [设置]
 ```
 
-`/me/settings` 既能从 header 齿轮进，也能从 `/me` 内的"设置"链接进。
+（图标不用 emoji，用自绘 SVG 匹配古星图册气质，详见 §6）
 
-**移动端底部 tab bar**（DESIGN §13）：同 4 项，齿轮在右上。
+**移动端底部 tab bar**（DESIGN §13）：同 4 项，设置是 4 项主 nav 之一。
 
 ---
 
 ## 3. 路由迁移（v1.1 → v1.2）
 
-旧路由的处置：
+旧路由**直接删除，不留重定向**。这是测试期，干净比兼容重要。生产期再加 redirect。
 
-| 旧路由 | 旧内容 | 新位置 | 迁移方式 |
-|--------|--------|--------|----------|
+| 旧路由 | 旧内容 | 新位置 | 处置 |
+|--------|--------|--------|------|
 | `/` | 星云（已实现） | `/` | 不动 |
-| `/quests` | QuestManager | `/me/quests` | 重定向 → `/me/quests`（或一次性迁移后删除旧文件） |
-| `/skills` | 技能树 | `/me/skills` | 同上 |
-| `/bosses` | BossManager | `/me/bosses` | 同上 |
-| `/settings` | SettingsForm | `/me/settings` | 同上 |
-| `/spike` `/rise` `/density` `/cross` | 5 Tab 子页 | **删除** | 5 Tab 概念已废弃 |
+| `/quests` | QuestManager | `/my/quests` | **删** |
+| `/skills` | 技能树 | `/my/skills` | **删** |
+| `/bosses` | BossManager | `/my/bosses` | **删** |
+| `/settings` | SettingsForm | `/settings`（同 URL 重建） | **删后重建在原位** |
+| `/spike` `/rise` `/density` `/cross` | 5 Tab 子页 | — | **删**（5-Tab 概念已废弃） |
 
-> 决策：旧路由**保留为重定向**，不直接 404，避免外链 / 浏览器历史全失效。
-> 头部 nav 同步从 `任务 / 技能 / 星座 / 设置` 改成 `捕捉 / 星云 / 我的 / 设置`。
-
----
+> Header nav 同步从 `任务 / 技能 / 星座 / 设置` 改成 `捕捉 / 星云 / 我的 / 设置`。
+> 旧 nav 项 4 个独立路由全部打散，3 个进 `/my/*`，设置原地不动。
 
 ## 4. 捕捉页（`/capture`）—— 主题聚合卡片流
 
@@ -154,9 +152,9 @@
 
 ---
 
-## 6. 我的（`/me`）—— 概览 + 子页签
+## 6. 我的（`/my`）—— 概览 + 子页签
 
-**主页 `/me` 是仪表盘**：
+**主页 `/my` 是仪表盘**：
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -177,19 +175,19 @@
 ```
 
 **子页签**（点击上方快速入口 / 子路由进入）：
-- `/me/quests` —— 任务列表（QuestManager 移入）
-- `/me/skills` —— 三主题技能树（Sidebar 里的内容移入）
-- `/me/bosses` —— 活跃 / 已完成 / 放弃 三个 section（BossManager 移入）
-- `/me/sky-atlas` —— 已完成星座册（DESIGN §7，独立页）
-- `/me/settings` —— 设置（SettingsForm 移入）
+- `/my/quests` —— 任务列表（QuestManager 移入）
+- `/my/skills` —— 三主题技能树（Sidebar 里的内容移入）
+- `/my/bosses` —— 活跃 / 已完成 / 放弃 三个 section（BossManager 移入）
+- `/my/sky-atlas` —— 已完成星座册（DESIGN §7，独立页）
+- `/settings` —— 设置（SettingsForm 移入）
 
-**子页签之间不嵌套**：每个子页签是完整页面，从 `/me` 进。子页签间通过 `/me` 内的"快速入口"互联。
+**子页签之间不嵌套**：每个子页签是完整页面，从 `/my` 进。子页签间通过 `/my` 内的"快速入口"互联。
 
 ---
 
-## 7. 设置（`/me/settings`）—— 独立 nav
+## 7. 设置（`/settings`）—— 独立 nav
 
-**为什么不在 `/me` 内**：设置是**低频高门槛**（关键词、信源、强度档位），不是日常操作。放 header 独立 nav 更直接。
+**为什么不在 `/my` 内**：设置是**低频高门槛**（关键词、信源、强度档位），不是日常操作。放 header 独立 nav 更直接。
 
 **设置页结构**（DESIGN §12 + SettingsForm 已实现）：
 - 强度档位（5 档，纯数据 → 全力冲刺）
@@ -198,7 +196,7 @@
 - 信源（6 个平台启用 / 禁用，list 类源可加 feed）
 - 恢复默认
 
-**Header 齿轮 icon** → 跳 `/me/settings`（不在主 nav 4 项里）。
+**Header 设置入口** → 跳 `/settings`（已在主 nav 4 项里，不再单独齿轮）。
 
 ---
 
@@ -231,12 +229,12 @@
                           │ 5 动作
                           ▼
        ┌──────────────────────────────────────┐
-       │             /me · 沉淀               │
+       │             /my · 沉淀               │
        │   Level / XP / Streak                  │
-       │   /me/quests  任务进度                 │
-       │   /me/skills  技能树                   │
-       │   /me/bosses  活跃/完成/放弃           │
-       │   /me/sky-atlas 星图册                │
+       │   /my/quests  任务进度                 │
+       │   /my/skills  技能树                   │
+       │   /my/bosses  活跃/完成/放弃           │
+       │   /my/sky-atlas 星图册                │
        └──────────────────────────────────────┘
 ```
 
