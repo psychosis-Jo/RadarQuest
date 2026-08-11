@@ -29,10 +29,14 @@ const CLUSTER_CENTERS: Record<ClusterKey, { x: number; y: number }> = {
 
 export function StarCanvas({
   items,
-  statsMap
+  statsMap,
+  showBackground = true
 }: {
   items: Item[];
   statsMap: Record<string, Stats>;
+  /** 背景层（照片 + vignette + 双层星场）是否在 StarCanvas 内部渲染。
+   *  HomePage 用 false，把背景提到 viewport 级 fixed 元素 */
+  showBackground?: boolean;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [positions, setPositions] = useState<Map<string, Position>>(new Map());
@@ -102,13 +106,16 @@ export function StarCanvas({
       ref={containerRef}
       className="relative h-[calc(100vh-64px)] w-full overflow-hidden sm:h-[calc(100vh-72px)]"
     >
-      {/* 背景：用户提供的深空照片 + 椭圆 vignette + 双层星场 */}
-      <div className="absolute inset-0 bg-ink-900" aria-hidden>
-        <div className="starfield-photo absolute inset-0" />
-        <div className="starfield-veil absolute inset-0" />
-        <div className="starfield absolute inset-0" />
-        <div className="starfield-far absolute inset-0" />
-      </div>
+      {/* 背景：照片 + vignette + 双层星场。
+          showBackground=false 时由 HomePage 提到 viewport 级 */}
+      {showBackground && (
+        <div className="absolute inset-0 bg-ink-900" aria-hidden>
+          <div className="starfield-photo absolute inset-0" />
+          <div className="starfield-veil absolute inset-0" />
+          <div className="starfield absolute inset-0" />
+          <div className="starfield-far absolute inset-0" />
+        </div>
+      )}
 
       <svg
         className="absolute inset-0 h-full w-full"
