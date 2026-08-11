@@ -245,22 +245,22 @@ export function StarCanvas({
           background-size: cover;
           background-position: center;
           background-repeat: no-repeat;
-          /* 微微降饱和 + 压暗，让它更"古典星图册"，不抢用户星戏 */
-          filter: saturate(0.7) brightness(0.85);
+          /* 微微降饱和让它更"古典星图册"，但保留亮度（不再压暗，靠 vignette 控对比） */
+          filter: saturate(0.75);
         }
         @media (max-width: 640px) {
           :global(.starfield-photo) {
             background-image: url('/starfield-bg-sm.jpg');
           }
         }
-        /* 椭圆 vignette：中心透（30% 蒙层）边缘暗（82% 蒙层）
-           把视觉焦点留在中央 3 簇上，照片在边缘自然过渡到 vellum */
+        /* 椭圆 vignette：极轻 —— 只在中心略压暗（30%）让用户星对比度够，
+           边缘只压 45%，保证照片在左右两边清晰可见，不出"框感" */
         :global(.starfield-veil) {
           background: radial-gradient(
-            ellipse 80% 70% at 50% 45%,
+            ellipse 110% 110% at 50% 50%,
             rgba(15, 20, 36, 0.30) 0%,
-            rgba(15, 20, 36, 0.55) 55%,
-            rgba(15, 20, 36, 0.82) 100%
+            rgba(15, 20, 36, 0.40) 60%,
+            rgba(15, 20, 36, 0.45) 100%
           );
         }
         /* 近景星：明显可见 */
