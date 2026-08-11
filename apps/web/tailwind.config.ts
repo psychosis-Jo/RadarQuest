@@ -40,6 +40,13 @@ const config: Config = {
         glow: '0 0 20px rgba(212, 165, 116, 0.3)',
         'glow-celestial': '0 0 20px rgba(95, 224, 199, 0.3)'
       },
+      borderRadius: {
+        // 命名 token —— per DESIGN.md §4 / §15
+        button: '8px',
+        card:   '8px',
+        modal:  '12px'
+        // chip / tag / input 仍用默认 4px (rounded)
+      },
       keyframes: {
         twinkle: {
           '0%, 100%': { opacity: '0.4' },
