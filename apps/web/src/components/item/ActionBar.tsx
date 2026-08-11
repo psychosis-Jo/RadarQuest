@@ -1,5 +1,6 @@
 'use client';
 import { useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 import { ACTION_LABELS, type ActionType, XP_VALUES } from '@starcatcher/shared';
 import { playActionSound, type SoundMode } from '@/lib/audio/controller';
 import { toast } from '@/components/toast/Toaster';
@@ -13,6 +14,7 @@ export function ActionBar({ itemId, done, compact = false }: { itemId: string; d
     return (v === 'off' || v === 'action' || v === 'publish' || v === 'all') ? v : 'publish';
   });
   const [state, setState] = useState<{ type: ActionType | null; xp: number; hint?: string } | null>(null);
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [publishing, setPublishing] = useState(false);
   const [noteOpen, setNoteOpen] = useState<ActionType | null>(null);
@@ -59,8 +61,9 @@ export function ActionBar({ itemId, done, compact = false }: { itemId: string; d
             }, 300);
           }
         }
-        setTimeout(() => setState(null), 1500);
-        if (typeof window !== 'undefined') window.location.reload();
+        // 立即清掉 +XP 浮窗 + 用 router refresh 拿新数据 (避免 full page reload 切断动画/音频)
+        setTimeout(() => setState(null), 1200);
+        router.refresh();
       } catch (err) {
         toast('网络错误', { tone: 'warning' });
       }

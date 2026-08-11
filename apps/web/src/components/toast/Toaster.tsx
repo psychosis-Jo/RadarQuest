@@ -76,7 +76,7 @@ export function ToasterProvider({ children }: { children: ReactNode }) {
           </div>
         ))}
       </div>
-      <style jsx global>{`
+      <style>{`
         @keyframes toast-pop {
           from { opacity: 0; transform: translateY(-6px) scale(0.96); }
           to   { opacity: 1; transform: translateY(0) scale(1); }

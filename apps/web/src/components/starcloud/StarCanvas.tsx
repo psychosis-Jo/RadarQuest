@@ -456,8 +456,8 @@ export function StarCanvas({
         />
       )}
 
-      <style jsx>{`
-        :global(.starfield-veil) {
+      <style>{`
+        .starfield-veil {
           background: radial-gradient(
             ellipse 110% 110% at 50% 50%,
             rgba(15, 20, 36, 0.20) 0%,
