@@ -17,3 +17,11 @@ create index if not exists items_state_idx
 create index if not exists items_saved_idx
   on items (saved)
   where saved = true;
+
+-- Backfill：迁移前已在 items 表里的行以前就显示在星云主页（state 概念不存在），
+-- 视为"已留"（kept）。新抓取的数据走 fetch.ts 默认 'unprocessed' → 走 /capture。
+-- 幂等：只处理当前仍为默认值的行；已被用户 triage 过的（kept / dismissed）不动。
+update items
+set state = 'kept'
+where state = 'unprocessed'
+  and first_seen_at < now() - interval '5 minutes';
